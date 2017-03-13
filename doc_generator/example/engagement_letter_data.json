@@ -1,0 +1,10 @@
+{
+  "signatory": {
+    "name": "Mr. Zold",
+    "email": "test@gmail.com",
+    "company": "FlexFunds Test",
+    "address_line1" : "400 Sunny Isles Blvd",
+    "address_line2" : "Apartment 1906, FL ,33160",
+    "country" : "United States"
+  }
+}

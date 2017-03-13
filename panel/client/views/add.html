@@ -1,0 +1,68 @@
+<div ng-controller="AddController">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a ui-sref="dashboard">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a ui-sref="dashboard">Add New</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a ui-sref="dashboard">{{info.table_comment}}</a>
+
+            </li>
+        </ul>
+    </div>
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-settings font-dark"></i>
+                <span class="caption-subject font-dark sbold uppercase">Add {{info.table_comment}}</span>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <form class="form-horizontal" role="form">
+                <div class="form-body row">
+                    <div class="form-group col-md-12" ng-repeat="field in fields" ng-switch on="field.type">
+                        <label class="col-md-2 control-label">
+                            {{field.label}}
+                            <span ng-if="field.required == 'NO'" style="color: #A93226">*</span>
+                        </label>
+                        <div class="col-md-4">
+                            <input ng-switch-when='varchar' placeholder="{{field.label}}" type="text" class="form-control input-inline" ng-model="input[field.name]">
+                            <input ng-switch-when='email' placeholder="{{field.label}}" type="email" class="form-control input-inline" ng-model="input[field.name]">
+                            <input ng-switch-when='tel' placeholder="{{field.label}}" type="tel" class="form-control input-inline" ng-model="input[field.name]">
+                            <input ng-switch-when='password' placeholder="{{field.label}}" type="password" class="form-control input-inline" ng-model="input[field.name]">
+                            <textarea ng-switch-when='text' placeholder="{{field.label}}"  class="form-control" ng-model="input[field.name]"></textarea >
+                            <div ng-switch-when='date'>
+                                <div class="input-group" moment-picker="input[field.name]" format="YYYY-MM-DD">
+                                    <input class="form-control" ng-model="input[field.name]" ng-model-options="{ updateOn: 'blur' }">
+                                </div>
+                            </div>
+                            <input ng-switch-when='number' type="number" class="form-control input-inline" ng-model="input[field.name]">
+                            <select ng-switch-when='enum' class="form-control input-inline" ng-model="input[field.name]">
+                                <option ng-repeat="option in field.options" value="{{option}}">{{option}}</option>
+                            </select>
+                            <input style="width: 300px" ng-switch-when='double' type="number" step="0.01" class="form-control input-inline" ng-model="input[field.name]">
+                            <select ng-switch-when='button'  class="form-control input-inline" ng-model="input[field.name]">
+                                <option value="0">Pending {{field.label}}</option>
+                                <option value="1">Completed {{field.label}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-11">
+                            <button ng-click="submit(input, table)" class="btn green">Add </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,10 @@
+.view-Forgot .page-content-wrapper {
+  float: none;
+  width: 400px;
+  margin: auto;
+}
+.view-Forgot .page-content-wrapper .page-content {
+  margin-left: 0px;
+  min-height: auto!important;
+  height: 300px;
+}
