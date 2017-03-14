@@ -13,7 +13,7 @@ angular.module('FlexPanelApp')
             $scope.reset = function() {
                 UserService.resetPassword($scope.email).then(function(response) {
                     if(response.status === 204) {
-                        Notification.success({message: 'Password reset email has been sent, please have check your emails and login with new password.'});
+                        Notification.success({message: 'Password reset email has been sent, please check your emails and login with new password.'});
                         $state.go('login')
                     }else {
                         Notification.error({message: 'Invalid email. Please enter the valid email.'});
