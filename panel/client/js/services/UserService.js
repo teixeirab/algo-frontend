@@ -47,7 +47,7 @@
         }
 
         function saveProfile(user) {
-            $http.put(apiHost + "/api/panel/user", user);
+            return $http.put(apiHost + "/api/panel/user", user);
         }
 
         function changePassword(current, password) {

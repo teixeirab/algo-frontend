@@ -8,25 +8,31 @@ var FlexPanelApp = angular.module("FlexPanelApp", [
     "ui.bootstrap",
     "oc.lazyLoad",
     "ngSanitize",
-    "moment-picker"
+    "moment-picker",
+    "ui-notification"
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-FlexPanelApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+FlexPanelApp.config([
+  '$ocLazyLoadProvider',
+  '$controllerProvider',
+  'NotificationProvider',
+  '$httpProvider',
+  function($ocLazyLoadProvider, $controllerProvider, NotificationProvider, $httpProvider) {
     $ocLazyLoadProvider.config({
         // global configs go here
     });
-}]);
-
-//AngularJS v1.3.x workaround for old style controller declarition in HTML
-FlexPanelApp.config(['$controllerProvider', function($controllerProvider) {
-  // this option might be handy for migrating old apps, but please don't use it
-  // in new ones!
-  $controllerProvider.allowGlobals();
-}]);
-
-FlexPanelApp.config(['$httpProvider', function($httpProvider) {
-  $httpProvider.interceptors.push('httpInterceptor');
+    $controllerProvider.allowGlobals();
+    NotificationProvider.setOptions({
+        delay: 10000,
+        startTop: 20,
+        startRight: 10,
+        verticalSpacing: 20,
+        horizontalSpacing: 20,
+        positionX: 'right',
+        positionY: 'top'
+    });
+    $httpProvider.interceptors.push('httpInterceptor');
 }]);
 
 /********************************************
@@ -37,7 +43,7 @@ FlexPanelApp.config(['$httpProvider', function($httpProvider) {
 FlexPanelApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
     var settings = {
-        apiHost: 'http://localhost:3000',
+        apiHost: window.apiHost,
         layout: {
             pageSidebarClosed: false, // sidebar menu state
             pageContentWhite: true, // set page content layout

@@ -1,6 +1,6 @@
 angular.module('FlexPanelApp')
     .controller('LoginController',
-        function ($rootScope, $scope, $state, $window, UserService, UserSession) {
+        function ($rootScope, $scope, $state, $window, UserService, UserSession, Notification) {
             $scope.$on('$viewContentLoaded', function () {
                 // initialize core components
                 App.initAjax();
@@ -15,6 +15,8 @@ angular.module('FlexPanelApp')
                 UserService.login($scope.username, $scope.password).then(function(response) {
                     if(response.status === 200) {
                         $state.go('dashboard')
+                    }else {
+                        Notification.error({message: 'Invalid username or password. Please try again.'});
                     }
                 })
             }
