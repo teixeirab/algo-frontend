@@ -14,7 +14,7 @@ var Dashboard = function() {
 
             var setMap = function(name) {
                 var map = jQuery('#vmap_' + name);
-                
+
                 if (map.size() !== 1) {
                     return;
                 }
@@ -50,7 +50,7 @@ var Dashboard = function() {
                 };
 
                 data.map = name + '_en';
-              
+
                 map.width(map.parent().parent().width());
                 map.show();
                 map.vectorMap(data);
@@ -507,7 +507,8 @@ var Dashboard = function() {
         initMorisCharts: function() {
             if (Morris.EventEmitter && $('#sales_statistics').size() > 0) {
                 // Use Morris.Area instead of Morris.Line
-                dashboardMainChart = Morris.Area({
+                setTimeout(function() {
+                  dashboardMainChart = Morris.Area({
                     element: 'sales_statistics',
                     padding: 0,
                     behaveLikeLine: false,
@@ -516,25 +517,25 @@ var Dashboard = function() {
                     axes: false,
                     fillOpacity: 1,
                     data: [{
-                        period: '2011 Q1',
-                        sales: 1400,
-                        profit: 400
+                      period: '2011 Q1',
+                      sales: 1400,
+                      profit: 400
                     }, {
-                        period: '2011 Q2',
-                        sales: 1100,
-                        profit: 600
+                      period: '2011 Q2',
+                      sales: 1100,
+                      profit: 600
                     }, {
-                        period: '2011 Q3',
-                        sales: 1600,
-                        profit: 500
+                      period: '2011 Q3',
+                      sales: 1600,
+                      profit: 500
                     }, {
-                        period: '2011 Q4',
-                        sales: 1200,
-                        profit: 400
+                      period: '2011 Q4',
+                      sales: 1200,
+                      profit: 400
                     }, {
-                        period: '2012 Q1',
-                        sales: 1550,
-                        profit: 800
+                      period: '2012 Q1',
+                      sales: 1550,
+                      profit: 800
                     }],
                     lineColors: ['#399a8c', '#92e9dc'],
                     xkey: 'period',
@@ -544,8 +545,8 @@ var Dashboard = function() {
                     lineWidth: 0,
                     hideHover: 'auto',
                     resize: true
-                });
-
+                  });
+                }, 500)
             }
         },
 
