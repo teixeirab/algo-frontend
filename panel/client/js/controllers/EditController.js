@@ -44,28 +44,28 @@ angular.module('FlexPanelApp')
             function init() {
                 if ($scope.table) {
                     SqlService
-                        .findInfo($scope.table)
-                        .then(function (response){
-                            if(response.data) {
-                                $scope.info = response.data[0];
-                            }
-                        });
-                    SqlService
-                        .findFields($scope.table)
-                        .then(function (response) {
+                      .findInfo($scope.table)
+                      .then(function (response){
+                        if(response.data) {
+                            $scope.info = response.data[0];
+                        }
+                        SqlService
+                          .findFields($scope.table)
+                          .then(function (response) {
                             if (response.data) {
-                                $rootScope.fields = response.data;
-                                FormService.setFields()
+                              $rootScope.fields = response.data;
+                              FormService.setFields()
                             }
-                        });
-                    SqlService
-                        .findOne($scope.table, id, pk)
-                        .then(function (response) {
-                            if (response.data) {
-                                $rootScope.data = response.data[0];
-                                setInput();
-                            }
-                        });
+                            SqlService
+                              .findOne($scope.table, id, pk)
+                              .then(function (response) {
+                                if (response.data) {
+                                  $rootScope.data = response.data[0];
+                                  setInput();
+                                }
+                              });
+                          });
+                      });
                 }
             }
             init();
