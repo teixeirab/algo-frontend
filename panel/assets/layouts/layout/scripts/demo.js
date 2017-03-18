@@ -154,24 +154,24 @@ var Demo = function() {
             if (App.isRTL()) {
                 if (sidebarPosOption === 'left') {
                     $("body").addClass("page-sidebar-reversed");
-                    $('#backend-link').tooltip('destroy').tooltip({
+                    $('#frontend-link').tooltip('destroy').tooltip({
                         placement: 'right'
                     });
                 } else {
                     $("body").removeClass("page-sidebar-reversed");
-                    $('#backend-link').tooltip('destroy').tooltip({
+                    $('#frontend-link').tooltip('destroy').tooltip({
                         placement: 'left'
                     });
                 }
             } else {
                 if (sidebarPosOption === 'right') {
                     $("body").addClass("page-sidebar-reversed");
-                    $('#backend-link').tooltip('destroy').tooltip({
+                    $('#frontend-link').tooltip('destroy').tooltip({
                         placement: 'left'
                     });
                 } else {
                     $("body").removeClass("page-sidebar-reversed");
-                    $('#backend-link').tooltip('destroy').tooltip({
+                    $('#frontend-link').tooltip('destroy').tooltip({
                         placement: 'right'
                     });
                 }

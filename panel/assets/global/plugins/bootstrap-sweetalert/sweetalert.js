@@ -1176,7 +1176,7 @@ if (typeof window !== 'undefined') {
   // that 'sweetAlert' was set as global.
   window.sweetAlert = window.swal = sweetAlert;
 } else {
-  (0, _utils.logStr)('SweetAlert is a backend module!');
+  (0, _utils.logStr)('SweetAlert is a frontend module!');
 }
 
 },{"./modules/default-params":1,"./modules/handle-click":2,"./modules/handle-dom":3,"./modules/handle-key":4,"./modules/handle-swal-dom":5,"./modules/set-params":7,"./modules/utils":8}]},{},[9]);

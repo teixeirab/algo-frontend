@@ -178,7 +178,7 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
                             '../assets/global/plugins/morris/raphael-min.js',
                             '../assets/global/plugins/jquery.sparkline.min.js',
 
-                            '../assets/pages/scripts/dashboard.min.js',
+                            '../assets/pages/scripts/dashboard.js',
                             'js/controllers/DashboardController.js',
                         ]
                     });
