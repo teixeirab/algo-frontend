@@ -1,0 +1,142 @@
+<div class="page-sidebar navbar-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="false" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+        <li class="start">
+            <a ui-sref="dashboard">
+                <i class="icon-home"></i>
+                <span class="title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin'])">
+            <a href="#/manage/users">
+                <i class="icon-user"></i>
+                <span class="title">Users</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-check"></i>
+                <span class="title">Series</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="#/manage/series_names"><span>Series Names</span></a></li>
+                <li><a href="#/manage/series_fees_terms"><span>Fees Terms</span></a></li>
+                <li><a href="#/manage/series_product_information"><span>Product Info</span></a></li>
+                <li><a href="#/manage/series_agent_information"><span>Agent Info</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#/manage/portfolio_managers">
+                <i class="icon-users"></i>
+                <span class="title">Portfolio Managers</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#/manage/borrowers">
+                <i class="icon-wallet"></i>
+                <span class="title">Borrowers</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#/manage/counterparties">
+                <i class="icon-globe"></i>
+                <span class="title">Counterparties</span>
+            </a>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations'])">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-refresh"></i>
+                <span class="title">Trades</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="#/manage/citi_unsettled_transactions"><span>Pending Trades</span></a></li>
+                <li><a href="#/manage/citi_all_transactions"><span>Settled Trades</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations'])">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-bulb"></i>
+                <span class="title">Invt & Pricing</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="#/view/inventory/date/series_names"><span>Inventory</span></a></li>
+                <li><a href="#/view/prices_per_period/date/series_names"><span>Series Prices</span></a></li>
+                <li><a href="#/view/price_tables/series_number/series_price_table"><span>Price Tables</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin','Operations','Management'])">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-bar-chart"></i>
+                <span class="title">Stats</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="#/graph/historic/na/na"><span>Historic</span></a></li>
+                <li><a href="#/graph/regional/region/series_product_information"><span>Regional</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations'])">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-flag"></i>
+                <span class="title">Interest</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li data-ng-if="showTab(['Admin','Operations'])"><a href="#/manage/advances_info"><span>Advances Info</span></a></li>
+                <li data-ng-if="showTab(['Admin'])"><a href="#/manage/advances_repayments"><span>Principal Repayments</span></a></li>
+                <li data-ng-if="showTab(['Admin','Trading','Accounting'])"><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
+                <li data-ng-if="showTab(['Admin','Trading','Accounting'])"><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
+                <li data-ng-if="showTab(['Admin'])"><a href="#/view/interest_calculation/series_number/advances_info"><span>View Calc Details</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-briefcase"></i>
+                <span class="title">Navs & Fees</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="#/manage/theorem_balance_sheet"><span>Balance Sheet</span></a></li>
+                <li><a href="#/manage/theorem_income_statement"><span>Income Statement</span></a></li>
+                <li><a href="#/graph/performance"><span>Performance</span></a></li>
+                <li><a href="#/view/wires"><span>Wires</span></a></li>
+                <li><a href="#/view/invoices"><span>Invoices</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-calendar"></i>
+                <span class="title">Reporting</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href=""><span>FVC Reporting</span></a></li>
+                <li><a href="#/view/ib_positions/date/series_names"><span>IB Holdings</span></a></li>
+                <li><a href="#/view/ib_activity/series_number/ib_activity"><span>IB Trades</span></a></li>
+                <li><a href="#/view/pershing_positions/date/series_names"><span>Pershing Holdings</span></a></li>
+                <li><a href="#"><span>Citibank Holdings</span></a></li>
+                <li><a href="#"><span>Citibank Trades</span></a></li>
+            </ul>
+        </li>
+        <li class="nav-item" data-ng-if="showTab(['Admin'])">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-settings"></i>
+                <span class="title">FTP Management</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="#/manage/ftp_translation"><span>FTP Translation</span></a></li>
+            </ul>
+        </li>
+    </ul>
+    <!-- END SIDEBAR MENU -->
+</div>

@@ -1,0 +1,381 @@
+<div ng-controller="ViewController">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a ui-sref="dashboard">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a ui-sref="dashboard">View</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a ui-sref="dashboard">{{query_name}}</a>
+            </li>
+        </ul>
+    </div>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN MAIN CONTENT -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Begin: life time stats -->
+            <div class="portlet light portlet-fit portlet-datatable bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-settings"></i> View {{query_name}}
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group">
+                            <button class="btn btn-sm yellow filter-submit margin-bottom" ng-click="search(t, ctrl, fields)">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                            <button class="btn btn-sm red filter-cancel" ng-click="reset()">
+                                <i class="fa fa-times"></i> Reset
+                            </button>
+
+                            <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+                                <i class="fa fa-share"></i>
+                                <span class="hidden-480"> Tools </span>
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="" ng-click="exportExcel(query_name)"> Export to Excel </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-container">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="dataTables_paginate paging_bootstrap_extended" ng-if="data.length > 0">
+                                <div class="pagination-panel"> Page
+                                    <a href="" ng-click="previousPage(page)" class="btn btn-sm default prev">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                    <input class="pagination-panel-input form-control input-sm input-inline input-mini"
+                                           maxlenght="5" style="text-align:center; margin: 0 5px;" type="text" ng-model="page">
+                                    <a href="" ng-click="nextPage(page, numberPages)" class="btn btn-sm default next">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a> of
+                                    <span class="pagination-panel-total">{{numberPages}}</span>
+                                    <label><span class="seperator">|</span>
+                                        View
+                                        <select class="form-control input-xs input-sm input-inline" ng-model="rowsShowing" ng-change="filterChange(rowsShowing)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="200">200</option>
+                                        </select> records
+                                    </label>
+                                    <span class="seperator">|</span> Found total {{size}} records
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-body row">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-6">
+                                            Please select a {{selectType}}
+                                        </label>
+                                        <div style="width: 45%" class="input-group col-md-6" ng-if="options.length > 0 && selectType != 'date'">
+                                            <select class="form-control tt-input"
+                                                    ng-options="option as option.label for option in options"
+                                                    ng-model="item"
+                                                    ng-change="onChange(item)"
+                                                    ng-if="options.length > 0">
+                                            </select>
+                                        </div>
+                                        <div style="width: 45%" class="input-group" ng-if="selectType == 'date'"
+                                             moment-picker="date.value"
+                                             format="YYYY-MM-DD">
+                                            <input class="form-control"
+                                                   placeholder="Select Date"
+                                                   ng-model="date.value"
+                                                   ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <h4 ng-if="data.length == 0"> No data available</h4>
+                        <table style ="overflow: auto" class="table table-striped table-bordered table-hover order-column" ng-if="data.length > 0">
+                            <thead>
+                            <tr role="row" class="heading" >
+                                <th width="14%" ng-if="fields[0].label">
+                                    <a ng-click="sort(fields[0].name)">
+                                        {{fields[0].label}}&nbsp;
+                                    </a>
+                                </th>
+                                <th width="14%" ng-if="fields[1].label">
+                                    <a ng-click="sort(fields[1].name)">
+                                        {{fields[1].label}}&nbsp;
+                                    </a>
+                                </th>
+                                <th width="14%" ng-if="fields[2].label">
+                                    <a ng-click="sort(fields[2].name)">
+                                        {{fields[2].label}}&nbsp;
+                                    </a>
+                                </th>
+                                <th width="14%" ng-if="fields[3].label">
+                                    <a ng-click="sort(fields[3].name)">
+                                        {{fields[3].label}}&nbsp;
+                                    </a>
+                                </th>
+                                <th width="14%" ng-if="fields[4].label">
+                                    <a ng-click="sort(fields[4].name)">
+                                        {{fields[4].label}}&nbsp;
+                                    </a>
+                                </th>
+                                <th width="14%" ng-if="fields[5].label">
+                                    <a ng-click="sort(fields[5].name)">
+                                        {{fields[5].label}}&nbsp;
+                                    </a>
+                                </th>
+                                <th width="14%" ng-if="fields[6].label">
+                                    <a ng-click="sort(fields[6].name)">
+                                        {{fields[6].label}}&nbsp;
+                                    </a>
+                                </th>
+                            </tr>
+                            <tr role="row" class="filter">
+                                <td ng-if="fields[0].label">
+                                    <div ng-if='fields[0].type == "date"'>
+                                        <div class="input-group" moment-picker="ctrl.date00" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="ctrl.date00" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                        <div class="input-group" moment-picker="ctrl.date01" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="ctrl.date01" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                    <input ng-if='fields[0].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search0">
+                                </td>
+                                <td ng-if="fields[1].label">
+                                    <div ng-if='fields[1].type == "date"'>
+                                        <div class="input-group" moment-picker="ctrl.date11" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="ctrl.date11" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                        <div class="input-group" moment-picker="ctrl.date12" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="ctrl.date12" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                    <input ng-if='fields[1].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search1">
+                                </td>
+                                <td ng-if="fields[2].label">
+                                    <div ng-if='fields[2].type == "date"'>
+                                        <div class="input-group" moment-picker="ctrl.date21" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="ctrl.date21" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                        <div class="input-group" moment-picker="ctrl.date22" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="ctrl.date22" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                    <input ng-if='fields[2].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search2">
+                                </td>
+                                <td ng-if="fields[3].label">
+                                    <div ng-if='fields[3].type == "date"'>
+                                        <div class="input-group" moment-picker="ctrl.date31" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="ctrl.date31" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                        <div class="input-group" moment-picker="ctrl.date32" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="ctrl.date32" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                    <input ng-if='fields[3].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search3">
+                                </td>
+                                <td ng-if="fields[4].label">
+                                    <div ng-if='fields[4].type == "date"'>
+                                        <div class="input-group" moment-picker="ctrl.date40" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="ctrl.date40" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                        <div class="input-group" moment-picker="ctrl.date41" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="ctrl.date41" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                    <input ng-if='fields[4].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search4">
+                                </td>
+                                <td ng-if="fields[5].label">
+                                    <div ng-if='fields[5].type == "date"'>
+                                        <div class="input-group" moment-picker="ctrl.date51" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="ctrl.date51" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                        <div class="input-group" moment-picker="ctrl.date52" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="ctrl.date52" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                    <input ng-if='fields[5].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search5">
+                                </td>
+                                <td ng-if="fields[6].label">
+                                    <div ng-if='fields[6].type == "date"'>
+                                        <div class="input-group" moment-picker="ctrl.date61" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="ctrl.date61" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                        <div class="input-group" moment-picker="ctrl.date62" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="ctrl.date62" ng-model-options="{ updateOn: 'blur' }">
+                                        </div>
+                                    </div>
+                                    <input ng-if='fields[6].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search6">
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="row in data" id="exportable">
+                                <td ng-if="fields[0].label" ng-switch on="fields[0].type">
+                                    <h5 ng-switch-when='date'>
+                                        {{row[fields[0].name] | date }}
+                                    </h5>
+                                    <h5 ng-switch-when='varchar'>
+                                        {{row[fields[0].name] | limitTo: 20}}
+                                    </h5>
+                                    <h5 ng-switch-when="currency">
+                                        {{row[fields[0].name] | currency}}
+                                    </h5>
+                                    <h5 ng-switch-when="number">
+                                        {{row[fields[0].name] | number}}
+                                    </h5>
+                                    <button ng-switch-when="button">
+                                        {{row[fields[0].name]}}
+                                    </button>
+                                </td>
+                                <td ng-if="fields[1].label" ng-switch on="fields[1].type">
+                                    <h5 ng-switch-when='date'>
+                                        {{row[fields[1].name] | date }}
+                                    </h5>
+                                    <h5 ng-switch-when='varchar'>
+                                        {{row[fields[1].name] | limitTo: 20}}
+                                    </h5>
+                                    <h5 ng-switch-when="currency">
+                                        {{row[fields[1].name] | currency}}
+                                    </h5>
+                                    <h5 ng-switch-when="number">
+                                        {{row[fields[1].name] | number}}
+                                    </h5>
+                                    <button ng-switch-when="button">
+                                        {{row[fields[1].name]}}
+                                    </button>
+                                </td>
+                                <td ng-if="fields[2].label" ng-switch on="fields[2].type">
+                                    <h5 ng-switch-when='date'>
+                                        {{row[fields[2].name] | date }}
+                                    </h5>
+                                    <h5 ng-switch-when='varchar'>
+                                        {{row[fields[2].name] | limitTo: 20}}
+                                    </h5>
+                                    <h5 ng-switch-when="currency">
+                                        {{row[fields[2].name] | currency}}
+                                    </h5>
+                                    <h5 ng-switch-when="number">
+                                        {{row[fields[2].name] | number}}
+                                    </h5>
+                                    <button ng-switch-when="button">
+                                        {{row[fields[2].name]}}
+                                    </button>
+                                </td>
+                                <td ng-if="fields[3].label" ng-switch on="fields[3].type">
+                                    <h5 ng-switch-when='date'>
+                                        {{row[fields[3].name] | date }}
+                                    </h5>
+                                    <h5 ng-switch-when='varchar'>
+                                        {{row[fields[3].name] | limitTo: 20}}
+                                    </h5>
+                                    <h5 ng-switch-when="currency">
+                                        {{row[fields[3].name] | currency}}
+                                    </h5>
+                                    <h5 ng-switch-when="number">
+                                        {{row[fields[3].name] | number}}
+                                    </h5>
+                                    <button ng-switch-when="button">
+                                        {{row[fields[3].name]}}
+                                    </button>
+                                </td>
+                                <td ng-if="fields[4].label" ng-switch on="fields[4].type">
+                                    <h5 ng-switch-when='date'>
+                                        {{row[fields[4].name] | date }}
+                                    </h5>
+                                    <h5 ng-switch-when='varchar'>
+                                        {{row[fields[4].name] | limitTo: 20}}
+                                    </h5>
+                                    <h5 ng-switch-when="currency">
+                                        {{row[fields[4].name] | currency}}
+                                    </h5>
+                                    <h5 ng-switch-when="number">
+                                        {{row[fields[4].name] | number}}
+                                    </h5>
+                                    <button ng-switch-when="button">
+                                        {{row[fields[4].name]}}
+                                    </button>
+                                </td>
+                                <td ng-if="fields[5].label" ng-switch on="fields[5].type">
+                                    <h5 ng-switch-when='date'>
+                                        {{row[fields[5].name] | date }}
+                                    </h5>
+                                    <h5 ng-switch-when='varchar'>
+                                        {{row[fields[5].name] | limitTo: 20}}
+                                    </h5>
+                                    <h5 ng-switch-when="currency">
+                                        {{row[fields[5].name] | currency}}
+                                    </h5>
+                                    <h5 ng-switch-when="number">
+                                        {{row[fields[5].name] | number}}
+                                    </h5>
+                                    <button ng-switch-when="button">
+                                        {{row[fields[5].name]}}
+                                    </button>
+                                </td>
+                                <td ng-if="fields[6].label" ng-switch on="fields[6].type">
+                                    <h5 ng-switch-when='date'>
+                                        {{row[fields[6].name] | date }}
+                                    </h5>
+                                    <h5 ng-switch-when='varchar'>
+                                        {{row[fields[6].name] | limitTo: 20}}
+                                    </h5>
+                                    <h5 ng-switch-when="currency">
+                                        {{row[fields[6].name] | currency}}
+                                    </h5>
+                                    <h5 ng-switch-when="number">
+                                        {{row[fields[6].name] | number}}
+                                    </h5>
+                                    <button ng-switch-when="button">
+                                        {{row[fields[6].name]}}
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="dataTables_paginate paging_bootstrap_extended" ng-if="data.length > 0">
+                                <div class="pagination-panel"> Page
+                                    <a href="" ng-click="previousPage(page)" class="btn btn-sm default prev">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                    <input class="pagination-panel-input form-control input-sm input-inline input-mini"
+                                           maxlenght="5" style="text-align:center; margin: 0 5px;" type="text" ng-model="page">
+                                    <a href="" ng-click="nextPage(page, numberPages)" class="btn btn-sm default next">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a> of
+                                    <span class="pagination-panel-total">{{numberPages}}</span>
+                                    <label><span class="seperator">|</span>
+                                        View
+                                        <select class="form-control input-xs input-sm input-inline" ng-model="rowsShowing" ng-change="filterChange(rowsShowing)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="200">200</option>
+                                        </select> records
+                                    </label>
+                                    <span class="seperator">|</span> Found total {{size}} records
+                                </div>
+                            </div>
+                        </div>
+                        <h5>.</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
