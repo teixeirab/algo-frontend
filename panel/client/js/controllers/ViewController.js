@@ -24,8 +24,8 @@ angular.module('FlexPanelApp')
         // default values
 
         if ($scope.selectType == 'date'){
-            $scope.date.value = '2016-12-30'; // new Date().toISOString().slice(0,10);
-        }
+            $scope.date.value = new Date().toISOString().slice(0,10); // = '2016-12-30';
+        };
 
         // initializes controller variables
         var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
