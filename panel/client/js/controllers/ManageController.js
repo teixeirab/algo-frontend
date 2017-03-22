@@ -1,6 +1,7 @@
 angular
     .module('FlexPanelApp')
-    .controller('ManageController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, Notification, $state, $uibModal) {
+    .controller('ManageController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService,
+                                             TableService, Notification, FormService, $state, $uibModal) {
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
             App.initAjax();
@@ -180,19 +181,21 @@ angular
                 .then(function (response){
                     if(response.status == 200) {
                         Notification.success({message: 'Delete complete.'})
+                        SqlService
+                            .findAll($scope.table)
+                            .then(function (response){
+                                if(response.data) {
+                                    $rootScope.data = response.data;
+                                    $rootScope.dataBackup = response.data;
+                                    filterData();
+                                }
+                                else Notification.error({message: 'Something went wrong. Please check connection'})
+                            });
                     }
                     else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
 
-            SqlService
-                .findAll($scope.table)
-                .then(function (response){
-                    if(response.data) {
-                        $rootScope.data = response.data;
-                        $rootScope.dataBackup = response.data;
-                        filterData();
-                    }
-                });
+
             filterData();
         }
 
@@ -217,7 +220,7 @@ angular
         }
 
         function confirm(row, field){
-            var input = {};
+            var input = row;
             var id = row[pk];
 
             if(field == 'wire_confirm' && row.wire_confirm == 0){
@@ -239,22 +242,19 @@ angular
                 });
             }
             else {
-                if (row[field] == 0){
+                if (input[field] == 0){
                     row[field] = 1;
                     input[field] = 1;
                 }
                 else if (row[field] == 1){
                     input[field] = 0;
                     row[field] = 0;
+
                 }
-                SqlService
-                    .editOne($scope.table, pk, id, input)
-                    .then(function (response){
-                        if(response.status == 200) {
-                            Notification.success({message: 'Confirmed'})
-                        }
-                        else Notification.error({message: 'Something went wrong. Please check connection'})
-                    });
+                delete input["series_number"];
+                delete input["$$hashKey"];
+                FormService.edit(input, $scope.table, pk, id);
+
             }
         }
 

@@ -46,14 +46,12 @@ angular.module('FlexPanelApp').controller('DashboardController', function($rootS
     }
 
     function filterPeriod(period){
-        console
         var param;
         if (period == 'YTD'){
             param = new Date(new Date().getFullYear(), 0, 1)
         }
         else if (period == 'TTW'){
             param = new Date().setFullYear((new Date().getFullYear() -  1));
-            console.log(param)
         }
         else param = new Date(new Date().getFullYear() -  5);
 

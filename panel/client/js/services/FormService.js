@@ -32,6 +32,7 @@
 
         function edit(input, table, pk, id) {
             id = $rootScope.data[$rootScope.pk||pk] || id;
+            console.log(table, $rootScope.pk||pk, id, input)
             SqlService
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
@@ -39,6 +40,9 @@
                         $rootScope.modalInstance.dismiss('cancel');
                         Notification.success({message: 'Edited successfully'});
                         $rootScope.$broadcast('resetTable');
+                    }
+                    if(response.status == 400) {
+                        console.log(response)
                     }
                     else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
