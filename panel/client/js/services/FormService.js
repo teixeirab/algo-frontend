@@ -4,7 +4,7 @@
         .module("FlexPanelApp")
         .factory("FormService", FormService);
 
-    function FormService($rootScope, SqlService, $state) {
+    function FormService($rootScope, SqlService, $state, Notification) {
         //initializes controller variables
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added", 'trade_date', 'trade_id',
             'legal_sent', 'legal_received', 'wire_confirm', 'interest_confirm', 'info_id', 'counterparty_id',
@@ -22,9 +22,11 @@
             SqlService
                 .addOne(table, input)
                 .then(function (response){
-                    if(response.data) {
+                    if(response.status == 200) {
                         $state.go('manage', {table: table});
+                        Notification.success({message: 'Added successfully'})
                     }
+                    else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
         }
 
@@ -33,10 +35,12 @@
             SqlService
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
-                    if(response.data) {
+                    if(response.status == 200) {
                         $rootScope.modalInstance.dismiss('cancel');
+                        Notification.success({message: 'Edited successfully'});
                         $rootScope.$broadcast('resetTable');
                     }
+                    else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
         }
 

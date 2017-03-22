@@ -1,6 +1,6 @@
 angular.module('FlexPanelApp')
     .controller('WireController',
-    function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, $state, table, id, input) {
+    function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, $state, table, id, input, Notification) {
         $scope.$on('$viewContentLoaded', function () {
             // initialize core components
             App.initAjax();
@@ -29,7 +29,9 @@ angular.module('FlexPanelApp')
                 .then(function (response){
                     if(response.data) {
                         $rootScope.modalInstance.dismiss('cancel');
+                        Notification.success({message: 'Wire submitted.'})
                     }
+                    else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
 
         }

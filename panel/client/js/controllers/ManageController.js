@@ -1,6 +1,6 @@
 angular
     .module('FlexPanelApp')
-    .controller('ManageController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state, $uibModal) {
+    .controller('ManageController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, Notification, $state, $uibModal) {
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
             App.initAjax();
@@ -178,8 +178,10 @@ angular
             SqlService
                 .deleteOne($scope.table, id, primary_key)
                 .then(function (response){
-                    if(response.data) {
+                    if(response.status == 200) {
+                        Notification.success({message: 'Delete complete.'})
                     }
+                    else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
 
             SqlService
@@ -205,9 +207,10 @@ angular
                 SqlService
                     .editOne($scope.table, pk, id, input)
                     .then(function (response){
-                        if(response.data) {
-
+                        if(response.status == 200) {
+                            Notification.success({message: 'Counterparties uploaded succesfully'})
                         }
+                        else Notification.error({message: 'Something went wrong. Please check connection'})
                     });
                 x++;
             }
@@ -247,8 +250,10 @@ angular
                 SqlService
                     .editOne($scope.table, pk, id, input)
                     .then(function (response){
-                        if(response.data) {
+                        if(response.status == 200) {
+                            Notification.success({message: 'Confirmed'})
                         }
+                        else Notification.error({message: 'Something went wrong. Please check connection'})
                     });
             }
         }
