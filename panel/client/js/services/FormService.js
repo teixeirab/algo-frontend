@@ -7,8 +7,7 @@
     function FormService($rootScope, SqlService, $state, Notification) {
         //initializes controller variables
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added", 'trade_date', 'trade_id',
-            'legal_sent', 'legal_received', 'wire_confirm', 'interest_confirm', 'info_id', 'counterparty_id',
-            'apikey', 'last_access', 'dt_joined'
+             'wire_confirm', 'interest_confirm', 'info_id', 'counterparty_id', 'apikey', 'last_access', 'dt_joined', 'legal_confirm'
           ];
 
         var api = {
@@ -32,17 +31,15 @@
 
         function edit(input, table, pk, id) {
             id = $rootScope.data[$rootScope.pk||pk] || id;
-            console.log(table, $rootScope.pk||pk, id, input)
             SqlService
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
                     if(response.status == 200) {
-                        $rootScope.modalInstance.dismiss('cancel');
-                        Notification.success({message: 'Edited successfully'});
-                        $rootScope.$broadcast('resetTable');
-                    }
-                    if(response.status == 400) {
-                        console.log(response)
+                        if(table != 'citi_unsettled_transactions' && table != 'citi_all_transactions'){
+                            $rootScope.modalInstance.dismiss('cancel');
+                            $rootScope.$broadcast('resetTable')
+                            Notification.success({message: 'Edited successfully'});
+                        }
                     }
                     else Notification.error({message: 'Something went wrong. Please check connection'})
                 });

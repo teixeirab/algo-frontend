@@ -207,16 +207,12 @@ angular
                 var input = {};
                 var id = row[pk];
                 input.counterparty_id = row.counterparty_id;
-                SqlService
-                    .editOne($scope.table, pk, id, input)
-                    .then(function (response){
-                        if(response.status == 200) {
-                            Notification.success({message: 'Counterparties uploaded succesfully'})
-                        }
-                        else Notification.error({message: 'Something went wrong. Please check connection'})
-                    });
+                delete input["series_number"];
+                delete input["$$hashKey"];
+                FormService.edit(input, $scope.table, pk, id);
                 x++;
             }
+            Notification.success({message: 'Counterparties submitted'});
         }
 
         function confirm(row, field){
@@ -249,13 +245,13 @@ angular
                 else if (row[field] == 1){
                     input[field] = 0;
                     row[field] = 0;
-
                 }
                 delete input["series_number"];
                 delete input["$$hashKey"];
                 FormService.edit(input, $scope.table, pk, id);
-
+                Notification.success({message: 'Edited successfully'});
             }
+
         }
 
         function details(row, type){

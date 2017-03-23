@@ -68,20 +68,9 @@
                 <span class="arrow"></span>
             </a>
             <ul class="sub-menu">
-                <li><a href="#/view/inventory/date/series_names"><span>Inventory</span></a></li>
+                <li><a href="#/view/inventory_view/date/series_names"><span>Inventory</span></a></li>
                 <li><a href="#/view/prices_per_period/date/series_names"><span>Series Prices</span></a></li>
                 <li><a href="#/view/price_tables/series_number/series_price_table"><span>Price Tables</span></a></li>
-            </ul>
-        </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Operations','Management'])">
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-bar-chart"></i>
-                <span class="title">Stats</span>
-                <span class="arrow"></span>
-            </a>
-            <ul class="sub-menu">
-                <li><a href="#/graph/historic/na/na"><span>Issuance Stats</span></a></li>
-                <li><a href="#/graph/regional/region/series_product_information"><span>Regional Stats</span></a></li>
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations'])">
@@ -91,10 +80,10 @@
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
-                <li data-ng-if="showTab(['Admin','Trading','Accounting'])"><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
+                <li data-ng-if="showTab(['Admin','Accounting'])"><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
                 <li data-ng-if="showTab(['Admin','Operations'])"><a href="#/manage/advances_info"><span>Advances Info</span></a></li>
                 <li data-ng-if="showTab(['Admin'])"><a href="#/manage/advances_repayments"><span>Principal Repayments</span></a></li>
-                <li data-ng-if="showTab(['Admin','Trading','Accounting'])"><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
+                <li data-ng-if="showTab(['Admin','Accounting'])"><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
                 <li data-ng-if="showTab(['Admin'])"><a href="#/view/interest_calculation/series_number/advances_info"><span>View Calc Details</span></a></li>
             </ul>
         </li>
