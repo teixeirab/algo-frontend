@@ -35,6 +35,7 @@
                     <div class="row">
                         <div class="col-md-offset-5 col-md-12">
                             <button ng-click="submit(input, table)" class="btn green">Update</button>
+                            <button ng-click="cancel()" class="btn grey">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -61,6 +62,13 @@
                             <select ng-switch-when='enum' class="form-control input-inline" ng-model="input[field.name]" disabled>
                                 <option ng-repeat="option in field.options" value="{{option}}">{{option}}</option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-5 col-md-12">
+                            <button ng-click="cancel()" class="btn grey">Cancel</button>
                         </div>
                     </div>
                 </div>

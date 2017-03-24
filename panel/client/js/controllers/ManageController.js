@@ -111,7 +111,6 @@ angular
                     .then(function (response){
                         if(response.data) {
                             $scope.counterparties = response.data;
-                            console.log($scope.counterparties);
                         }
                     });
             }
@@ -212,15 +211,17 @@ angular
 
         // specific functions for different types of pages
         function uploadCounterparties(data){
+            console.log(data);
             var x = 0;
             while(x < data.length){
                 var row = data[x];
-                var input = {};
                 var id = row[pk];
-                input.counterparty_id = row.counterparty_id;
-                delete input["series_number"];
-                delete input["$$hashKey"];
-                FormService.edit(input, $scope.table, pk, id);
+                if(row.counterparty_id){
+                    row.counterparty_id = row.counterparty_id.counterparty_key;
+                }
+                delete row["series_number"];
+                delete row["$$hashKey"];
+                FormService.edit(row, $scope.table, pk, id);
                 x++;
             }
             Notification.success({message: 'Counterparties submitted'});

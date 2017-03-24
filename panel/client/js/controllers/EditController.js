@@ -29,6 +29,7 @@ angular.module('FlexPanelApp')
             $scope.submit = function(input, table) {
                 return FormService.edit(input, table, pk, id)
             };
+            $scope.cancel = cancel;
 
             // initializes broadcast listeners
             $scope.$on('fields', function(event, result){
@@ -77,4 +78,9 @@ angular.module('FlexPanelApp')
                     x++;
                 }
             }
+
+            function cancel(){
+                $rootScope.modalInstance.dismiss('cancel');
+            }
+
         });

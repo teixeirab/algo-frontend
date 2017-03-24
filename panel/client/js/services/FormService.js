@@ -37,7 +37,7 @@
                     if(response.status == 200) {
                         if(table != 'citi_unsettled_transactions' && table != 'citi_all_transactions'){
                             $rootScope.modalInstance.dismiss('cancel');
-                            $rootScope.$broadcast('resetTable')
+                            $rootScope.$broadcast('resetTable');
                             Notification.success({message: 'Edited successfully'});
                         }
                     }
