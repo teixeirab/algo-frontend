@@ -17,6 +17,7 @@ angular
         $scope.rowsShowing = "10";
         $scope.t = {};
         $scope.ctrl = {};
+        $rootScope.currentUser.type = $scope.userType;
 
         // initializes controller variables
         var pk = [];
@@ -101,6 +102,16 @@ angular
                             $rootScope.data = response.data;
                             $rootScope.dataBackup = response.data;
                             filterData();
+                        }
+                    });
+            }
+            if ($scope.type = 'trading'){
+                SqlService
+                    .viewData('unique_counterparties')
+                    .then(function (response){
+                        if(response.data) {
+                            $scope.counterparties = response.data;
+                            console.log($scope.counterparties);
                         }
                     });
             }

@@ -7,7 +7,7 @@
                 <span class="caption-subject font-dark sbold uppercase">{{info.table_comment}}</span>
             </div>
         </div>
-        <div class="portlet-body form">
+        <div class="portlet-body form" ng-if="table != 'citi_unsettled_transactions' && table != 'citi_all_transactions' && table != 'citi_available_position'">
             <form class="form-horizontal" role="form">
                 <div class="form-body row">
                     <div class="form-group col-md-12" ng-repeat="field in fields" ng-switch on="field.type">
@@ -33,8 +33,34 @@
                 </div>
                 <div class="form-actions">
                     <div class="row">
-                        <div class="col-md-offset-5 col-md-12" ng-if="table != 'citi_unsettled_transactions' && table != 'citi_all_transactions' && table != 'citi_available_position'">
+                        <div class="col-md-offset-5 col-md-12">
                             <button ng-click="submit(input, table)" class="btn green">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="portlet-body form" ng-if="table == 'citi_unsettled_transactions' || table == 'citi_all_transactions' || table == 'citi_available_position'">
+            <form class="form-horizontal" role="form">
+                <div class="form-body row">
+                    <div class="form-group col-md-12" ng-repeat="field in fields" ng-switch on="field.type">
+                        <label class="col-md-5 control-label">{{field.label}}</label>
+                        <div class="col-md-3">
+                            <input style="width: 300px" ng-switch-when='varchar' placeholder="{{field.label}}" type="text" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                            <input style="width: 300px" ng-switch-when='email' placeholder="{{field.label}}" type="email" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                            <input style="width: 300px" ng-switch-when='tel' placeholder="{{field.label}}" type="tel" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                            <input style="width: 300px" ng-switch-when='password' placeholder="{{field.label}}" type="password" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                            <textarea style="width: 300px" ng-switch-when='text' placeholder="{{field.label}}"  class="form-control" ng-model="input[field.name]" disabled></textarea>
+                            <div style="width: 300px" ng-switch-when='date' disabled>
+                                <div class="input-group" moment-picker="input[field.name]" format="YYYY-MM-DD">
+                                    <input class="form-control" ng-model="input[field.name]" ng-model-options="{ updateOn: 'blur' }">
+                                </div>
+                            </div>
+                            <input style="width: 300px" ng-switch-when='number' type="number" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                            <input style="width: 300px" ng-switch-when='double' type="number" step="0.01" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                            <select ng-switch-when='enum' class="form-control input-inline" ng-model="input[field.name]" disabled>
+                                <option ng-repeat="option in field.options" value="{{option}}">{{option}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
