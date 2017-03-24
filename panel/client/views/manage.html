@@ -337,7 +337,7 @@
                                             {{row[fields[6].name]}}
                                         </button>
                                     </td>
-                                    <td ng-if="type == 'trading' && table != 'citi_available_position'">
+                                    <td ng-if="type == 'trading'">
                                         <input type="text"
                                                ng-model="row.counterparty_id"
                                                uib-typeahead="counterparty as counterparty.counterparty_key for counterparty in counterparties | filter:{counterparty_key:$viewValue}"

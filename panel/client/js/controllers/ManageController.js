@@ -105,7 +105,7 @@ angular
                         }
                     });
             }
-            if ($scope.type = 'trading'){
+            if ($scope.type == 'trading'){
                 SqlService
                     .viewData('unique_counterparties')
                     .then(function (response){
