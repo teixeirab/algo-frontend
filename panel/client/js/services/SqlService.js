@@ -54,8 +54,8 @@
             return $http.get(apiHost + "/api/panel/view/" + query + "/" + param)
         }
 
-        function findOptions(selectType, table) {
-            return $http.get(apiHost + "/api/panel/options/" + selectType + "/" + table);
+        function findOptions(selectType, table, query_name) {
+            return $http.get(apiHost + "/api/panel/options/" + selectType + "/" + table+ "/" + query_name);
         }
 
         function getPrice(series_number, settlement_date) {

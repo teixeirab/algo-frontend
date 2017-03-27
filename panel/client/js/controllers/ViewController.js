@@ -82,11 +82,10 @@ angular.module('FlexPanelApp')
             }
             else if ($stateParams.selectType != 'date') {
                 SqlService
-                    .findOptions($stateParams.selectType, $scope.table)
+                    .findOptions($stateParams.selectType, $scope.table, $scope.query_name)
                     .then(function (response){
                         if(response.data) {
                             $scope.options = response.data;
-                            console.log($scope.options)
                             $scope.item = $scope.options[0];
                             findAll($scope.item.value);
                         }

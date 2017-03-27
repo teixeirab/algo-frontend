@@ -84,7 +84,9 @@
                 <li><a href="#/manage/advances_info"><span>Advances Info</span></a></li>
                 <li><a href="#/manage/advances_repayments"><span>Principal Repayments</span></a></li>
                 <li><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
+                <!--
                 <li><a href="#/view/interest_calculation/series_number/advances_info"><span>View Calc Details</span></a></li>
+                -->
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
@@ -96,9 +98,11 @@
             <ul class="sub-menu">
                 <li><a href="#/manage/theorem_balance_sheet"><span>Balance Sheet</span></a></li>
                 <li><a href="#/manage/theorem_income_statement"><span>Income Statement</span></a></li>
+                <!--
                 <li><a href="#/graph/performance"><span>Performance</span></a></li>
                 <li><a href="#/view/wires"><span>Wires</span></a></li>
                 <li><a href="#/view/invoices"><span>Invoices</span></a></li>
+                -->
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
@@ -108,9 +112,9 @@
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
-                <li><a href=""><span>FVC Reporting</span></a></li>
-                <li><a href="#/view/"><span>Holdings</span></a></li>
-                <li><a href="#/view/"><span>Trades</span></a></li>
+                <li><a href="#/quarterly_reporting"><span>Quarterly Reporting</span></a></li>
+                <li><a href="#/view/holdings_view/date/series_product_information"><span>Holdings</span></a></li>
+                <li><a href="#/view/trades_view/series_number/series_product_information"><span>Trades</span></a></li>
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin'])">
@@ -123,6 +127,7 @@
                 <li><a href="#/manage/ftp_translation"><span>FTP Translation</span></a></li>
             </ul>
         </li>
+
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
