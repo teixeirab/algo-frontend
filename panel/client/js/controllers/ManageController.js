@@ -17,10 +17,10 @@ angular
         $scope.rowsShowing = "10";
         $scope.t = {};
         $scope.ctrl = {};
-        $rootScope.currentUser.type = $scope.userType;
+        $scope.userType = $rootScope.currentUser.user_type;
 
         // initializes controller variables
-        var pk = [];
+        var primary_key = [];
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added" ,
             'trade_date', 'info_id', 'client_reference', 'custodian_reference', 'sec_id_type',
             'sec_id', 'issue_name', 'settled_quantity', 'settlement_amount', 'iso_country_name',
@@ -57,6 +57,7 @@ angular
 
         // initializes broadcast listeners
         $scope.$on('filterData', function(){
+            console.log($rootScope.data)
             filterData();
         });
         $scope.$on('pageReset', function(){
@@ -99,6 +100,7 @@ angular
                     .findAll($scope.table)
                     .then(function (response){
                         if(response.data) {
+                            console.log("A")
                             $rootScope.data = response.data;
                             $rootScope.dataBackup = response.data;
                             filterData();
@@ -139,7 +141,7 @@ angular
             while (x < $rootScope.fieldsArray.length){
                 var field = $rootScope.fieldsArray[x];
                 if (field.column_key == 'PRI'){
-                    pk = field.column_name
+                    primary_key = field.column_name
                 }
                 if (y < 7){
                     if (bad_keys.indexOf(field.column_name) == -1){
@@ -186,42 +188,39 @@ angular
             }
             var id = row[primary_key];
 
-            SqlService
-                .deleteOne($scope.table, id, primary_key)
-                .then(function (response){
-                    if(response.status == 200) {
-                        Notification.success({message: 'Delete complete.'})
-                        SqlService
-                            .findAll($scope.table)
-                            .then(function (response){
-                                if(response.data) {
-                                    $rootScope.data = response.data;
-                                    $rootScope.dataBackup = response.data;
-                                    filterData();
-                                }
-                                else Notification.error({message: 'Something went wrong. Please check connection'})
-                            });
+            $rootScope.modalInstance = $uibModal.open({
+                templateUrl: 'views/confirmation.html',
+                controller: 'ConfirmationController',
+                size: 'md',
+                resolve: {
+                    type : function () {
+                        return  'Delete'
+                    },
+                    table : function () {
+                        return  $scope.table
+                    },
+                    id : function () {
+                        return  id
+                    },
+                    primary_key : function () {
+                        return  primary_key
                     }
-                    else Notification.error({message: 'Something went wrong. Please check connection'})
-                });
-
-
-            filterData();
+                }
+            });
         }
 
         // specific functions for different types of pages
         function uploadCounterparties(data){
-            console.log(data);
             var x = 0;
             while(x < data.length){
                 var row = data[x];
-                var id = row[pk];
+                var id = row[primary_key];
                 if(row.counterparty_id){
                     row.counterparty_id = row.counterparty_id.counterparty_key;
                 }
                 delete row["series_number"];
                 delete row["$$hashKey"];
-                FormService.edit(row, $scope.table, pk, id);
+                FormService.edit(row, $scope.table, primary_key, id);
                 x++;
             }
             Notification.success({message: 'Counterparties submitted'});
@@ -229,7 +228,7 @@ angular
 
         function confirm(row, field){
             var input = row;
-            var id = row[pk];
+            var id = row[primary_key];
 
             if(field == 'wire_confirm' && row.wire_confirm == 0){
                 $rootScope.modalInstance = $uibModal.open({
@@ -250,18 +249,32 @@ angular
                 });
             }
             else {
-                if (input[field] == 0){
-                    row[field] = 1;
-                    input[field] = 1;
-                }
-                else if (row[field] == 1){
-                    input[field] = 0;
-                    row[field] = 0;
-                }
-                delete input["series_number"];
-                delete input["$$hashKey"];
-                FormService.edit(input, $scope.table, pk, id);
-                Notification.success({message: 'Edited successfully'});
+                $rootScope.modalInstance = $uibModal.open({
+                    templateUrl: 'views/confirmation.html',
+                    controller: 'ConfirmationController',
+                    size: 'md',
+                    resolve: {
+                        type : function () {
+                            return  'Confirm'
+                        },
+                        table : function () {
+                            return  $scope.table
+                        },
+                        id : function () {
+                            return  id
+                        },
+                        primary_key : function () {
+                            return  primary_key
+                        },
+                        row : function(){
+                            return row
+                        },
+                        field : function(){
+                            return field
+                        }
+                    }
+                });
+
             }
 
         }
@@ -285,7 +298,7 @@ angular
                     id : function () {
                         return  id
                     },
-                    pk : function () {
+                    primary_key : function () {
                         return  primary_key
                     },
                     table : function () {

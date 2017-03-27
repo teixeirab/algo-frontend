@@ -206,7 +206,7 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
                             '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
                             '../assets/global/scripts/datatable.js',
 
-
+                            'js/controllers/ConfirmationController.js',
                             'js/controllers/WireController.js',
                             'js/controllers/EditController.js',
                             'js/controllers/ManageController.js'

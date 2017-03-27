@@ -35,11 +35,8 @@
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
                     if(response.status == 200) {
-                        if(table != 'citi_unsettled_transactions' && table != 'citi_all_transactions'){
-                            $rootScope.modalInstance.dismiss('cancel');
-                            $rootScope.$broadcast('resetTable');
-                            Notification.success({message: 'Edited successfully'});
-                        }
+                        $rootScope.$broadcast('resetTable');
+                        $rootScope.modalInstance.dismiss('cancel');
                     }
                     else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
