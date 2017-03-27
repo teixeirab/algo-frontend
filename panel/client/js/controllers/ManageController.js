@@ -57,7 +57,6 @@ angular
 
         // initializes broadcast listeners
         $scope.$on('filterData', function(){
-            console.log($rootScope.data)
             filterData();
         });
         $scope.$on('pageReset', function(){
@@ -100,7 +99,6 @@ angular
                     .findAll($scope.table)
                     .then(function (response){
                         if(response.data) {
-                            console.log("A")
                             $rootScope.data = response.data;
                             $rootScope.dataBackup = response.data;
                             filterData();
@@ -204,6 +202,12 @@ angular
                     },
                     primary_key : function () {
                         return  primary_key
+                    },
+                    field : function(){
+                        return null
+                    },
+                    row : function(){
+                        return null
                     }
                 }
             });
