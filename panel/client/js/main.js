@@ -165,7 +165,7 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
         .state('dashboard', {
             url: "/dashboard.html",
             templateUrl: "views/dashboard.html",
-            data: {pageTitle: 'Admin Dashboard'},
+            data: {pageTitle: 'Dashboard'},
             controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -190,7 +190,7 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
         .state('manage', {
             url: "/manage/:table",
             templateUrl: "views/manage.html",
-            data: {pageTitle: 'Admin Manage'},
+            data: {pageTitle: 'Manage Data'},
             controller: 'ManageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -220,7 +220,7 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
         .state('add', {
             url: "/add/:table",
             templateUrl: "views/add.html",
-            data: {pageTitle: 'Admin Add'},
+            data: {pageTitle: 'Add Data'},
             controller: 'AddController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -247,7 +247,7 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
         .state('view', {
             url: "/view/:query/:selectType/:table",
             templateUrl: "views/view.html",
-            data: {pageTitle: 'Admin View'},
+            data: {pageTitle: 'View Data'},
             controller: 'ViewController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -257,10 +257,46 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
                         files: [
                             '../assets/global/plugins/datatables/datatables.min.css',
                             '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
+                            '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
+
+                            '../assets/global/plugins/js.cookie.min.js',
+                            '../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js',
+                            '../assets/global/plugins/jquery.blockui.min.js',
+                            '../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
+
                             '../assets/global/scripts/datatable.js',
+                            '../assets/global/plugins/datatables/datatables.min.js"',
+                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js',
+                            '../assets/global/scripts/app.min.js',
+
+                            '../assets/pages/scripts/table-datatables-responsive.min.js',
 
                             'js/controllers/ViewController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        // View
+        .state('reporting', {
+            url: "/reporting/:tab",
+            templateUrl: "views/reporting.html",
+            data: {pageTitle: 'Quarterly Reporting'},
+            controller: 'ReportingController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'FlexPanelApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../assets/global/plugins/datatables/datatables.min.css',
+                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            '../assets/global/plugins/datatables/datatables.all.min.js',
+                            '../assets/pages/scripts/table-datatables-scroller.min.js',
+                            '../assets/global/scripts/datatable.js',
+
+                            'js/controllers/ReportingController.js'
                         ]
                     });
                 }]

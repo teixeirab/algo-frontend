@@ -33,24 +33,24 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a href="#/manage/portfolio_managers">
+            <a href="#/manage/portfolio_managers" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management'])">
                 <i class="icon-users"></i>
                 <span class="title">Portfolio Managers</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management'])">
             <a href="#/manage/borrowers">
                 <i class="icon-wallet"></i>
                 <span class="title">Borrowers</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management'])">
             <a href="#/manage/counterparties">
                 <i class="icon-globe"></i>
                 <span class="title">Counterparties</span>
             </a>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Theorem'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-refresh"></i>
                 <span class="title">Trades</span>
@@ -61,7 +61,7 @@
                 <li><a href="#/manage/citi_all_transactions"><span>Settled Trades</span></a></li>
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations', 'Theorem'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-bulb"></i>
                 <span class="title">Invt & Pricing</span>
@@ -112,7 +112,7 @@
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
-                <li><a href="#/quarterly_reporting"><span>Quarterly Reporting</span></a></li>
+                <li><a href="#/reporting/series"><span>Quarterly Reporting</span></a></li>
                 <li><a href="#/view/holdings_view/date/series_product_information"><span>Holdings</span></a></li>
                 <li><a href="#/view/trades_view/series_number/series_product_information"><span>Trades</span></a></li>
             </ul>
