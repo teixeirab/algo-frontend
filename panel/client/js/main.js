@@ -266,7 +266,6 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
 
                             '../assets/global/scripts/datatable.js',
                             '../assets/global/plugins/datatables/datatables.min.js"',
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js',
                             '../assets/global/scripts/app.min.js',
 
                             '../assets/pages/scripts/table-datatables-responsive.min.js',
