@@ -19,6 +19,7 @@ angular.module('FlexPanelApp')
         $scope.options = {};
         $scope.item ={};
         $scope.date = {};
+        $scope.searchWord = "";
 
         // default values
         if ($scope.selectType == 'date'){
@@ -82,6 +83,9 @@ angular.module('FlexPanelApp')
             }
             else if ($scope.tab == 'non_isin'){
                 $scope.query_name = 'reporting_non_isin_view'
+            }
+            else if ($scope.tab == 'equity'){
+                $scope.query_name = 'reporting_equity_view'
             }
 
             SqlService

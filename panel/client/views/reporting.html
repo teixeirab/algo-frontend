@@ -24,35 +24,32 @@
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-settings"></i> Quarterly Reporting {{tab}}
+
                     </div>
                     <div class="actions">
-                        <div class="btn-group">
-                            <a class="btn red btn-outline" href="" data-toggle="dropdown">
+                        <div class="input-group pull-right">
+                            <input type="text" class="form-control form-inline form-filter input-sm" ng-model="searchWord" placeholder="Search...">
+                        </div>
+                        <div class="btn-group btn-group-devided">
+                            <a href="#/reporting/series" class="btn blue btn-outline" ng-class="{active : tab == 'series'}">Series</a>
+                            <a href="#/reporting/isin" class="btn blue btn-outline" ng-class="{active : tab == 'isin'}">ISIN</a>
+                            <a href="#/reporting/non_isin" class="btn blue btn-outline" ng-class="{active : tab == 'non-isin'}">Non-ISIN</a>
+                            <a href="#/reporting/equity" class="btn blue btn-outline" ng-class="{active : tab == 'equity'}">Equity</a>
+                            <a class="btn red btn-outline" href="#" data-toggle="dropdown">
                                 <i class="fa fa-share"></i>
                                 <span class="hidden-480"> Tools </span>
                                 <i class="fa fa-angle-down"></i>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="" ng-click="exportExcel(table)"> Export to Excel </a>
-                                    </li>
-                                </ul>
                             </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="" ng-click="exportExcel(table)"> Export to Excel </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="table-container">
-                        <ul class="nav nav-pills">
-                            <li class="active">
-                                <a href="#/reporting/series" data-toggle="tab">Series</a>
-                            </li>
-                            <li>
-                                <a href="#/reporting/isin" data-toggle="tab">ISIN</a>
-                            </li>
-                            <li>
-                                <a href="#/reporting/non_isin" data-toggle="tab">Non-ISIN</a>
-                            </li>
-                        </ul>
                         <div class="col-md-8 col-sm-12">
                             <div class="dataTables_paginate paging_bootstrap_extended">
                                 <div class="pagination-panel"> Page
@@ -76,7 +73,6 @@
                                         </select> records
                                     </label>
                                     <span class="seperator">|</span> Found total {{size}} records
-
                                 </div>
                             </div>
                         </div>
@@ -93,23 +89,9 @@
                                             </a>
                                         </th>
                                     </tr>
-                                    <tr role="row" class="filter">
-                                        <td></td>
-                                        <td ng-repeat="field in fields">
-                                            <div ng-if='field.type == "date"'>
-                                                <div class="input-group" moment-picker="ctrl.date00" format="YYYY-MM-DD">
-                                                    <input class="form-control" placeholder="From" ng-model="ctrl.date" ng-model-options="{ updateOn: 'blur' }">
-                                                </div>
-                                                <div class="input-group" moment-picker="ctrl.date01" format="YYYY-MM-DD">
-                                                    <input class="form-control" placeholder="To" ng-model="ctrl.date" ng-model-options="{ updateOn: 'blur' }">
-                                                </div>
-                                            </div>
-                                            <input ng-if='field.type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search">
-                                        </td>
-                                    </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in data" id="exportable">
+                                    <tr ng-repeat="row in data | filter:searchWord" id="exportable">
                                         <td></td>
                                         <td ng-repeat="field in fields" ng-if="field.label" ng-switch on="field.type">
                                             <h5 ng-switch-when='date'>
