@@ -99,8 +99,13 @@ angular
                     .findAll($scope.table)
                     .then(function (response){
                         if(response.data) {
-                            $rootScope.data = response.data;
-                            $rootScope.dataBackup = response.data;
+                            if ($scope.table == 'citi_all_transactions'){
+                                $rootScope.data = response.data.filter(function (el){
+                                    return el.account_id == '6017709722';
+                                });
+                            }
+                            else $rootScope.data = response.data;
+                            $rootScope.dataBackup = $rootScope.data;
                             filterData();
                         }
                     });
