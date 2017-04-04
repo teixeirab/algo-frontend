@@ -37,8 +37,15 @@ angular.module('FlexPanelApp')
                         });
                 }
                 if (type == 'Confirm'){
-                    var input = row;
-                    var series_number = input.series_number;
+                    var input = {};
+
+                    for (var key in row) {
+                        if (row.hasOwnProperty(key)) {
+                            if (key.toString() == 'series_number' || key.toString() == '$$hashKey'){
+                            }
+                            else {input[key] = row[key]}
+                        }
+                    }
 
                     if (input[field] == 0){
                         input[field] = 1;
@@ -49,8 +56,6 @@ angular.module('FlexPanelApp')
                         row[field] = 0;
                     }
 
-                    delete input["series_number"];
-                    delete input["$$hashKey"];
                     FormService.edit(input, table, primary_key, id);
                     Notification.success({message: 'Edited successfully'});
                 }

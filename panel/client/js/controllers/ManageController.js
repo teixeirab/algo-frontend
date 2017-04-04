@@ -15,6 +15,7 @@ angular
         $scope.table = $stateParams.table;
         $scope.page = 1;
         $scope.rowsShowing = "10";
+        $scope.valueFilter = "All";
         $scope.t = {};
         $scope.ctrl = {};
         $scope.userType = $rootScope.currentUser.user_type;
@@ -25,7 +26,7 @@ angular
             'trade_date', 'info_id', 'client_reference', 'custodian_reference', 'sec_id_type',
             'sec_id', 'issue_name', 'settled_quantity', 'settlement_amount', 'iso_country_name',
             'branch_name', 'account_name', 'confirmed_delivers', 'confirmed_receives', 'unconfirmed_delivers',
-            'unconfirmed_receives', 'apikey', 'last_access',
+            'unconfirmed_receives', 'apikey', 'last_access'
         ];
         var type_list = ['citi_unsettled_transactions', 'citi_all_transactions', 'citi_available_position'];
 
@@ -42,6 +43,7 @@ angular
         $scope.reset = reset;
         $scope.deleteRow = deleteRow;
         $scope.details = details;
+        $scope.filter = filter;
 
         $scope.nextPage = TableService.nextPage;
         $scope.previousPage = TableService.previousPage;
@@ -103,6 +105,8 @@ angular
                                 $rootScope.data = response.data.filter(function (el){
                                     return el.account_id == '6017709722';
                                 });
+                                $rootScope.direction = false;
+                                TableService.sort('settlement_date')
                             }
                             else $rootScope.data = response.data;
                             $rootScope.dataBackup = $rootScope.data;
@@ -222,17 +226,51 @@ angular
         function uploadCounterparties(data){
             var x = 0;
             while(x < data.length){
-                var row = data[x];
-                var id = row[primary_key];
-                if(row.counterparty_id){
-                    row.counterparty_id = row.counterparty_id.counterparty_key;
+                var id = data[x][primary_key];
+                if(data[x].counterparty_id.counterparty_key){
+                    data[x].counterparty_id = data[x].counterparty_id.counterparty_key;
                 }
-                delete row["series_number"];
-                delete row["$$hashKey"];
-                FormService.edit(row, $scope.table, primary_key, id);
+
+                var input = {};
+
+                for (var key in data[x]) {
+                    if (data[x].hasOwnProperty(key)) {
+                        if (key.toString() == 'series_number' || key.toString() == '$$hashKey'){
+                        }
+                        else {input[key] = data[x][key]}
+                    }
+                }
+
+                FormService.edit(input, $scope.table, primary_key, id);
+
                 x++;
             }
             Notification.success({message: 'Counterparties submitted'});
+        }
+
+        function filter(valueFilter){
+            if (valueFilter == 'All'){
+                init()
+            }
+            else if (valueFilter == 'pending_legal'){
+                $rootScope.data = $rootScope.data.filter(function (el){
+                    return el.legal_confirm == 0;
+                });
+                filterData();
+            }
+            else if (valueFilter == 'pending_wires'){
+                $rootScope.data = $rootScope.data.filter(function (el){
+                    return el.wire_confirm == 0;
+                });
+                filterData();
+            }
+            else if (valueFilter == 'completed'){
+                $rootScope.data = $rootScope.data.filter(function (el){
+                    return el.legal_confirm == 1 && el.wire_confirm == 1;
+                });
+                filterData();
+            }
+
         }
 
         function confirm(row, field){

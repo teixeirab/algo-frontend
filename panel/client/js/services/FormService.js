@@ -35,8 +35,10 @@
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
                     if(response.status == 200) {
-                        $rootScope.$broadcast('resetTable');
-                        $rootScope.modalInstance.dismiss('cancel');
+                        if ($rootScope.modalInstance){
+                            $rootScope.$broadcast('resetTable');
+                            $rootScope.modalInstance.dismiss('cancel');
+                        }
                     }
                     else Notification.error({message: 'Something went wrong. Please check connection'})
                 });

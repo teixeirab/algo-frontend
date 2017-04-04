@@ -14,6 +14,7 @@ angular.module('FlexPanelApp')
             // initializes scope variables
             $scope.table = table;
             $scope.input = {};
+            $scope.userType = $rootScope.currentUser.user_type;
             $rootScope.data = {};
             $rootScope.fields = [];
             $rootScope.pk = '';

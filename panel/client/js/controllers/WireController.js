@@ -17,11 +17,22 @@ angular.module('FlexPanelApp')
         $scope.cancel = cancel;
 
 
-        function submit(input) {
-            delete input["series_number"];
-            delete input["trade_date"];
-            delete input["settlement_date"];
-            delete input["dt_added"];
+        function submit(row) {
+            var input = {};
+            for (var key in row) {
+                if (row.hasOwnProperty(key)) {
+                    if (key.toString() == 'series_number' ||
+                        key.toString() == '$$hashKey' ||
+                        key.toString() == "trade_date" ||
+                        key.toString() == "settlement_date" ||
+                        key.toString() == "dt_added"
+                    ){
+                    }
+                    else {input[key] = row[key]}
+                }
+            }
+
+
             input.wire_confirm = 1;
 
             SqlService
@@ -33,7 +44,6 @@ angular.module('FlexPanelApp')
                     }
                     else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
-
         }
 
         function cancel(){

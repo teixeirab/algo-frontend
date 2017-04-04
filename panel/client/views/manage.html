@@ -38,6 +38,7 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li>
+                                    <i class="fa fa-file-excel-o"></i>
                                     <a href="" ng-click="exportExcel(table)"> Export to Excel </a>
                                 </li>
                             </ul>
@@ -73,11 +74,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div ng-if="type == 'trading' && table != 'citi_available_position'" class="col-md-4 col-sm-12">
+                            <div class="table-group-actions pull-right">
+                                <span></span>
+                                <select class="table-group-action-input form-control input-inline input-small input-sm" ng-model="valueFilter">
+                                    <option value="All"> All...</option>
+                                    <option value="pending_legal">Pending Legal</option>
+                                    <option value="pending_wires">Pending Wires</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                <button class="btn btn-sm green table-group-action-submit" ng-click="filter(valueFilter)">
+                                    <i class="fa fa-check"></i>Filter
+                                </button>
+                            </div>
+                        </div>
+
                         <table style ="overflow: auto" class="table table-striped table-bordered table-hover order-column">
                             <thead>
                             <tr role="row" class="heading" >
-                                <th width="1%">
-                                </th>
+                                <th width="1%"> </th>
                                 <th width="14%" ng-if="fields[0].label">
                                     <a ng-click="sort(fields[0].name)">
                                         {{fields[0].label}}&nbsp;
@@ -219,139 +234,46 @@
                             <tbody>
                                 <tr ng-repeat="row in data" id="exportable">
                                     <td></td>
-                                    <td ng-if="fields[0].label" ng-switch on="fields[0].type">
+                                    <td ng-repeat="field in fields"
+                                        ng-if="field.label"
+                                        ng-switch on="field.type"
+                                        ng-class="{warning: row.wire_confirm == 0 && row.legal_confirm == 1, danger: row.wire_confirm == 0 && row.legal_confirm == 0}">
                                         <h5 ng-switch-when='date'>
-                                            {{row[fields[0].name] | date }}
+                                            {{row[field.name] | date }}
                                         </h5>
                                         <h5 ng-switch-when='varchar'>
-                                            {{row[fields[0].name] | limitTo: 25}}
+                                            {{row[field.name] | limitTo: 50}}
                                         </h5>
                                         <h5 ng-switch-when="currency">
-                                            {{row[fields[0].name] | currency}}
+                                            {{row[field.name] | currency}}
                                         </h5>
                                         <h5 ng-switch-when="number">
-                                            {{row[fields[0].name] | number}}
+                                            {{row[field.name] | number}}
                                         </h5>
-                                        <button ng-switch-when="button">
-                                            {{row[fields[0].name]}}
-                                        </button>
+                                        <h5 ng-switch-when="percentage">
+                                            {{row[field.name] * 100 | number:2}}a%
+                                        </h5>
                                     </td>
-                                    <td ng-if="fields[1].label" ng-switch on="fields[1].type">
-                                        <h5 ng-switch-when='date'>
-                                            {{row[fields[1].name] | date }}
-                                        </h5>
-                                        <h5 ng-switch-when='varchar'>
-                                            {{row[fields[1].name] | limitTo: 25}}
-                                        </h5>
-                                        <h5 ng-switch-when="currency">
-                                            {{row[fields[1].name] | currency}}
-                                        </h5>
-                                        <h5 ng-switch-when="number">
-                                            {{row[fields[1].name] | number}}
-                                        </h5>
-                                        <button ng-switch-when="button">
-                                            {{row[fields[1].name]}}
-                                        </button>
-                                    </td>
-                                    <td ng-if="fields[2].label" ng-switch on="fields[2].type">
-                                        <h5 ng-switch-when='date'>
-                                            {{row[fields[2].name] | date }}
-                                        </h5>
-                                        <h5 ng-switch-when='varchar'>
-                                            {{row[fields[2].name] | limitTo: 25}}
-                                        </h5>
-                                        <h5 ng-switch-when="currency">
-                                            {{row[fields[2].name] | currency}}
-                                        </h5>
-                                        <h5 ng-switch-when="number">
-                                            {{row[fields[2].name] | number}}
-                                        </h5>
-                                        <button ng-switch-when="button">
-                                            {{row[fields[2].name]}}
-                                        </button>
-                                    </td>
-                                    <td ng-if="fields[3].label" ng-switch on="fields[3].type">
-                                        <h5 ng-switch-when='date'>
-                                            {{row[fields[3].name] | date }}
-                                        </h5>
-                                        <h5 ng-switch-when='varchar'>
-                                            {{row[fields[3].name] | limitTo: 25}}
-                                        </h5>
-                                        <h5 ng-switch-when="currency">
-                                            {{row[fields[3].name] | currency}}
-                                        </h5>
-                                        <h5 ng-switch-when="number">
-                                            {{row[fields[3].name] | number}}
-                                        </h5>
-                                        <button ng-switch-when="button">
-                                            {{row[fields[3].name]}}
-                                        </button>
-                                    </td>
-                                    <td ng-if="fields[4].label" ng-switch on="fields[4].type">
-                                        <h5 ng-switch-when='date'>
-                                            {{row[fields[4].name] | date }}
-                                        </h5>
-                                        <h5 ng-switch-when='varchar'>
-                                            {{row[fields[4].name] | limitTo: 25}}
-                                        </h5>
-                                        <h5 ng-switch-when="currency">
-                                            {{row[fields[4].name] | currency}}
-                                        </h5>
-                                        <h5 ng-switch-when="number">
-                                            {{row[fields[4].name] | number}}
-                                        </h5>
-                                        <button ng-switch-when="button">
-                                            {{row[fields[4].name]}}
-                                        </button>
-                                    </td>
-                                    <td ng-if="fields[5].label" ng-switch on="fields[5].type">
-                                        <h5 ng-switch-when='date'>
-                                            {{row[fields[5].name] | date }}
-                                        </h5>
-                                        <h5 ng-switch-when='varchar'>
-                                            {{row[fields[5].name] | limitTo: 20}}
-                                        </h5>
-                                        <h5 ng-switch-when="currency">
-                                            {{row[fields[5].name] | currency}}
-                                        </h5>
-                                        <h5 ng-switch-when="number">
-                                            {{row[fields[5].name] | number}}
-                                        </h5>
-                                        <button ng-switch-when="button">
-                                            {{row[fields[5].name]}}
-                                        </button>
-                                    </td>
-                                    <td ng-if="fields[6].label" ng-switch on="fields[6].type">
-                                        <h5 ng-switch-when='date'>
-                                            {{row[fields[6].name] | date }}
-                                        </h5>
-                                        <h5 ng-switch-when='varchar'>
-                                            {{row[fields[6].name] | limitTo: 25}}
-                                        </h5>
-                                        <h5 ng-switch-when="currency">
-                                            {{row[fields[6].name] | currency}}
-                                        </h5>
-                                        <h5 ng-switch-when="number">
-                                            {{row[fields[6].name] | number}}
-                                        </h5>
-                                        <button ng-switch-when="button">
-                                            {{row[fields[6].name]}}
-                                        </button>
-                                    </td>
-                                    <td ng-if="type == 'trading'">
+                                    <td ng-if="type == 'trading' && userType != 'Theorem' && userType && 'Management'">
                                         <input type="text"
                                                ng-model="row.counterparty_id"
                                                uib-typeahead="counterparty as counterparty.counterparty_key for counterparty in counterparties | filter:{counterparty_key:$viewValue}"
                                                class="form-control input-sm"
                                                placeholder="Cpt. Key"
                                                typeahead-show-hint="true"
-                                               typeahead-min-length="0">
+                                               typeahead-min-length="0"
+                                               >
                                     </td>
-                                    <td ng-if="type == 'normal'">
+                                    <td ng-if="type == 'trading' && (userType == 'Theorem' || userType == 'Management')">
+                                        <h5>
+                                            {{row.counterparty_id}}
+                                        </h5>
+                                    </td>
+                                    <td ng-if="type == 'normal' && userType != 'Theorem' && userType != 'Management'">
                                         <button style="width: 33px" class="btn btn-sm blue" ng-click="details(row, edit)"><i class="fa fa-cogs"></i></button>
                                         <button style="width: 33px" class="btn btn-sm red margin-bottom" ng-click="deleteRow(row)"><i class="fa fa-times"></i></button>
                                     </td>
-                                    <td ng-if="type == 'trading'" style="white-space:nowrap">
+                                    <td ng-if="type == 'trading' && userType != 'Theorem' && userType != 'Management'" style="white-space:nowrap">
                                         <a href=""
                                            style="width: 50px"
                                            ng-if="row.legal_confirm == 0 && (table == 'citi_unsettled_transactions' || table == 'citi_all_transactions')"
@@ -388,6 +310,9 @@
                                         >
                                             <i class="fa fa-check-circle"></i>
                                         </a>
+                                        <button class="btn btn-sm white" ng-click="details(row, view)">Details</button>
+                                    </td>
+                                    <td ng-if="userType == 'Theorem' || userType == 'Management'">
                                         <button class="btn btn-sm white" ng-click="details(row, view)">Details</button>
                                     </td>
                                 </tr>
