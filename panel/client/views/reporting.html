@@ -33,8 +33,9 @@
                         <div class="btn-group btn-group-devided">
                             <a href="#/reporting/series" class="btn blue btn-outline" ng-class="{active : tab == 'series'}">Series</a>
                             <a href="#/reporting/isin" class="btn blue btn-outline" ng-class="{active : tab == 'isin'}">ISIN</a>
-                            <a href="#/reporting/non_isin" class="btn blue btn-outline" ng-class="{active : tab == 'non-isin'}">Non-ISIN</a>
+                            <a href="#/reporting/non_isin" class="btn blue btn-outline" ng-class="{active : tab == 'non_isin'}">Non-ISIN</a>
                             <a href="#/reporting/equity" class="btn blue btn-outline" ng-class="{active : tab == 'equity'}">Equity</a>
+                            <a href="#/reporting/loan" class="btn blue btn-outline" ng-class="{active : tab == 'loan'}">Loan</a>
                             <a class="btn red btn-outline" href="#" data-toggle="dropdown">
                                 <i class="fa fa-share"></i>
                                 <span class="hidden-480"> Tools </span>
@@ -50,34 +51,8 @@
                 </div>
                 <div class="portlet-body">
                     <div class="table-container">
-                        <div class="col-md-8 col-sm-12">
-                            <div class="dataTables_paginate paging_bootstrap_extended">
-                                <div class="pagination-panel"> Page
-                                    <a href="" ng-click="previousPage(page)" class="btn btn-sm default prev">
-                                        <i class="fa fa-angle-left"></i>
-                                    </a>
-                                    <input class="pagination-panel-input form-control input-sm input-inline input-mini"
-                                           maxlenght="5" style="text-align:center; margin: 0 5px;" type="text" ng-model="page">
-                                    <a href="" ng-click="nextPage(page, numberPages)" class="btn btn-sm default next">
-                                        <i class="fa fa-angle-right"></i>
-                                    </a> of
-                                    <span class="pagination-panel-total">{{numberPages}}</span>
-                                    <label><span class="seperator">|</span>
-                                        View
-                                        <select class="form-control input-xs input-sm input-inline" ng-model="rowsShowing" ng-change="filterChange(rowsShowing)">
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                            <option value="200">200</option>
-                                        </select> records
-                                    </label>
-                                    <span class="seperator">|</span> Found total {{size}} records
-                                </div>
-                            </div>
-                        </div>
                         <div class="portlet-body">
-                            <div style="overflow-x: scroll; width: 100%">
+                            <div style="overflow-x: scroll; width: 100%; height: 600px">
                                 <table class="table table-responsive table-striped table-bordered table-hover" style="white-space: nowrap;">
                                     <thead>
                                     <tr role="row" class="heading" >
@@ -106,39 +81,13 @@
                                             <h5 ng-switch-when="number">
                                                 {{row[field.name] | number}}
                                             </h5>
-                                            <button ng-switch-when="button">
-                                                {{row[field.name]}}
-                                            </button>
+                                            <h5 ng-switch-when="percentage">
+                                                {{row[field.name] * 100 | number:2}}%
+                                            </h5>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-sm-12">
-                            <div class="dataTables_paginate paging_bootstrap_extended">
-                                <div class="pagination-panel"> Page
-                                    <a href="" ng-click="previousPage(page)" class="btn btn-sm default prev">
-                                        <i class="fa fa-angle-left"></i>
-                                    </a>
-                                    <input class="pagination-panel-input form-control input-sm input-inline input-mini"
-                                           maxlenght="5" style="text-align:center; margin: 0 5px;" type="text" ng-model="page">
-                                    <a href="" ng-click="nextPage(page, numberPages)" class="btn btn-sm default next">
-                                        <i class="fa fa-angle-right"></i>
-                                    </a> of
-                                    <span class="pagination-panel-total">{{numberPages}}</span>
-                                    <label><span class="seperator">|</span>
-                                        View
-                                        <select class="form-control input-xs input-sm input-inline" ng-model="rowsShowing" ng-change="filterChange(rowsShowing)">
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                            <option value="200">200</option>
-                                        </select> records
-                                    </label>
-                                    <span class="seperator">|</span> Found total {{size}} records
-                                </div>
                             </div>
                         </div>
                         <h5>.</h5>

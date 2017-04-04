@@ -29,7 +29,10 @@ angular.module('FlexPanelApp')
         // initializes controller variables
         var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
         var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
-            'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable'];
+            'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable', 'Accrued Interest',
+            'Increase', 'Decrease', 'Opening', 'Closing', 'Opening Position', 'Transactions - Purchases', 'Transactions - Sales',
+            'End of Q FV', 'Market price at quarter-end', 'Closing Position'];
+        var percentageFields = ['interest_rate'];
 
         // initializes root scope variables
         $rootScope.rowsShowing = Number($scope.rowsShowing);
@@ -39,13 +42,6 @@ angular.module('FlexPanelApp')
         $rootScope.direction = true;
 
         // initializes scope functions
-        $scope.reset = reset;
-        $scope.onChange = onChange;
-        $scope.nextPage = TableService.nextPage;
-        $scope.previousPage = TableService.previousPage;
-        $scope.filterChange = TableService.filterChange;
-        $scope.search = TableService.search;
-        $scope.sort = TableService.sort;
         $scope.exportExcel = TableService.exportExcel;
 
         // initializes date picker
@@ -53,25 +49,9 @@ angular.module('FlexPanelApp')
             $(this).datepicker('clearDates');
         });
 
-        // initializes broadcast listeners
-        $scope.$on('filterData', function(){
-            filterData();
-        });
-        $scope.$on('pageReset', function(){
-            $scope.page = 1;
-        });
-        $scope.$on('pageIncrease', function(){
-            $scope.page++;
-        });
-        $scope.$on('pageDecrease', function(){
-            $scope.page = $scope.page - 1;
-        });
-
         $scope.$watch("date", function(newValue, oldValue) {
             findAll($scope.date.value)
         }, true);
-
-
 
         // initializes program
         function init() {
@@ -86,6 +66,9 @@ angular.module('FlexPanelApp')
             }
             else if ($scope.tab == 'equity'){
                 $scope.query_name = 'reporting_equity_view'
+            }
+            else if ($scope.tab == 'loan'){
+                $scope.query_name = 'reporting_loan_view'
             }
 
             SqlService
@@ -102,19 +85,6 @@ angular.module('FlexPanelApp')
 
 
         // general manage functions
-        function filterData(){
-            $scope.size = $rootScope.data.length;
-            $scope.numberPages = Math.ceil($scope.size / $rootScope.rowsShowing);
-            $scope.data = $rootScope.data.slice((($scope.page - 1) * $rootScope.rowsShowing), $rootScope.rowsShowing * $scope.page)
-        }
-
-        function reset(){
-            $scope.t = {};
-            $scope.ctrl = {};
-            $rootScope.data = $rootScope.dataBackup;
-            $scope.page = 1;
-            filterData();
-        }
 
         function onChange(item){
             $scope.item = item;
@@ -126,7 +96,6 @@ angular.module('FlexPanelApp')
                 else findAll($scope.item)
             }
         }
-
 
         function findAll(param){
             SqlService
@@ -142,13 +111,11 @@ angular.module('FlexPanelApp')
                 });
         }
 
-
         function setTableHeader(){
             var x = 0;
             var y = 0;
             var result =[];
             $rootScope.fieldsArray = Object.keys($rootScope.data[0]);
-
 
             while (x < $rootScope.fieldsArray.length){
                 var field = $rootScope.fieldsArray[x];
@@ -165,6 +132,10 @@ angular.module('FlexPanelApp')
                             field_type = "currency";
                         }
 
+                        else if (percentageFields.indexOf(field)  >= 0) {
+                            field_type = "percentage";
+                        }
+
                         else field_type = "varchar";
 
                         result.push({
@@ -176,8 +147,8 @@ angular.module('FlexPanelApp')
                 }
                 x = x + 1;
             }
+            console.log($scope.fields)
             $scope.fields = result;
-            filterData();
         }
 
     });
