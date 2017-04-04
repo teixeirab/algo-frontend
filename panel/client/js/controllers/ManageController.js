@@ -25,7 +25,7 @@ angular
             'trade_date', 'info_id', 'client_reference', 'custodian_reference', 'sec_id_type',
             'sec_id', 'issue_name', 'settled_quantity', 'settlement_amount', 'iso_country_name',
             'branch_name', 'account_name', 'confirmed_delivers', 'confirmed_receives', 'unconfirmed_delivers',
-            'unconfirmed_receives', 'apikey', 'last_access'
+            'unconfirmed_receives', 'apikey', 'last_access',
         ];
         var type_list = ['citi_unsettled_transactions', 'citi_all_transactions', 'citi_available_position'];
 
