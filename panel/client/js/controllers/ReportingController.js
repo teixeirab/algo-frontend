@@ -1,5 +1,5 @@
 angular.module('FlexPanelApp')
-    .controller('ReportingController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state) {
+    .controller('ReportingController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state, FormService) {
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
             App.initAjax();
@@ -13,10 +13,9 @@ angular.module('FlexPanelApp')
         // initializes scope variables
         $scope.tab = $stateParams.tab;
         $scope.page = 1;
+        $scope.input = {};
         $scope.rowsShowing = "10";
         $scope.t = {};
-        $scope.ctrl = {};
-        $scope.options = {};
         $scope.item ={};
         $scope.date = {};
         $scope.searchWord = "";
@@ -31,7 +30,7 @@ angular.module('FlexPanelApp')
         var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
             'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable', 'Accrued Interest',
             'Increase', 'Decrease', 'Opening', 'Closing', 'Opening Position', 'Transactions - Purchases', 'Transactions - Sales',
-            'End of Q FV', 'Market price at quarter-end', 'Closing Position'];
+            'End of Q FV', 'Market price at quarter-end', 'Closing Position', 'Fair Value'];
         var percentageFields = ['interest_rate'];
 
         // initializes root scope variables
@@ -43,72 +42,84 @@ angular.module('FlexPanelApp')
 
         // initializes scope functions
         $scope.exportExcel = TableService.exportExcel;
+        $scope.submit = submit;
 
         // initializes date picker
         $('.input-daterange input').each(function() {
             $(this).datepicker('clearDates');
         });
 
-        $scope.$watch("date", function(newValue, oldValue) {
-            findAll($scope.date.value)
-        }, true);
+        // initializes broadcast listeners
+        $scope.$on('fields', function(event, result){
+            $scope.fields = result;
+        });
+
 
         // initializes program
         function init() {
-            if ($scope.tab == 'series'){
-                $scope.query_name = 'reporting_series_view'
+            if ($scope.tab == 'setup'){
+                SqlService
+                    .findFields("quarterly_reporting_setup")
+                    .then(function (response) {
+                        if (response.data) {
+                            $rootScope.fields = response.data;
+                            FormService.setFields()
+                        }
+                        SqlService
+                            .viewData("reporting_setup_view", 0)
+                            .then(function (response) {
+                                if (response.data) {
+                                    $rootScope.data = response.data[0];
+                                    setInput();
+                                }
+                            });
+                    });
             }
-            else if ($scope.tab == 'isin'){
-                $scope.query_name = 'reporting_isin_view'
+            else{
+                if ($scope.tab == 'series'){
+                    $scope.query_name = 'reporting_series_view'
+                }
+                else if ($scope.tab == 'isin'){
+                    $scope.query_name = 'reporting_isin_view'
+                }
+                else if ($scope.tab == 'non_isin'){
+                    $scope.query_name = 'reporting_non_isin_view'
+                }
+                else if ($scope.tab == 'equity'){
+                    $scope.query_name = 'reporting_equity_view'
+                }
+                else if ($scope.tab == 'loan'){
+                    $scope.query_name = 'reporting_loan_view'
+                }
+                SqlService
+                    .viewData($scope.query_name, '0')
+                    .then(function (response){
+                        if(response.data) {
+                            $rootScope.data = response.data;
+                            $rootScope.dataBackup = response.data;
+                            if ($rootScope.data.length > 0){
+                                setTableHeader()
+                            }
+                        }
+                    });
             }
-            else if ($scope.tab == 'non_isin'){
-                $scope.query_name = 'reporting_non_isin_view'
-            }
-            else if ($scope.tab == 'equity'){
-                $scope.query_name = 'reporting_equity_view'
-            }
-            else if ($scope.tab == 'loan'){
-                $scope.query_name = 'reporting_loan_view'
-            }
-
-            SqlService
-                .findOptions('period', 'theorem_balance_sheet', $scope.tab)
-                .then(function (response){
-                    if(response.data) {
-                        $scope.options = response.data;
-                        $scope.item = $scope.options[0];
-                        findAll($scope.item.value);
-                    }
-                });
         }
         init();
 
 
         // general manage functions
-
-        function onChange(item){
-            $scope.item = item;
-            if (item){
-                if ($stateParams.selectType == 'series_number'){
-                    $rootScope.data = [];
-                    findAll(item.value)
-                }
-                else findAll($scope.item)
+        function setInput(){
+            var x = 0;
+            while (x < $scope.fields.length){
+                $scope.input[$scope.fields[x].name] = $rootScope.data[$scope.fields[x].name];
+                x++;
             }
         }
 
-        function findAll(param){
-            SqlService
-                .viewData($scope.query_name, param)
-                .then(function (response){
-                    if(response.data) {
-                        $rootScope.data = response.data;
-                        $rootScope.dataBackup = response.data;
-                        if ($rootScope.data.length > 0){
-                            setTableHeader()
-                        }
-                    }
-                });
+        function submit(input) {
+            input.id = 0;
+            console.log(input)
+            return FormService.edit(input, 'quarterly_reporting_setup', 'id', 0)
         }
 
         function setTableHeader(){
@@ -147,7 +158,6 @@ angular.module('FlexPanelApp')
                 }
                 x = x + 1;
             }
-            console.log($scope.fields)
             $scope.fields = result;
         }
 

@@ -30,11 +30,12 @@
                             <input type="text" class="form-control form-inline form-filter input-sm" ng-model="searchWord" placeholder="Search...">
                         </div>
                         <div class="btn-group btn-group-devided">
-                            <a href="#/reporting/series" class="btn blue btn-outline" ng-class="{active : tab == 'series'}">Series</a>
-                            <a href="#/reporting/isin" class="btn blue btn-outline" ng-class="{active : tab == 'isin'}">ISIN</a>
-                            <a href="#/reporting/non_isin" class="btn blue btn-outline" ng-class="{active : tab == 'non_isin'}">Non-ISIN</a>
-                            <a href="#/reporting/equity" class="btn blue btn-outline" ng-class="{active : tab == 'equity'}">Equity</a>
-                            <a href="#/reporting/loan" class="btn blue btn-outline" ng-class="{active : tab == 'loan'}">Loan</a>
+                            <a href="#/reporting/setup" class="btn blue btn-outline" ng-class="{active : tab == 'setup'}">Setup</a>
+                            <a href="#/reporting/series" class="btn blue btn-outline" ng-class="{active : tab == 'series'}">Active Series</a>
+                            <a href="#/reporting/isin" class="btn blue btn-outline" ng-class="{active : tab == 'isin'}">Table 2a- ISIN</a>
+                            <a href="#/reporting/non_isin" class="btn blue btn-outline" ng-class="{active : tab == 'non_isin'}">Table 2b- Non-ISIN</a>
+                            <a href="#/reporting/equity" class="btn blue btn-outline" ng-class="{active : tab == 'equity'}">Table 6- Equity</a>
+                            <a href="#/reporting/loan" class="btn blue btn-outline" ng-class="{active : tab == 'loan'}">Table 5- Loans</a>
                             <a class="btn red btn-outline" href="#" data-toggle="dropdown">
                                 <i class="fa fa-share"></i>
                                 <span class="hidden-480"> Tools </span>
@@ -49,48 +50,136 @@
                         </div>
                     </div>
                 </div>
-                <div class="portlet-body">
-                    <div class="table-container">
-                        <div class="portlet-body">
-                            <div style="overflow-x: scroll; width: 100%; height: 600px">
-                                <table class="table table-responsive table-striped table-bordered table-hover" style="white-space: nowrap;">
-                                    <thead>
-                                    <tr role="row" class="heading" >
-                                        <th width="1%">
-                                        </th>
-                                        <th ng-repeat="field in fields">
-                                            <a ng-click="sort(field.name)">
-                                                {{field.label}}&nbsp;
-                                            </a>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="row in data | filter:searchWord" id="exportable">
-                                        <td></td>
-                                        <td ng-repeat="field in fields" ng-if="field.label" ng-switch on="field.type">
-                                            <h5 ng-switch-when='date'>
-                                                {{row[field.name] | date }}
-                                            </h5>
-                                            <h5 ng-switch-when='varchar'>
-                                                {{row[field.name] | limitTo: 50}}
-                                            </h5>
-                                            <h5 ng-switch-when="currency">
-                                                {{row[field.name] | currency}}
-                                            </h5>
-                                            <h5 ng-switch-when="number">
-                                                {{row[field.name] | number}}
-                                            </h5>
-                                            <h5 ng-switch-when="percentage">
-                                                {{row[field.name] * 100 | number:2}}a%
-                                            </h5>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                <div class="row" ng-if="tab == 'setup'">
+                    <div class="col-md-6">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="icon-settings"></i> Manage Constants
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-body row">
+                                        <div class="form-group col-md-6" ng-repeat="field in fields" ng-switch on="field.type">
+                                            <label class="col-md-7 control-label">
+                                                {{field.label}}
+                                            </label>
+                                            <div class="col-md-5">
+                                                <input ng-switch-when='varchar' placeholder="{{field.label}}" type="text" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                                                <div ng-switch-when='date'>
+                                                    <div class="input-group" moment-picker="input[field.name]" format="YYYY-MM-DD">
+                                                        <input class="form-control" ng-model="input[field.name]" ng-model-options="{ updateOn: 'blur' }" disabled>
+                                                    </div>
+                                                </div>
+                                                <input style="width: 100px" ng-switch-when='number' type="number" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                                                <select ng-switch-when='enum' class="form-control input-inline" ng-model="input[field.name]" disabled>
+                                                    <option ng-repeat="option in field.options" value="{{option}}">{{option}}</option>
+                                                </select>
+                                                <input style="width: 80%" ng-switch-when='double' type="number" step="0.01" class="form-control input-inline" ng-model="input[field.name]" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="form-actions">
+                                        <div class="row">
+                                            <div class="col-md-offset-5 col-md-12">
+                                                <button ng-click="submit(input)" class="btn green">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    -->
+
+                                </form>
                             </div>
                         </div>
-                        <h5>.</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- BEGIN Portlet PORTLET-->
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gift"></i>Table 2a & 2b
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="scroller" style="height:260px" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd">
+                                    <strong>Table 2a: Debt Securities Held (ISIN) and Table 2b: Debt Securities Held (Non-ISIN)</strong>
+                                    <br/> These tables record holdings of securities other than ‘shares and other equity’ by ISIN and Non-ISIN codes, which are negotiable financial instruments serving as evidence of debt, and usually traded on secondary markets or can be offset on the market, and which do not grant the holder any ownership rights over the issuing institution.
+                                    <br/>
+                                    Debt securities held with ISIN codes are to be reported in Table 2a. More detailed information is required for debt securities held with Non-ISIN codes, which are to be reported in Table 2b.
+                                    <br/>
+                                    <strong>The tables include:</strong>
+                                    <br/>
+                                    - holdings of securities which give the holder the unconditional right to a fixed or contractually determined income in the form of coupon payments and/or a stated fixed sum at a specific date or dates, or starting from a date defined at the time of issue; and
+                                    <br/>
+                                    - loans which have become negotiable on an organised market, i.e. traded loans, with evidence of secondary market trading, such as the existence of market-makers, and frequent quotation of the financial asset, as provided by bid-offer spreads. Otherwise, they are classified as ‘securitised loans’.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gift"></i>Table 6a
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="scroller" style="height:260px" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd">
+                                    <strong>Table 2a: Debt Securities Held (ISIN) and Table 2b: Debt Securities Held (Non-ISIN)</strong>
+                                    <br/> These tables record holdings of securities other than ‘shares and other equity’ by ISIN and Non-ISIN codes, which are negotiable financial instruments serving as evidence of debt, and usually traded on secondary markets or can be offset on the market, and which do not grant the holder any ownership rights over the issuing institution.
+
+                                </div>
+                            </div>
+                            <!-- END Portlet PORTLET-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="tab !== 'setup'">
+                    <div class="col-md-12" >
+                        <div class="portlet-body" >
+                            <div class="table-container">
+                                <div class="portlet-body">
+                                    <div style="overflow-x: scroll; width: 100%; height: 600px">
+                                        <table class="table table-responsive table-striped table-bordered table-hover" style="white-space: nowrap;">
+                                            <thead>
+                                            <tr role="row" class="heading" >
+                                                <th width="1%">
+                                                </th>
+                                                <th ng-repeat="field in fields">
+                                                    <a ng-click="sort(field.name)">
+                                                        {{field.label}}&nbsp;
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="row in data | filter:searchWord" id="exportable">
+                                                <td></td>
+                                                <td ng-repeat="field in fields" ng-if="field.label" ng-switch on="field.type">
+                                                    <h5 ng-switch-when='date'>
+                                                        {{row[field.name] | date }}
+                                                    </h5>
+                                                    <h5 ng-switch-when='varchar'>
+                                                        {{row[field.name] | limitTo: 50}}
+                                                    </h5>
+                                                    <h5 ng-switch-when="currency">
+                                                        {{row[field.name] | currency}}
+                                                    </h5>
+                                                    <h5 ng-switch-when="number">
+                                                        {{row[field.name] | number}}
+                                                    </h5>
+                                                    <h5 ng-switch-when="percentage">
+                                                        {{row[field.name] * 100 | number:2}}%
+                                                    </h5>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <h5>.</h5>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
