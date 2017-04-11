@@ -33,12 +33,12 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a href="#/manage/portfolio_managers" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management'])">
+            <a href="#/manage/portfolio_managers" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management', 'Trustee'])">
                 <i class="icon-users"></i>
                 <span class="title">Portfolio Managers</span>
             </a>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management', 'Trustee'])">
             <a href="#/manage/borrowers">
                 <i class="icon-wallet"></i>
                 <span class="title">Borrowers</span>
@@ -50,7 +50,7 @@
                 <span class="title">Counterparties</span>
             </a>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Theorem'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Theorem', 'Trustee'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-refresh"></i>
                 <span class="title">Trades</span>
@@ -61,7 +61,7 @@
                 <li><a href="#/manage/citi_all_transactions"><span>Settled Trades</span></a></li>
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations', 'Theorem'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations', 'Theorem', 'Trustee'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-bulb"></i>
                 <span class="title">Invt & Pricing</span>
@@ -74,7 +74,7 @@
                 <li><a href="#/view/price_tables/series_number/series_price_table"><span>Price Tables</span></a></li>
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations', 'Theorem'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations', 'Theorem', 'Trustee'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-flag"></i>
                 <span class="title">Interest</span>
@@ -109,7 +109,7 @@
                 -->
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations', 'Trustee'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-calendar"></i>
                 <span class="title">Reporting</span>

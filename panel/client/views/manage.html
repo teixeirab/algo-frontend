@@ -26,7 +26,7 @@
                         <i class="icon-settings"></i> Manage {{info.table_comment}}
                     </div>
                     <div class="actions">
-                        <a href="#/add/{{table}}" class="btn btn-outline green">
+                        <a href="#/add/{{table}}" class="btn btn-outline green" ng-if="userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'">
                             <i class="fa fa-plus"></i>
                             <span class="hidden-480"> New Entry </span>
                         </a>
@@ -38,8 +38,7 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <i class="fa fa-file-excel-o"></i>
-                                    <a href="" ng-click="exportExcel(table)"> Export to Excel </a>
+                                    <a href="" ng-click="exportExcel(table)"> <i class="fa fa-file-excel-o"></i> Export to Excel </a>
                                 </li>
                             </ul>
                         </div>
@@ -214,8 +213,8 @@
                                     </div>
                                     <input ng-if='fields[6].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search6">
                                 </td>
-                                <td ng-if="type == 'trading' && table != 'citi_available_position'">
-                                    <button class="btn btn-sm green filter-submit margin-bottom" ng-click="uploadCounterparties(data)">
+                                <td ng-if="type == 'trading' && table != 'citi_available_position'" style="width: 8%">
+                                    <button class="btn btn-sm green filter-submit margin-bottom" ng-click="uploadCounterparties(data)" ng-if="userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'">
                                         <i class="fa fa-plus"></i> Upload
                                     </button>
                                 </td>
@@ -254,7 +253,7 @@
                                             {{row[field.name] * 100 | number:2}}a%
                                         </h5>
                                     </td>
-                                    <td ng-if="type == 'trading' && userType != 'Theorem' && userType && 'Management'">
+                                    <td ng-if="type == 'trading' && userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'">
                                         <input type="text"
                                                ng-model="row.counterparty_id"
                                                uib-typeahead="counterparty as counterparty.counterparty_key for counterparty in counterparties | filter:{counterparty_key:$viewValue}"
@@ -264,16 +263,16 @@
                                                typeahead-min-length="0"
                                                >
                                     </td>
-                                    <td ng-if="type == 'trading' && (userType == 'Theorem' || userType == 'Management')">
+                                    <td ng-if="type == 'trading' && (userType == 'Theorem' || userType == 'Management' || userType == 'Trustee')">
                                         <h5>
                                             {{row.counterparty_id}}
                                         </h5>
                                     </td>
-                                    <td ng-if="type == 'normal' && userType != 'Theorem' && userType != 'Management'">
+                                    <td ng-if="type == 'normal' && userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'">
                                         <button style="width: 33px" class="btn btn-sm blue" ng-click="details(row, edit)"><i class="fa fa-cogs"></i></button>
                                         <button style="width: 33px" class="btn btn-sm red margin-bottom" ng-click="deleteRow(row)"><i class="fa fa-times"></i></button>
                                     </td>
-                                    <td ng-if="type == 'trading' && userType != 'Theorem' && userType != 'Management'" style="white-space:nowrap">
+                                    <td ng-if="type == 'trading' && userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'" style="white-space:nowrap">
                                         <a href=""
                                            style="width: 50px"
                                            ng-if="row.legal_confirm == 0 && (table == 'citi_unsettled_transactions' || table == 'citi_all_transactions')"
@@ -312,7 +311,7 @@
                                         </a>
                                         <button class="btn btn-sm white" ng-click="details(row, view)">Details</button>
                                     </td>
-                                    <td ng-if="userType == 'Theorem' || userType == 'Management'">
+                                    <td ng-if="userType == 'Theorem' || userType == 'Management' || userType == 'Trustee'">
                                         <button class="btn btn-sm white" ng-click="details(row, view)">Details</button>
                                     </td>
                                 </tr>
