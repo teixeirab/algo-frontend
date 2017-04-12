@@ -88,8 +88,8 @@ angular.module('FlexPanelApp')
                 else if ($scope.tab == 'equity'){
                     $scope.query_name = 'reporting_equity_view'
                 }
-                else if ($scope.tab == 'loan'){
-                    $scope.query_name = 'reporting_loan_view'
+                else if ($scope.tab == 'variation'){
+                    $scope.query_name = 'reporting_variation_view'
                 }
                 SqlService
                     .viewData($scope.query_name, '0')

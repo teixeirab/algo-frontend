@@ -224,126 +224,25 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="row in data" id="exportable">
-                                <td ng-if="fields[0].label" ng-switch on="fields[0].type">
+                                <td ng-repeat="field in fields"
+                                    ng-if="field.label"
+                                    ng-switch on="field.type">
                                     <h5 ng-switch-when='date'>
-                                        {{row[fields[0].name] | date }}
+                                        {{row[field.name] | date }}
                                     </h5>
                                     <h5 ng-switch-when='varchar'>
-                                        {{row[fields[0].name] | limitTo: 20}}
+                                        {{row[field.name] | limitTo: 50}}
                                     </h5>
                                     <h5 ng-switch-when="currency">
-                                        {{row[fields[0].name] | currency}}
+                                        {{row[field.name] | currency}}
                                     </h5>
                                     <h5 ng-switch-when="number">
-                                        {{row[fields[0].name] | number}}
+                                        {{row[field.name] | number}}
                                     </h5>
-                                    <button ng-switch-when="button">
-                                        {{row[fields[0].name]}}
-                                    </button>
+                                    <h5 ng-switch-when="percentage">
+                                        {{row[field.name] * 100 | number:2}}%
+                                    </h5>
                                 </td>
-                                <td ng-if="fields[1].label" ng-switch on="fields[1].type">
-                                    <h5 ng-switch-when='date'>
-                                        {{row[fields[1].name] | date }}
-                                    </h5>
-                                    <h5 ng-switch-when='varchar'>
-                                        {{row[fields[1].name] | limitTo: 20}}
-                                    </h5>
-                                    <h5 ng-switch-when="currency">
-                                        {{row[fields[1].name] | currency}}
-                                    </h5>
-                                    <h5 ng-switch-when="number">
-                                        {{row[fields[1].name] | number}}
-                                    </h5>
-                                    <button ng-switch-when="button">
-                                        {{row[fields[1].name]}}
-                                    </button>
-                                </td>
-                                <td ng-if="fields[2].label" ng-switch on="fields[2].type">
-                                    <h5 ng-switch-when='date'>
-                                        {{row[fields[2].name] | date }}
-                                    </h5>
-                                    <h5 ng-switch-when='varchar'>
-                                        {{row[fields[2].name] | limitTo: 20}}
-                                    </h5>
-                                    <h5 ng-switch-when="currency">
-                                        {{row[fields[2].name] | currency}}
-                                    </h5>
-                                    <h5 ng-switch-when="number">
-                                        {{row[fields[2].name] | number}}
-                                    </h5>
-                                    <button ng-switch-when="button">
-                                        {{row[fields[2].name]}}
-                                    </button>
-                                </td>
-                                <td ng-if="fields[3].label" ng-switch on="fields[3].type">
-                                    <h5 ng-switch-when='date'>
-                                        {{row[fields[3].name] | date }}
-                                    </h5>
-                                    <h5 ng-switch-when='varchar'>
-                                        {{row[fields[3].name] | limitTo: 20}}
-                                    </h5>
-                                    <h5 ng-switch-when="currency">
-                                        {{row[fields[3].name] | currency}}
-                                    </h5>
-                                    <h5 ng-switch-when="number">
-                                        {{row[fields[3].name] | number}}
-                                    </h5>
-                                    <button ng-switch-when="button">
-                                        {{row[fields[3].name]}}
-                                    </button>
-                                </td>
-                                <td ng-if="fields[4].label" ng-switch on="fields[4].type">
-                                    <h5 ng-switch-when='date'>
-                                        {{row[fields[4].name] | date }}
-                                    </h5>
-                                    <h5 ng-switch-when='varchar'>
-                                        {{row[fields[4].name] | limitTo: 20}}
-                                    </h5>
-                                    <h5 ng-switch-when="currency">
-                                        {{row[fields[4].name] | currency}}
-                                    </h5>
-                                    <h5 ng-switch-when="number">
-                                        {{row[fields[4].name] | number}}
-                                    </h5>
-                                    <button ng-switch-when="button">
-                                        {{row[fields[4].name]}}
-                                    </button>
-                                </td>
-                                <td ng-if="fields[5].label" ng-switch on="fields[5].type">
-                                    <h5 ng-switch-when='date'>
-                                        {{row[fields[5].name] | date }}
-                                    </h5>
-                                    <h5 ng-switch-when='varchar'>
-                                        {{row[fields[5].name] | limitTo: 20}}
-                                    </h5>
-                                    <h5 ng-switch-when="currency">
-                                        {{row[fields[5].name] | currency}}
-                                    </h5>
-                                    <h5 ng-switch-when="number">
-                                        {{row[fields[5].name] | number}}
-                                    </h5>
-                                    <button ng-switch-when="button">
-                                        {{row[fields[5].name]}}
-                                    </button>
-                                </td>
-                                <td ng-if="fields[6].label" ng-switch on="fields[6].type">
-                                    <h5 ng-switch-when='date'>
-                                        {{row[fields[6].name] | date }}
-                                    </h5>
-                                    <h5 ng-switch-when='varchar'>
-                                        {{row[fields[6].name] | limitTo: 20}}
-                                    </h5>
-                                    <h5 ng-switch-when="currency">
-                                        {{row[fields[6].name] | currency}}
-                                    </h5>
-                                    <h5 ng-switch-when="number">
-                                        {{row[fields[6].name] | number}}
-                                    </h5>
-                                    <button ng-switch-when="button">
-                                        {{row[fields[6].name]}}
-                                    </button>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                         <div class="col-md-8 col-sm-12">

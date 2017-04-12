@@ -35,6 +35,8 @@ angular.module('FlexPanelApp')
 
         ];
 
+        var percentageFields = ['interest_rate', '% Funded'];
+
         // initializes root scope variables
         $rootScope.rowsShowing = Number($scope.rowsShowing);
         $rootScope.data = [];
@@ -157,6 +159,10 @@ angular.module('FlexPanelApp')
 
                         else if (currencyFields.indexOf(field)  >= 0) {
                             field_type = "currency";
+                        }
+
+                        else if (percentageFields.indexOf(field)  >= 0) {
+                            field_type = "percentage";
                         }
 
                         else field_type = "varchar";

@@ -250,7 +250,7 @@
                                             {{row[field.name] | number}}
                                         </h5>
                                         <h5 ng-switch-when="percentage">
-                                            {{row[field.name] * 100 | number:2}}a%
+                                            {{row[field.name] * 100 | number:2}}%
                                         </h5>
                                     </td>
                                     <td ng-if="type == 'trading' && userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'">

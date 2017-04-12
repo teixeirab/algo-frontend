@@ -7,7 +7,7 @@
                 <span class="caption-subject font-dark sbold uppercase">{{info.table_comment}}</span>
             </div>
         </div>
-        <div class="portlet-body form" ng-if="table != 'citi_unsettled_transactions' && table != 'citi_all_transactions' && table != 'citi_available_position' && userType != 'Theorem' && userType =! 'Trustee'">
+        <div class="portlet-body form" ng-if="table != 'citi_unsettled_transactions' && table != 'citi_all_transactions' && table != 'citi_available_position' && userType != 'Theorem' && userType != 'Trustee'">
             <form class="form-horizontal" role="form">
                 <div class="form-body row">
                     <div class="form-group col-md-12" ng-repeat="field in fields" ng-switch on="field.type">
