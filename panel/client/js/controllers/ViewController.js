@@ -31,7 +31,7 @@ angular.module('FlexPanelApp')
         var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
         var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
             'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable',
-            'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received'
+            'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed'
 
         ];
 
