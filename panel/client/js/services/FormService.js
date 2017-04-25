@@ -4,11 +4,10 @@
         .module("FlexPanelApp")
         .factory("FormService", FormService);
 
-    function FormService($rootScope, SqlService, $state) {
+    function FormService($rootScope, SqlService, $state, Notification) {
         //initializes controller variables
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added", 'trade_date', 'trade_id',
-            'legal_sent', 'legal_received', 'wire_confirm', 'interest_confirm', 'info_id', 'counterparty_id',
-            'apikey', 'last_access', 'dt_joined'
+             'wire_confirm', 'interest_confirm', 'info_id', 'counterparty_id', 'apikey', 'last_access', 'dt_joined', 'legal_confirm'
           ];
 
         var api = {
@@ -22,9 +21,11 @@
             SqlService
                 .addOne(table, input)
                 .then(function (response){
-                    if(response.data) {
+                    if(response.status == 200) {
                         $state.go('manage', {table: table});
+                        Notification.success({message: 'Added successfully'})
                     }
+                    else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
         }
 
@@ -33,10 +34,13 @@
             SqlService
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
-                    if(response.data) {
-                        $rootScope.modalInstance.dismiss('cancel');
-                        $rootScope.$broadcast('resetTable');
+                    if(response.status == 200) {
+                        if ($rootScope.modalInstance){
+                            $rootScope.$broadcast('resetTable');
+                            $rootScope.modalInstance.dismiss('cancel');
+                        }
                     }
+                    else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
         }
 

@@ -1,6 +1,7 @@
 angular
     .module('FlexPanelApp')
-    .controller('ManageController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state, $uibModal) {
+    .controller('ManageController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService,
+                                             TableService, Notification, FormService, $state, $uibModal) {
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
             App.initAjax();
@@ -14,11 +15,13 @@ angular
         $scope.table = $stateParams.table;
         $scope.page = 1;
         $scope.rowsShowing = "10";
+        $scope.valueFilter = "All";
         $scope.t = {};
         $scope.ctrl = {};
+        $scope.userType = $rootScope.currentUser.user_type;
 
         // initializes controller variables
-        var pk = [];
+        var primary_key = [];
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added" ,
             'trade_date', 'info_id', 'client_reference', 'custodian_reference', 'sec_id_type',
             'sec_id', 'issue_name', 'settled_quantity', 'settlement_amount', 'iso_country_name',
@@ -40,6 +43,7 @@ angular
         $scope.reset = reset;
         $scope.deleteRow = deleteRow;
         $scope.details = details;
+        $scope.filter = filter;
 
         $scope.nextPage = TableService.nextPage;
         $scope.previousPage = TableService.previousPage;
@@ -97,9 +101,25 @@ angular
                     .findAll($scope.table)
                     .then(function (response){
                         if(response.data) {
-                            $rootScope.data = response.data;
-                            $rootScope.dataBackup = response.data;
+                            if ($scope.table == 'citi_all_transactions'){
+                                $rootScope.data = response.data.filter(function (el){
+                                    return el.account_id == '6017709722';
+                                });
+                                $rootScope.direction = false;
+                                TableService.sort('settlement_date')
+                            }
+                            else $rootScope.data = response.data;
+                            $rootScope.dataBackup = $rootScope.data;
                             filterData();
+                        }
+                    });
+            }
+            if ($scope.type == 'trading'){
+                SqlService
+                    .viewData('unique_counterparties')
+                    .then(function (response){
+                        if(response.data) {
+                            $scope.counterparties = response.data;
                         }
                     });
             }
@@ -128,7 +148,7 @@ angular
             while (x < $rootScope.fieldsArray.length){
                 var field = $rootScope.fieldsArray[x];
                 if (field.column_key == 'PRI'){
-                    pk = field.column_name
+                    primary_key = field.column_name
                 }
                 if (y < 7){
                     if (bad_keys.indexOf(field.column_name) == -1){
@@ -175,47 +195,87 @@ angular
             }
             var id = row[primary_key];
 
-            SqlService
-                .deleteOne($scope.table, id, primary_key)
-                .then(function (response){
-                    if(response.data) {
+            $rootScope.modalInstance = $uibModal.open({
+                templateUrl: 'views/confirmation.html',
+                controller: 'ConfirmationController',
+                size: 'md',
+                resolve: {
+                    type : function () {
+                        return  'Delete'
+                    },
+                    table : function () {
+                        return  $scope.table
+                    },
+                    id : function () {
+                        return  id
+                    },
+                    primary_key : function () {
+                        return  primary_key
+                    },
+                    field : function(){
+                        return null
+                    },
+                    row : function(){
+                        return null
                     }
-                });
-
-            SqlService
-                .findAll($scope.table)
-                .then(function (response){
-                    if(response.data) {
-                        $rootScope.data = response.data;
-                        $rootScope.dataBackup = response.data;
-                        filterData();
-                    }
-                });
-            filterData();
+                }
+            });
         }
 
         // specific functions for different types of pages
         function uploadCounterparties(data){
             var x = 0;
             while(x < data.length){
-                var row = data[x];
-                var input = {};
-                var id = row[pk];
-                input.counterparty_id = row.counterparty_id;
-                SqlService
-                    .editOne($scope.table, pk, id, input)
-                    .then(function (response){
-                        if(response.data) {
+                var id = data[x][primary_key];
+                if(data[x].counterparty_id.counterparty_key){
+                    data[x].counterparty_id = data[x].counterparty_id.counterparty_key;
+                }
 
+                var input = {};
+
+                for (var key in data[x]) {
+                    if (data[x].hasOwnProperty(key)) {
+                        if (key.toString() == 'series_number' || key.toString() == '$$hashKey'){
                         }
-                    });
+                        else {input[key] = data[x][key]}
+                    }
+                }
+
+                FormService.edit(input, $scope.table, primary_key, id);
+
                 x++;
             }
+            Notification.success({message: 'Counterparties submitted'});
+        }
+
+        function filter(valueFilter){
+            if (valueFilter == 'All'){
+                init()
+            }
+            else if (valueFilter == 'pending_legal'){
+                $rootScope.data = $rootScope.data.filter(function (el){
+                    return el.legal_confirm == 0;
+                });
+                filterData();
+            }
+            else if (valueFilter == 'pending_wires'){
+                $rootScope.data = $rootScope.data.filter(function (el){
+                    return el.wire_confirm == 0;
+                });
+                filterData();
+            }
+            else if (valueFilter == 'completed'){
+                $rootScope.data = $rootScope.data.filter(function (el){
+                    return el.legal_confirm == 1 && el.wire_confirm == 1;
+                });
+                filterData();
+            }
+
         }
 
         function confirm(row, field){
-            var input = {};
-            var id = row[pk];
+            var input = row;
+            var id = row[primary_key];
 
             if(field == 'wire_confirm' && row.wire_confirm == 0){
                 $rootScope.modalInstance = $uibModal.open({
@@ -236,21 +296,34 @@ angular
                 });
             }
             else {
-                if (row[field] == 0){
-                    row[field] = 1;
-                    input[field] = 1;
-                }
-                else if (row[field] == 1){
-                    input[field] = 0;
-                    row[field] = 0;
-                }
-                SqlService
-                    .editOne($scope.table, pk, id, input)
-                    .then(function (response){
-                        if(response.data) {
+                $rootScope.modalInstance = $uibModal.open({
+                    templateUrl: 'views/confirmation.html',
+                    controller: 'ConfirmationController',
+                    size: 'md',
+                    resolve: {
+                        type : function () {
+                            return  'Confirm'
+                        },
+                        table : function () {
+                            return  $scope.table
+                        },
+                        id : function () {
+                            return  id
+                        },
+                        primary_key : function () {
+                            return  primary_key
+                        },
+                        row : function(){
+                            return row
+                        },
+                        field : function(){
+                            return field
                         }
-                    });
+                    }
+                });
+
             }
+
         }
 
         function details(row, type){
@@ -272,7 +345,7 @@ angular
                     id : function () {
                         return  id
                     },
-                    pk : function () {
+                    primary_key : function () {
                         return  primary_key
                     },
                     table : function () {

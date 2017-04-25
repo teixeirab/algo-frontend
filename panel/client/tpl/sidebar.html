@@ -33,24 +33,24 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a href="#/manage/portfolio_managers">
+            <a href="#/manage/portfolio_managers" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management', 'Trustee'])">
                 <i class="icon-users"></i>
                 <span class="title">Portfolio Managers</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management', 'Trustee'])">
             <a href="#/manage/borrowers">
                 <i class="icon-wallet"></i>
                 <span class="title">Borrowers</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Management'])">
             <a href="#/manage/counterparties">
                 <i class="icon-globe"></i>
                 <span class="title">Counterparties</span>
             </a>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations','Accounting', 'Theorem', 'Trustee'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-refresh"></i>
                 <span class="title">Trades</span>
@@ -59,43 +59,38 @@
             <ul class="sub-menu">
                 <li><a href="#/manage/citi_unsettled_transactions"><span>Pending Trades</span></a></li>
                 <li><a href="#/manage/citi_all_transactions"><span>Settled Trades</span></a></li>
+                <li><a href="#/manage/series_subscriptions"><span>Series Subscriptions</span></a></li>
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations', 'Theorem', 'Trustee', 'Management'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-bulb"></i>
                 <span class="title">Invt & Pricing</span>
                 <span class="arrow"></span>
             </a>
             <ul class="sub-menu">
-                <li><a href="#/view/inventory/date/series_names"><span>Inventory</span></a></li>
+                <li><a href="#/view/inventory_view/date/series_names"><span>Inventory</span></a></li>
+                <li><a href="#/view/funding_view/date/series_names"><span>Funding</span></a></li>
                 <li><a href="#/view/prices_per_period/date/series_names"><span>Series Prices</span></a></li>
                 <li><a href="#/view/price_tables/series_number/series_price_table"><span>Price Tables</span></a></li>
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Operations','Management'])">
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-bar-chart"></i>
-                <span class="title">Stats</span>
-                <span class="arrow"></span>
-            </a>
-            <ul class="sub-menu">
-                <li><a href="#/graph/historic/na/na"><span>Historic</span></a></li>
-                <li><a href="#/graph/regional/region/series_product_information"><span>Regional</span></a></li>
-            </ul>
-        </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Trading','Accounting','Operations', 'Theorem', 'Trustee'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-flag"></i>
                 <span class="title">Interest</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
-                <li data-ng-if="showTab(['Admin','Operations'])"><a href="#/manage/advances_info"><span>Advances Info</span></a></li>
-                <li data-ng-if="showTab(['Admin'])"><a href="#/manage/advances_repayments"><span>Principal Repayments</span></a></li>
-                <li data-ng-if="showTab(['Admin','Trading','Accounting'])"><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
-                <li data-ng-if="showTab(['Admin','Trading','Accounting'])"><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
-                <li data-ng-if="showTab(['Admin'])"><a href="#/view/interest_calculation/series_number/advances_info"><span>View Calc Details</span></a></li>
+                <li><a href="#/manage/advances_info"><span>Advances Info</span></a></li>
+                <li><a href="#/manage/advances_repayments"><span>Principal Repayments</span></a></li>
+                <li><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
+
+                <!--
+                <!<li><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
+                <li><a href="#/view/interest_calculation/series_number/advances_info"><span>View Calc Details</span></a></li>
+
+                -->
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
@@ -107,24 +102,23 @@
             <ul class="sub-menu">
                 <li><a href="#/manage/theorem_balance_sheet"><span>Balance Sheet</span></a></li>
                 <li><a href="#/manage/theorem_income_statement"><span>Income Statement</span></a></li>
+                <!--
                 <li><a href="#/graph/performance"><span>Performance</span></a></li>
                 <li><a href="#/view/wires"><span>Wires</span></a></li>
                 <li><a href="#/view/invoices"><span>Invoices</span></a></li>
+                -->
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations', 'Trustee'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-calendar"></i>
                 <span class="title">Reporting</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
-                <li><a href=""><span>FVC Reporting</span></a></li>
-                <li><a href="#/view/ib_positions/date/series_names"><span>IB Holdings</span></a></li>
-                <li><a href="#/view/ib_activity/series_number/ib_activity"><span>IB Trades</span></a></li>
-                <li><a href="#/view/pershing_positions/date/series_names"><span>Pershing Holdings</span></a></li>
-                <li><a href="#"><span>Citibank Holdings</span></a></li>
-                <li><a href="#"><span>Citibank Trades</span></a></li>
+                <li><a href="#/reporting/setup"><span>Quarterly Reporting</span></a></li>
+                <li><a href="#/view/holdings_view/date/series_product_information"><span>Holdings</span></a></li>
+                <li><a href="#/view/trades_view/series_number/series_product_information"><span>Trades</span></a></li>
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin'])">
@@ -137,6 +131,7 @@
                 <li><a href="#/manage/ftp_translation"><span>FTP Translation</span></a></li>
             </ul>
         </li>
+
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>

@@ -24,13 +24,18 @@ angular.module('FlexPanelApp')
         // default values
 
         if ($scope.selectType == 'date'){
-            $scope.date.value = '2016-12-30'; // new Date().toISOString().slice(0,10);
-        }
+            $scope.date.value = new Date().toISOString().slice(0,10); // = '2016-12-30';
+        };
 
         // initializes controller variables
         var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
         var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
-            'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable'];
+            'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable',
+            'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed'
+
+        ];
+
+        var percentageFields = ['interest_rate', '% Funded'];
 
         // initializes root scope variables
         $rootScope.rowsShowing = Number($scope.rowsShowing);
@@ -82,11 +87,10 @@ angular.module('FlexPanelApp')
             }
             else if ($stateParams.selectType != 'date') {
                 SqlService
-                    .findOptions($stateParams.selectType, $scope.table)
+                    .findOptions($stateParams.selectType, $scope.table, $scope.query_name)
                     .then(function (response){
                         if(response.data) {
                             $scope.options = response.data;
-                            console.log($scope.options)
                             $scope.item = $scope.options[0];
                             findAll($scope.item.value);
                         }
@@ -155,6 +159,10 @@ angular.module('FlexPanelApp')
 
                         else if (currencyFields.indexOf(field)  >= 0) {
                             field_type = "currency";
+                        }
+
+                        else if (percentageFields.indexOf(field)  >= 0) {
+                            field_type = "percentage";
                         }
 
                         else field_type = "varchar";

@@ -52,12 +52,15 @@
                                 <option value="1">Completed {{field.label}}</option>
                             </select>
                         </div>
+                        <div class="col-md-2">
+                            <h5 ng-if="field.type == 'varchar'">{{input[field.name].length}}</h5>
+                        </div>
                     </div>
                 </div>
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-2 col-md-11">
-                            <button ng-click="submit(input, table)" class="btn green">Add </button>
+                            <button ng-click="submit(input, table)" class="btn green">Add</button>
                         </div>
                     </div>
                 </div>

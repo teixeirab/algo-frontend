@@ -22,10 +22,10 @@
                     <i class="fa fa-comments"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> 10 </div>
-                    <div class="desc"> Total Users </div>
+                    <div class="number"> {{info.nominal_issued | currency:"USD$"}} mm</div>
+                    <div class="desc">Nominal Issued</div>
                 </div>
-                <a class="more" href="#/dashboard/manage/users"> View more
+                <a class="more" href="#/graph/historic/na/na"> View more
                     <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
@@ -36,10 +36,10 @@
                     <i class="fa fa-bar-chart-o"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> 820M$ </div>
-                    <div class="desc"> Total NAV </div>
+                    <div class="number"> {{info.total_nav | currency:"USD$"}} mm</div>
+                    <div class="desc">Total Funded</div>
                 </div>
-                <a class="more" href="#/stats/series"> View more
+                <a class="more" href="#/graph/historic/na/na"> View more
                     <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
@@ -50,10 +50,10 @@
                     <i class="fa fa-shopping-cart"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> 71 </div>
-                    <div class="desc"> Total Series </div>
+                    <div class="number"> {{info.series_issued}} </div>
+                    <div class="desc">Total Series</div>
                 </div>
-                <a class="more" href="#/dashboard/manage/series"> View more
+                <a class="more" href="#/manage/series_product_information"> View more
                     <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
@@ -64,10 +64,10 @@
                     <i class="fa fa-globe"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> +239% </div>
-                    <div class="desc"> Yearly Growth </div>
+                    <div class="number"> {{info.number_of_transactions}} </div>
+                    <div class="desc">Number of Transactions</div>
                 </div>
-                <a class="more" href="#/stats/geographic"> View more
+                <a class="more" href="#/manage/citi_all_transactions"> View more
                     <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
@@ -81,77 +81,25 @@
                 <div class="portlet-title">
                     <div class="caption caption-md">
                         <i class="icon-settings font-green"></i>
-                        <span class="caption-subject font-green bold uppercase">Sales Summary</span>
-                        <span class="caption-helper hide">weekly stats...</span>
+                        <span class="caption-subject font-green bold uppercase">Issuance Summary</span>
                     </div>
                     <div class="actions">
-                        <div class="btn-group btn-group-devided" data-toggle="buttons">
-                            <label class="btn dark btn-outline btn-circle btn-sm active">
-                                <input type="radio" name="options" class="toggle" id="option1">Today</label>
-                            <label class="btn dark btn-outline btn-circle btn-sm">
-                                <input type="radio" name="options" class="toggle" id="option2">Week</label>
-                            <label class="btn dark btn-outline btn-circle btn-sm">
-                                <input type="radio" name="options" class="toggle" id="option2">Month</label>
-                        </div>
+                        <button class="btn dark btn-outline a btn-circle btn-sm toggle"
+                                name="options" ng-click="filterByPeriod('YTD')">
+                            YTD
+                        </button>
+                        <button class="btn dark btn-outline btn-circle btn-sm toggle"
+                                name="options" ng-click="filterByPeriod('TTW')">
+                            TTM
+                        </button>
+                        <button class="btn dark btn-outline btn-circle btn-sm toggle"
+                                name="options" ng-click="filterByPeriod('All')">
+                            All
+                        </button>
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="row list-separated">
-                        <div class="col-md-3 col-sm-3 col-xs-6">
-                            <div class="font-grey-mint font-sm"> Total Sales </div>
-                            <div class="uppercase font-hg font-red-flamingo"> 13760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3 col-xs-6">
-                            <div class="font-grey-mint font-sm"> Revenue </div>
-                            <div class="uppercase font-hg font-green"> 4760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3 col-xs-6">
-                            <div class="font-grey-mint font-sm"> Expenses </div>
-                            <div class="uppercase font-hg font-purple"> 1760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3 col-xs-6">
-                            <div class="font-grey-mint font-sm"> Growth </div>
-                            <div class="uppercase font-hg font-blue"> 9760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="list-separated list-inline-xs hide">
-                        <li>
-                            <div class="font-grey-mint font-sm"> Total Sales </div>
-                            <div class="uppercase font-hg font-red-flamingo"> 13760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </li>
-                        <li> </li>
-                        <li class="border">
-                            <div class="font-grey-mint font-sm"> Revenue </div>
-                            <div class="uppercase font-hg font-green"> 4760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </li>
-                        <li class="divider"> </li>
-                        <li>
-                            <div class="font-grey-mint font-sm"> Expenses </div>
-                            <div class="uppercase font-hg font-purple"> 1760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </li>
-                        <li class="divider"> </li>
-                        <li>
-                            <div class="font-grey-mint font-sm"> Growth </div>
-                            <div class="uppercase font-hg font-blue"> 9760
-                                <span class="font-lg font-grey-mint">$</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <div id="sales_statistics" class="portlet-body-morris-fit morris-chart" style="height: 260px"> </div>
+                    <div id="chart_1" class="chart" style="height: 260px;"> </div>
                 </div>
             </div>
             <!-- END PORTLET-->
@@ -162,109 +110,45 @@
                 <div class="portlet-title">
                     <div class="caption caption-md">
                         <i class="icon-bar-chart font-red"></i>
-                        <span class="caption-subject font-red bold uppercase">Member Activity</span>
-                        <span class="caption-helper hide">weekly stats...</span>
+                        <span class="caption-subject font-red bold uppercase">Regional Activity</span>
                     </div>
                     <div class="actions">
-                        <div class="btn-group btn-group-devided" data-toggle="buttons">
-                            <label class="btn green btn-outline btn-circle btn-sm active">
-                                <input type="radio" name="options" class="toggle">Week</label>
-                            <label class="btn red btn-outline btn-circle btn-sm">
-                                <input type="radio" name="options" class="toggle">Month</label>
-                            <label class="btn blue btn-outline btn-circle btn-sm">
-                                <input type="radio" name="options" class="toggle">Year</label>
-                        </div>
+                        <button class="btn dark btn-outline btn-circle btn-sm toggle"
+                                name="options" ng-click="filterByType('All')">
+                            All
+                        </button>
+                        <button class="btn dark btn-outline btn-circle btn-sm toggle"
+                                name="options" ng-click="filterByType('Fund')">
+                            Funds
+                        </button>
+                        <button class="btn dark btn-outline btn-circle btn-sm toggle"
+                                name="options" ng-click="filterByType('Wrapper')">
+                            Wrappers
+                        </button>
+                        <button class="btn dark btn-outline btn-circle btn-sm toggle"
+                                name="options" ng-click="filterByType('Loan')">
+                            Loans
+                        </button>
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="row number-stats margin-bottom-30">
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            <div class="stat-left">
-                                <div class="stat-chart">
-                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                    <div id="sparkline_bar"></div>
-                                </div>
-                                <div class="stat-number">
-                                    <div class="title"> Total </div>
-                                    <div class="number"> 2460 </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            <div class="stat-right">
-                                <div class="stat-chart">
-                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                    <div id="sparkline_bar2"></div>
-                                </div>
-                                <div class="stat-number">
-                                    <div class="title"> New </div>
-                                    <div class="number"> 719 </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-scrollable table-scrollable-borderless">
                         <table class="table table-hover table-light">
                             <thead>
                                 <tr class="uppercase">
-                                    <th colspan="2"> MEMBER </th>
-                                    <th> Earnings </th>
-                                    <th> CASES </th>
-                                    <th> CLOSED </th>
-                                    <th> RATE </th>
+                                    <th> Region </th>
+                                    <th> Nominal Issued </th>
+                                    <th> Funded </th>
+                                    <th> Series Issued </th>
+                                    <th> # of Transactions </th>
                                 </tr>
                             </thead>
-                            <tr>
-                                <td class="fit">
-                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar4.jpg"> </td>
-                                <td>
-                                    <a href="javascript:;" class="primary-link">Brain</a>
-                                </td>
-                                <td> $345 </td>
-                                <td> 45 </td>
-                                <td> 124 </td>
-                                <td>
-                                    <span class="bold font-green">80%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fit">
-                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar5.jpg"> </td>
-                                <td>
-                                    <a href="javascript:;" class="primary-link">Nick</a>
-                                </td>
-                                <td> $560 </td>
-                                <td> 12 </td>
-                                <td> 24 </td>
-                                <td>
-                                    <span class="bold font-green">67%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fit">
-                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar6.jpg"> </td>
-                                <td>
-                                    <a href="javascript:;" class="primary-link">Tim</a>
-                                </td>
-                                <td> $1,345 </td>
-                                <td> 450 </td>
-                                <td> 46 </td>
-                                <td>
-                                    <span class="bold font-green">98%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fit">
-                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar7.jpg"> </td>
-                                <td>
-                                    <a href="javascript:;" class="primary-link">Tom</a>
-                                </td>
-                                <td> $645 </td>
-                                <td> 50 </td>
-                                <td> 89 </td>
-                                <td>
-                                    <span class="bold font-green">58%</span>
-                                </td>
+                            <tr ng-repeat="row in regional | filter:type">
+                                <td>{{row.region}}</td>
+                                <td>{{row.nominal_issued | currency:"$"}}</td>
+                                <td>{{row.total_nav | currency:"$"}}</td>
+                                <td>{{row.series_issued}}</td>
+                                <td>{{row.number_of_transactions}}</td>
                             </tr>
                         </table>
                     </div>
@@ -274,9 +158,3 @@
         </div>
     </div>
 </div>
-<!-- END MAIN CONTENT -->
-<!-- BEGIN MAIN JS & CSS -->
-<script>
-    Dashboard.init();
-</script>
-<!-- BEGIN MAIN JS & CSS -->

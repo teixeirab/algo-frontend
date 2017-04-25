@@ -1,6 +1,6 @@
 angular.module('FlexPanelApp')
     .controller('WireController',
-    function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, $state, table, id, input) {
+    function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, $state, table, id, input, Notification) {
         $scope.$on('$viewContentLoaded', function () {
             // initialize core components
             App.initAjax();
@@ -17,11 +17,22 @@ angular.module('FlexPanelApp')
         $scope.cancel = cancel;
 
 
-        function submit(input) {
-            delete input["series_number"];
-            delete input["trade_date"];
-            delete input["settlement_date"];
-            delete input["dt_added"];
+        function submit(row) {
+            var input = {};
+            for (var key in row) {
+                if (row.hasOwnProperty(key)) {
+                    if (key.toString() == 'series_number' ||
+                        key.toString() == '$$hashKey' ||
+                        key.toString() == "trade_date" ||
+                        key.toString() == "settlement_date" ||
+                        key.toString() == "dt_added"
+                    ){
+                    }
+                    else {input[key] = row[key]}
+                }
+            }
+
+
             input.wire_confirm = 1;
 
             SqlService
@@ -29,9 +40,10 @@ angular.module('FlexPanelApp')
                 .then(function (response){
                     if(response.data) {
                         $rootScope.modalInstance.dismiss('cancel');
+                        Notification.success({message: 'Wire submitted.'})
                     }
+                    else Notification.error({message: 'Something went wrong. Please check connection'})
                 });
-
         }
 
         function cancel(){

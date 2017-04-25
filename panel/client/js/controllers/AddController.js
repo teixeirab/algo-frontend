@@ -55,17 +55,4 @@ angular.module('FlexPanelApp')
             }
         }
         init();
-
-        // form functions
-        function initTrades(){
-            SqlService
-                .findOptions('isin', $scope.table)
-                .then(function (response){
-                    if(response.data) {
-                        $scope.options = response.data;
-
-                    }
-                });
-
-        }
     });

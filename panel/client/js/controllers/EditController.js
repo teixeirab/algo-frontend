@@ -1,6 +1,6 @@
 angular.module('FlexPanelApp')
     .controller('EditController',
-        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, $state, table, id, pk) {
+        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, $state, table, id, primary_key) {
             $scope.$on('$viewContentLoaded', function () {
                 // initialize core components
                 App.initAjax();
@@ -14,6 +14,7 @@ angular.module('FlexPanelApp')
             // initializes scope variables
             $scope.table = table;
             $scope.input = {};
+            $scope.userType = $rootScope.currentUser.user_type;
             $rootScope.data = {};
             $rootScope.fields = [];
             $rootScope.pk = '';
@@ -27,8 +28,9 @@ angular.module('FlexPanelApp')
             // initializes scope functions
             $scope.submit = FormService.edit;
             $scope.submit = function(input, table) {
-                return FormService.edit(input, table, pk, id)
+                return FormService.edit(input, table, primary_key, id)
             };
+            $scope.cancel = cancel;
 
             // initializes broadcast listeners
             $scope.$on('fields', function(event, result){
@@ -57,7 +59,7 @@ angular.module('FlexPanelApp')
                               FormService.setFields()
                             }
                             SqlService
-                              .findOne($scope.table, id, pk)
+                              .findOne($scope.table, id, primary_key)
                               .then(function (response) {
                                 if (response.data) {
                                   $rootScope.data = response.data[0];
@@ -77,4 +79,9 @@ angular.module('FlexPanelApp')
                     x++;
                 }
             }
+
+            function cancel(){
+                $rootScope.modalInstance.dismiss('cancel');
+            }
+
         });
