@@ -138,6 +138,7 @@
                                 <tr class="uppercase">
                                     <th> Region </th>
                                     <th> Nominal Issued </th>
+                                    <th> Nominal Active </th>
                                     <th> Funded </th>
                                     <th> Series Issued </th>
                                     <th> # of Transactions </th>
@@ -146,6 +147,7 @@
                             <tr ng-repeat="row in regional | filter:type">
                                 <td>{{row.region}}</td>
                                 <td>{{row.nominal_issued | currency:"$"}}</td>
+                                <td>{{row.nominal_outstanding | currency:"$"}}</td>
                                 <td>{{row.total_nav | currency:"$"}}</td>
                                 <td>{{row.series_issued}}</td>
                                 <td>{{row.number_of_transactions}}</td>
