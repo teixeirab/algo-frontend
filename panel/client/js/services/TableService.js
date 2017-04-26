@@ -96,27 +96,29 @@
         function search(searchText, searchDate, fields){
             var result = [];
             var idata= 0;
-
+            Object.keys(searchText).forEach((header) => {
+              if(!searchText[header] || searchText[header] === '') {
+                searchText[header] = undefined;
+              }
+            })
             if (searchText != {} || searchDate != {}){
-                while (idata < $rootScope.data.length){
-                    var row = $rootScope.data[idata];
+                $rootScope.data.forEach(function(row) {
                     var ifields = 0;
                     for (var field in searchText){
                         var icolumn = String(field).replace("search", "");
-
                         if (searchText[field] != undefined && searchText[field] != "" && (String(row[fields[icolumn].name]).includes(searchText[field]))){
                             result.push(row)
+                            return
                         }
                         else if (fields[ifields] != undefined
-                            && dateC(row[fields[icolumn].name]) >= dateC(searchDate["date" + ifields + "1"])
-                            && dateC(row[fields[0].name]) <= dateC(searchDate["date" + ifields + "1"])){
+                          && dateC(row[fields[icolumn].name]) >= dateC(searchDate["date" + ifields + "1"])
+                          && dateC(row[fields[0].name]) <= dateC(searchDate["date" + ifields + "1"])){
                             result.push(row)
+                            return
                         }
                         ifields++;
                     }
-                    idata++;
-
-                }
+                })
                 $rootScope.data = result;
                 $rootScope.$broadcast('pageReset');
                 $rootScope.$broadcast('filterData');
