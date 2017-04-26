@@ -117,7 +117,7 @@ angular.module('FlexPanelApp')
         function onChange(item){
             $scope.item = item;
             if (item){
-                if ($stateParams.selectType == 'series_number'){
+                if ($stateParams.selectType == 'series_number' || $stateParams.query == 'qb_transaction_list_view'){
                     $rootScope.data = [];
                     findAll(item.value)
                 }
