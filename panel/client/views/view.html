@@ -27,7 +27,7 @@
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <button class="btn btn-sm yellow filter-submit margin-bottom" ng-click="search(t, ctrl, fields)">
+                            <button class="btn btn-sm yellow filter-submit margin-bottom" ng-click="search(t, fields)">
                                 <i class="fa fa-search"></i> Search
                             </button>
                             <button class="btn btn-sm red filter-cancel" ng-click="reset()">
@@ -106,119 +106,23 @@
                         <table style ="overflow: auto" class="table table-striped table-bordered table-hover order-column" ng-if="data.length > 0">
                             <thead>
                             <tr role="row" class="heading" >
-                                <th width="14%" ng-if="fields[0].label">
-                                    <a ng-click="sort(fields[0].name)">
-                                        {{fields[0].label}}&nbsp;
-                                    </a>
-                                </th>
-                                <th width="14%" ng-if="fields[1].label">
-                                    <a ng-click="sort(fields[1].name)">
-                                        {{fields[1].label}}&nbsp;
-                                    </a>
-                                </th>
-                                <th width="14%" ng-if="fields[2].label">
-                                    <a ng-click="sort(fields[2].name)">
-                                        {{fields[2].label}}&nbsp;
-                                    </a>
-                                </th>
-                                <th width="14%" ng-if="fields[3].label">
-                                    <a ng-click="sort(fields[3].name)">
-                                        {{fields[3].label}}&nbsp;
-                                    </a>
-                                </th>
-                                <th width="14%" ng-if="fields[4].label">
-                                    <a ng-click="sort(fields[4].name)">
-                                        {{fields[4].label}}&nbsp;
-                                    </a>
-                                </th>
-                                <th width="14%" ng-if="fields[5].label">
-                                    <a ng-click="sort(fields[5].name)">
-                                        {{fields[5].label}}&nbsp;
-                                    </a>
-                                </th>
-                                <th width="14%" ng-if="fields[6].label">
-                                    <a ng-click="sort(fields[6].name)">
-                                        {{fields[6].label}}&nbsp;
+                                <th width="14%" ng-repeat="field in fields">
+                                    <a ng-click="sort(field.name)">
+                                        {{field.label}}&nbsp;
                                     </a>
                                 </th>
                             </tr>
                             <tr role="row" class="filter">
-                                <td ng-if="fields[0].label">
-                                    <div ng-if='fields[0].type == "date"'>
-                                        <div class="input-group" moment-picker="ctrl.date00" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="From" ng-model="ctrl.date00" ng-model-options="{ updateOn: 'blur' }">
+                                <td ng-repeat="field in fields">
+                                    <div ng-if='field.type == "date"'>
+                                        <div class="input-group" moment-picker="t[field.name].from" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="From" ng-model="t[field.name].from" ng-model-options="{ updateOn: 'blur' }">
                                         </div>
-                                        <div class="input-group" moment-picker="ctrl.date01" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="To" ng-model="ctrl.date01" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                    </div>
-                                    <input ng-if='fields[0].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search0">
-                                </td>
-                                <td ng-if="fields[1].label">
-                                    <div ng-if='fields[1].type == "date"'>
-                                        <div class="input-group" moment-picker="ctrl.date11" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="From" ng-model="ctrl.date11" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                        <div class="input-group" moment-picker="ctrl.date12" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="To" ng-model="ctrl.date12" ng-model-options="{ updateOn: 'blur' }">
+                                        <div class="input-group" moment-picker="t[field.name].to" format="YYYY-MM-DD">
+                                            <input class="form-control" placeholder="To" ng-model="t[field.name].to" ng-model-options="{ updateOn: 'blur' }">
                                         </div>
                                     </div>
-                                    <input ng-if='fields[1].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search1">
-                                </td>
-                                <td ng-if="fields[2].label">
-                                    <div ng-if='fields[2].type == "date"'>
-                                        <div class="input-group" moment-picker="ctrl.date21" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="From" ng-model="ctrl.date21" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                        <div class="input-group" moment-picker="ctrl.date22" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="To" ng-model="ctrl.date22" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                    </div>
-                                    <input ng-if='fields[2].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search2">
-                                </td>
-                                <td ng-if="fields[3].label">
-                                    <div ng-if='fields[3].type == "date"'>
-                                        <div class="input-group" moment-picker="ctrl.date31" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="From" ng-model="ctrl.date31" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                        <div class="input-group" moment-picker="ctrl.date32" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="To" ng-model="ctrl.date32" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                    </div>
-                                    <input ng-if='fields[3].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search3">
-                                </td>
-                                <td ng-if="fields[4].label">
-                                    <div ng-if='fields[4].type == "date"'>
-                                        <div class="input-group" moment-picker="ctrl.date40" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="From" ng-model="ctrl.date40" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                        <div class="input-group" moment-picker="ctrl.date41" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="To" ng-model="ctrl.date41" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                    </div>
-                                    <input ng-if='fields[4].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search4">
-                                </td>
-                                <td ng-if="fields[5].label">
-                                    <div ng-if='fields[5].type == "date"'>
-                                        <div class="input-group" moment-picker="ctrl.date51" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="From" ng-model="ctrl.date51" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                        <div class="input-group" moment-picker="ctrl.date52" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="To" ng-model="ctrl.date52" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                    </div>
-                                    <input ng-if='fields[5].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search5">
-                                </td>
-                                <td ng-if="fields[6].label">
-                                    <div ng-if='fields[6].type == "date"'>
-                                        <div class="input-group" moment-picker="ctrl.date61" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="From" ng-model="ctrl.date61" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                        <div class="input-group" moment-picker="ctrl.date62" format="YYYY-MM-DD">
-                                            <input class="form-control" placeholder="To" ng-model="ctrl.date62" ng-model-options="{ updateOn: 'blur' }">
-                                        </div>
-                                    </div>
-                                    <input ng-if='fields[6].type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t.search6">
+                                    <input ng-if='field.type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t[field.name]">
                                 </td>
                             </tr>
                             </thead>

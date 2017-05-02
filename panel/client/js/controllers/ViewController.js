@@ -17,7 +17,6 @@ angular.module('FlexPanelApp')
         $scope.page = 1;
         $scope.rowsShowing = "10";
         $scope.t = {};
-        $scope.ctrl = {};
         $scope.options = {};
         $scope.item ={};
         $scope.date = {};
