@@ -23,7 +23,7 @@ angular
         var primary_key = [];
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added" ,
             'trade_date', 'info_id', 'client_reference', 'custodian_reference', 'sec_id_type',
-            'sec_id', 'issue_name', 'settled_quantity', 'settlement_amount', 'iso_country_name',
+            'sec_id' , 'settled_quantity', 'settlement_amount', 'iso_country_name',
             'branch_name', 'account_name', 'confirmed_delivers', 'confirmed_receives', 'unconfirmed_delivers',
             'unconfirmed_receives', 'apikey', 'last_access'
         ];
@@ -102,7 +102,7 @@ angular
                         if(response.data) {
                             if ($scope.table == 'citi_all_transactions'){
                                 $rootScope.data = response.data.filter(function (el){
-                                    return el.account_id == '6017709722';
+                                    return el.account_id == '6017709722' && el.series_number > 0;
                                 });
                                 $rootScope.direction = false;
                                 TableService.sort('settlement_date')
@@ -161,8 +161,14 @@ angular
                         else if (field.column_type.indexOf("varchar") !== -1 || field.column_type == 'text') {
                             field_type = "varchar"
                         }
-                        else if (field.column_type.indexOf('enum') !== -1) {
-                            field_type = "varchar"
+                        else if (field.column_type.includes('enum')) {
+                            field_type = 'enum';
+                            var array = field.column_type.replace('enum(', '').replace(')', '').split(',');
+                            var y = 0;
+                            while (y < array.length) {
+                                field_options.push(array[y].replace("'", '').replace("'", ''));
+                                y = y + 1;
+                            }
                         }
                         else if (field.column_type.indexOf('int') !== -1 || field.column_type == 'float' || field.column_type == 'double') {
                             field_type = "number"
@@ -349,6 +355,9 @@ angular
                     },
                     table : function () {
                         return  $scope.table
+                    },
+                    type : function(){
+                        return type
                     }
                 }
             });

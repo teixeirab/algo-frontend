@@ -115,7 +115,10 @@
                                             <input class="form-control" placeholder="To" ng-model="t[field.name].to" ng-model-options="{ updateOn: 'blur' }">
                                         </div>
                                     </div>
-                                    <input ng-if='field.type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t[field.name]">
+                                    <select ng-if='field.type == "enum"' class="form-control input-inline" ng-model="t[field.name]">
+                                        <option ng-repeat="option in field.options" value="{{option}}">{{option}}</option>
+                                    </select>
+                                    <input ng-if='field.type != "date" && field.type != "enum"' type="text" class="form-control form-filter input-sm" ng-model="t[field.name]">
                                 </td>
                                 <td ng-if="type == 'trading' && table != 'citi_available_position'" style="width: 8%">
                                     <button class="btn btn-sm green filter-submit margin-bottom" ng-click="uploadCounterparties(data)" ng-if="userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'">
@@ -145,7 +148,15 @@
                                             {{row[field.name] | date }}
                                         </h5>
                                         <h5 ng-switch-when='varchar'>
-                                            {{row[field.name] | limitTo: 50}}
+                                            <div ng-if="field.name == 'issue_name'">
+                                                {{row[field.name] | limitTo: 10}}
+                                            </div>
+                                            <div ng-if="field.name != 'issue_name'">
+                                                {{row[field.name] | limitTo: 50}}
+                                            </div>
+                                        </h5>
+                                        <h5 ng-switch-when='enum'>
+                                            {{row[field.name] | limitTo: 25}}
                                         </h5>
                                         <h5 ng-switch-when="currency">
                                             {{row[field.name] | currency}}
@@ -173,7 +184,7 @@
                                         </h5>
                                     </td>
                                     <td ng-if="type == 'normal' && userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'">
-                                        <button style="width: 33px" class="btn btn-sm blue" ng-click="details(row, edit)"><i class="fa fa-cogs"></i></button>
+                                        <button style="width: 33px" class="btn btn-sm blue" ng-click="details(row, 'edit')"><i class="fa fa-cogs"></i></button>
                                         <button style="width: 33px" class="btn btn-sm red margin-bottom" ng-click="deleteRow(row)"><i class="fa fa-times"></i></button>
                                     </td>
                                     <td ng-if="type == 'trading' && userType != 'Theorem' && userType != 'Management' && userType != 'Trustee'" style="white-space:nowrap">
@@ -213,10 +224,10 @@
                                         >
                                             <i class="fa fa-check-circle"></i>
                                         </a>
-                                        <button class="btn btn-sm white" ng-click="details(row, view)">Details</button>
+                                        <button class="btn btn-sm white" ng-click="details(row, 'view')">Details</button>
                                     </td>
                                     <td ng-if="userType == 'Theorem' || userType == 'Management' || userType == 'Trustee'">
-                                        <button class="btn btn-sm white" ng-click="details(row, view)">Details</button>
+                                        <button class="btn btn-sm white" ng-click="details(row, 'view')">Details</button>
                                     </td>
                                 </tr>
                             </tbody>

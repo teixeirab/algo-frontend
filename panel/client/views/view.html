@@ -13,6 +13,7 @@
             <li>
                 <a ui-sref="dashboard">{{query_name}}</a>
             </li>
+
         </ul>
     </div>
     <!-- END PAGE HEADER-->
@@ -79,7 +80,7 @@
                             <form class="form-horizontal" role="form">
                                 <div class="form-body row">
                                     <div class="form-group">
-                                        <label class="control-label col-md-6">
+                                        <label class="control-label col-md-6" ng-if="selectType != 'na'">
                                             Please select a {{selectType}}
                                         </label>
                                         <div style="width: 45%" class="input-group col-md-6" ng-if="options.length > 0 && selectType != 'date'">
@@ -111,6 +112,7 @@
                                         {{field.label}}&nbsp;
                                     </a>
                                 </th>
+                                <th width="5%" ng-if="query_name == 'interest_calculation'">Details</th>
                             </tr>
                             <tr role="row" class="filter">
                                 <td ng-repeat="field in fields">
@@ -124,6 +126,7 @@
                                     </div>
                                     <input ng-if='field.type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t[field.name]">
                                 </td>
+                                <td ng-if="query_name == 'interest_calculation'"></td>
                             </tr>
                             </thead>
                             <tbody>
@@ -147,6 +150,10 @@
                                         {{row[field.name] * 100 | number:2}}%
                                     </h5>
                                 </td>
+                                <td ng-if="query_name == 'interest_calculation'">
+                                    <button class="btn btn-sm white" ng-click="details(row, 'table')">Details</button>
+                                </td>
+
                             </tbody>
                         </table>
                         <div class="col-md-8 col-sm-12">

@@ -1,6 +1,6 @@
 angular.module('FlexPanelApp')
     .controller('EditController',
-        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, $state, table, id, primary_key) {
+        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, $state, table, id, primary_key, type, TableService) {
             $scope.$on('$viewContentLoaded', function () {
                 // initialize core components
                 App.initAjax();
@@ -18,12 +18,19 @@ angular.module('FlexPanelApp')
             $rootScope.data = {};
             $rootScope.fields = [];
             $rootScope.pk = '';
+            $scope.type = type;
+            $scope.info = {};
 
-            //initializes controller variables
-            var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added", 'trade_date', 'info_id',
-                'legal_confirm', 'wire_confirm', 'counterparty_id', 'iso_country_name', 'branch_name', 'account_name',
-                'apikey', 'last_access'
-                ];
+            // initializes controller variables
+            var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
+            var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
+                'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable',
+                'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed', 'Amount', 'Advance Balance',
+                'Interest Repayment', 'Simple Interest Income', 'Compounded Interest Income'
+
+            ];
+
+            var percentageFields = ['interest_rate', '% Funded'];
 
             // initializes scope functions
             $scope.submit = FormService.edit;
@@ -44,30 +51,36 @@ angular.module('FlexPanelApp')
 
             // initializes program
             function init() {
-                if ($scope.table) {
-                    SqlService
-                      .findInfo($scope.table)
-                      .then(function (response){
-                        if(response.data) {
-                            $scope.info = response.data[0];
-                        }
+                if (type == 'edit' || type == 'view'){
+                    if ($scope.table) {
                         SqlService
-                          .findFields($scope.table)
-                          .then(function (response) {
-                            if (response.data) {
-                              $rootScope.fields = response.data;
-                              FormService.setFields()
-                            }
-                            SqlService
-                              .findOne($scope.table, id, primary_key)
-                              .then(function (response) {
-                                if (response.data) {
-                                  $rootScope.data = response.data[0];
-                                  setInput();
+                            .findInfo($scope.table)
+                            .then(function (response){
+                                if(response.data) {
+                                    $scope.info = response.data[0];
                                 }
-                              });
-                          });
-                      });
+                                SqlService
+                                    .findFields($scope.table)
+                                    .then(function (response) {
+                                        if (response.data) {
+                                            $rootScope.fields = response.data;
+                                            FormService.setFields()
+                                        }
+                                        SqlService
+                                            .findOne($scope.table, id, primary_key)
+                                            .then(function (response) {
+                                                if (response.data) {
+                                                    $rootScope.data = response.data[0];
+                                                    setInput();
+                                                }
+                                            });
+                                    });
+                            });
+                    }
+                }
+                else if (type == 'table'){
+                    $scope.info.table_comment = 'View Calculation Details';
+                    findAll(id);
                 }
             }
             init();
@@ -83,5 +96,62 @@ angular.module('FlexPanelApp')
             function cancel(){
                 $rootScope.modalInstance.dismiss('cancel');
             }
+
+            function setTableHeader(){
+                var x = 0;
+                var y = 0;
+                var result =[];
+                $rootScope.fieldsArray = Object.keys($rootScope.data[0]);
+
+
+                while (x < $rootScope.fieldsArray.length){
+                    var field = $rootScope.fieldsArray[x];
+                    if (y < 7){
+                        if (bad_keys.indexOf(field) == -1){
+                            var field_label = TableService.replaceAll(field, "_", " ");
+                            var field_type = "";
+
+                            if (field.includes('Date')) {
+                                field_type = "date";
+                            }
+
+                            else if (currencyFields.indexOf(field)  >= 0) {
+                                field_type = "currency";
+                            }
+
+                            else if (percentageFields.indexOf(field)  >= 0) {
+                                field_type = "percentage";
+                            }
+
+                            else field_type = "varchar";
+
+                            result.push({
+                                type: field_type, label: field_label,
+                                name: field
+                            });
+                            y = y + 1;
+                        }
+                    }
+                    x = x + 1;
+                }
+                $scope.fields = result;
+                $scope.data = $rootScope.data
+            }
+
+            function findAll(param){
+                SqlService
+                    .viewData(primary_key, param)
+                    .then(function (response){
+                        if(response.data) {
+                            $rootScope.data = response.data;
+                            $rootScope.dataBackup = response.data;
+                            if ($rootScope.data.length > 0){
+                                setTableHeader()
+                            }
+                        }
+                    });
+            }
+
+
 
         });

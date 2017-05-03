@@ -7,7 +7,7 @@
                 <span class="caption-subject font-dark sbold uppercase">{{info.table_comment}}</span>
             </div>
         </div>
-        <div class="portlet-body form" ng-if="table != 'citi_unsettled_transactions' && table != 'citi_all_transactions' && table != 'citi_available_position' && userType != 'Theorem' && userType != 'Trustee'">
+        <div class="portlet-body form" ng-if="type == 'edit'">
             <form class="form-horizontal" role="form">
                 <div class="form-body row">
                     <div class="form-group col-md-12" ng-repeat="field in fields" ng-switch on="field.type">
@@ -41,7 +41,7 @@
                 </div>
             </form>
         </div>
-        <div class="portlet-body form" ng-if="table == 'citi_unsettled_transactions' || table == 'citi_all_transactions' || table == 'citi_available_position' || userType == 'Theorem' || userType == 'Trustee'">
+        <div class="portlet-body form" ng-if="type == 'view'">
             <form class="form-horizontal" role="form">
                 <div class="form-body row">
                     <div class="form-group col-md-12" ng-repeat="field in fields" ng-switch on="field.type">
@@ -73,6 +73,44 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="portlet-body table" ng-if="type == 'table'">
+            <h5 ng-if="data.length == 0"> No transactions available for this period</h5>
+            <h3 ng-if="data.length > 0"> New Advances </h3>
+            <table style ="overflow: auto" class="table table-striped table-bordered table-hover order-column" ng-if="data.length > 0">
+                <thead>
+                <tr role="row" class="heading" >
+                    <th width="14%" ng-repeat="field in fields">
+                        <a ng-click="sort(field.name)">
+                            {{field.label}}&nbsp;
+                        </a>
+                    </th>
+                    <th width="5%" ng-if="query_name == 'interest_calculation'">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in data" id="exportable">
+                    <td ng-repeat="field in fields"
+                        ng-if="field.label"
+                        ng-switch on="field.type">
+                        <h5 ng-switch-when='date'>
+                            {{row[field.name] | date }}
+                        </h5>
+                        <h5 ng-switch-when='varchar'>
+                            {{row[field.name] | limitTo: 50}}
+                        </h5>
+                        <h5 ng-switch-when="currency">
+                            {{row[field.name] | currency}}
+                        </h5>
+                        <h5 ng-switch-when="number">
+                            {{row[field.name] | number}}
+                        </h5>
+                        <h5 ng-switch-when="percentage">
+                            {{row[field.name] * 100 | number:2}}%
+                        </h5>
+                    </td>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

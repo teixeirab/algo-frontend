@@ -1,5 +1,5 @@
 angular.module('FlexPanelApp')
-    .controller('ViewController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state) {
+    .controller('ViewController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state, $uibModal) {
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
             App.initAjax();
@@ -30,7 +30,8 @@ angular.module('FlexPanelApp')
         var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
         var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
             'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable',
-            'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed', 'Amount'
+            'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed', 'Amount', 'Total Interest Income',
+            'Interest Repayment', 'Simple Interest Income', 'Compounded Interest Income'
 
         ];
 
@@ -46,6 +47,7 @@ angular.module('FlexPanelApp')
         // initializes scope functions
         $scope.reset = reset;
         $scope.onChange = onChange;
+        $scope.details = details;
         $scope.nextPage = TableService.nextPage;
         $scope.previousPage = TableService.previousPage;
         $scope.filterChange = TableService.filterChange;
@@ -114,6 +116,7 @@ angular.module('FlexPanelApp')
         }
 
         function onChange(item){
+            $scope.page = 1;
             $scope.item = item;
             if (item){
                 if ($stateParams.selectType == 'series_number' || $stateParams.query == 'qb_transaction_list_view'){
@@ -177,5 +180,49 @@ angular.module('FlexPanelApp')
             }
             $scope.fields = result;
             filterData();
+        }
+
+        function details(row, type){
+            var primary_key = "";
+            var id = "";
+            var size = "";
+            if (type == "view"){
+
+                var x = 0;
+                while (x < $rootScope.fieldsArray.length){
+                    if ($rootScope.fieldsArray[x].column_key == "PRI"){
+                        primary_key = $rootScope.fieldsArray[x].column_name;
+                    }
+                    x++;
+                }
+                id = row[primary_key];
+                size = 'md'
+            }
+            else if (type == 'table'){
+                primary_key = 'view_calc_details' // acts as query name
+                id = row.id
+                size = 'lg'
+            }
+
+
+            $rootScope.modalInstance = $uibModal.open({
+                templateUrl: 'views/edit.html',
+                controller: 'EditController',
+                size: size,
+                resolve: {
+                    id : function () {
+                        return  id
+                    },
+                    primary_key : function () {
+                        return  primary_key
+                    },
+                    table : function () {
+                        return  $scope.table
+                    },
+                    type : function(){
+                        return type
+                    }
+                }
+            });
         }
 });
