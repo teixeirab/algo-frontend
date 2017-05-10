@@ -25,7 +25,7 @@ angular
             'trade_date', 'info_id', 'client_reference', 'custodian_reference', 'sec_id_type',
             'sec_id' , 'settled_quantity', 'settlement_amount', 'iso_country_name',
             'branch_name', 'account_name', 'confirmed_delivers', 'confirmed_receives', 'unconfirmed_delivers',
-            'unconfirmed_receives', 'apikey', 'last_access'
+            'unconfirmed_receives', 'apikey', 'last_access', "dt_joined"
         ];
         var type_list = ['citi_unsettled_transactions', 'citi_all_transactions', 'citi_available_position'];
 
@@ -164,10 +164,10 @@ angular
                         else if (field.column_type.includes('enum')) {
                             field_type = 'enum';
                             var array = field.column_type.replace('enum(', '').replace(')', '').split(',');
-                            var y = 0;
-                            while (y < array.length) {
-                                field_options.push(array[y].replace("'", '').replace("'", ''));
-                                y = y + 1;
+                            var i = 0;
+                            while (i < array.length) {
+                                field_options.push(array[i].replace("'", '').replace("'", ''));
+                                i = i + 1;
                             }
                         }
                         else if (field.column_type.indexOf('int') !== -1 || field.column_type == 'float' || field.column_type == 'double') {
