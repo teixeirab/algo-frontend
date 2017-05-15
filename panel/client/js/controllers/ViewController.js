@@ -24,7 +24,7 @@ angular.module('FlexPanelApp')
 
         if ($scope.selectType == 'date'){
             $scope.date.value = new Date().toISOString().slice(0,10); // = '2016-12-30';
-        };
+        }
 
         // initializes controller variables
         var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
@@ -36,6 +36,7 @@ angular.module('FlexPanelApp')
         ];
 
         var percentageFields = ['interest_rate', '% Funded'];
+        var numberFields = ['Shares Purchased/Subscribed'];
 
         // initializes root scope variables
         $rootScope.rowsShowing = Number($scope.rowsShowing);
@@ -150,7 +151,7 @@ angular.module('FlexPanelApp')
 
             while (x < $rootScope.fieldsArray.length){
                 var field = $rootScope.fieldsArray[x];
-                if (y < 7){
+                if (y < 8){
                     if (bad_keys.indexOf(field) == -1){
                         var field_label = TableService.replaceAll(field, "_", " ");
                         var field_type = "";
@@ -165,6 +166,11 @@ angular.module('FlexPanelApp')
 
                         else if (percentageFields.indexOf(field)  >= 0) {
                             field_type = "percentage";
+                        }
+
+
+                        else if (numberFields.indexOf(field)  >= 0) {
+                            field_type = "number";
                         }
 
                         else field_type = "varchar";
@@ -198,10 +204,15 @@ angular.module('FlexPanelApp')
                 id = row[primary_key];
                 size = 'md'
             }
+            else if (type == 'interest_invoice'){
+                id = row; // id acts as row
+                primary_key = $scope.fields; // pk acts as fields
+                size = 'md'
+            }
             else if (type == 'table'){
-                primary_key = 'view_calc_details' // acts as query name
-                id = row.id
-                size = 'lg'
+                primary_key = 'view_calc_details'; // acts as query name
+                id = row.id;
+                size = 'lg';
             }
 
 
@@ -225,4 +236,6 @@ angular.module('FlexPanelApp')
                 }
             });
         }
+
+
 });

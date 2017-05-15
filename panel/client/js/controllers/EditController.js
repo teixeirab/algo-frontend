@@ -78,6 +78,26 @@ angular.module('FlexPanelApp')
                             });
                     }
                 }
+                else if (type == 'interest_invoice'){
+                    $scope.info.table_comment = 'Interest Invoice';
+
+                    $rootScope.fields = [
+                        {column_name : 'Series Number', column_comment: 'Series Number', column_type: 'varchar'},
+                        {column_name : 'Loan Payment Date', column_comment: 'Loan Payment Date', column_type: 'date'},
+                        {column_name : 'Nominal Outstanding', column_comment: 'Nominal Outstanding', column_type: 'double'},
+                        {column_name : 'Simple Interest Income', column_comment: 'Simple Interest Income', column_type: 'double'},
+                        {column_name : 'Compounded Interest Income', column_comment: 'Compounded Interest Income', column_type: 'double'},
+                        {column_name : 'Interest Repayment', column_comment: 'Interest Repayment', column_type: 'double'},
+                        {column_name : 'Total Interest Income', column_comment: 'Total Interest Income', column_type: 'double'}
+                    ];
+
+                    FormService.setFields();
+
+                    $rootScope.data = id;
+                    setInput();
+                }
+
+
                 else if (type == 'table'){
                     $scope.info.table_comment = 'View Calculation Details';
                     findAll(id);
@@ -151,7 +171,4 @@ angular.module('FlexPanelApp')
                         }
                     });
             }
-
-
-
         });

@@ -113,6 +113,7 @@
                                     </a>
                                 </th>
                                 <th width="5%" ng-if="query_name == 'interest_calculation'">Details</th>
+                                <th width="5%" ng-if="query_name == 'current_interest'">Actions</th>
                             </tr>
                             <tr role="row" class="filter">
                                 <td ng-repeat="field in fields">
@@ -126,7 +127,7 @@
                                     </div>
                                     <input ng-if='field.type != "date"' type="text" class="form-control form-filter input-sm" ng-model="t[field.name]">
                                 </td>
-                                <td ng-if="query_name == 'interest_calculation'"></td>
+                                <td ng-if="query_name == 'interest_calculation' || query_name == 'current_interest'"></td>
                             </tr>
                             </thead>
                             <tbody>
@@ -153,7 +154,14 @@
                                 <td ng-if="query_name == 'interest_calculation'">
                                     <button class="btn btn-sm white" ng-click="details(row, 'table')">Details</button>
                                 </td>
-
+                                <td ng-if="query_name == 'current_interest'">
+                                    <a class="btn btn-sm white" ng-if="row['Invoice Sent'] == 'Yes'">
+                                        <i class="fa fa-check-circle"></i>
+                                    </a>
+                                    <a class="btn btn-sm white" ng-click="details(row, 'interest_invoice')" ng-if="row['Invoice Sent'] == 'No'">
+                                        Send
+                                    </a>
+                                </td>
                             </tbody>
                         </table>
                         <div class="col-md-8 col-sm-12">

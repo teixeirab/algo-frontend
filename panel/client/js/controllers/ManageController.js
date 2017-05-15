@@ -28,6 +28,7 @@ angular
             'unconfirmed_receives', 'apikey', 'last_access', "dt_joined"
         ];
         var type_list = ['citi_unsettled_transactions', 'citi_all_transactions', 'citi_available_position'];
+        var percentageFields = ['interest_rate', '% Funded', 'percent_outstanding'];
 
         // initializes root scope variables
         $rootScope.rowsShowing = Number($scope.rowsShowing);
@@ -158,6 +159,11 @@ angular
                         if (field.column_type == 'varchar(1)') {
                             field_type = "button";
                         }
+
+                        else if (percentageFields.indexOf(field)  >= 0) {
+                            field_type = "percentage";
+                        }
+
                         else if (field.column_type.indexOf("varchar") !== -1 || field.column_type == 'text') {
                             field_type = "varchar"
                         }

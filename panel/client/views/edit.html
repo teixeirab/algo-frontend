@@ -7,7 +7,7 @@
                 <span class="caption-subject font-dark sbold uppercase">{{info.table_comment}}</span>
             </div>
         </div>
-        <div class="portlet-body form" ng-if="type == 'edit'">
+        <div class="portlet-body form" ng-if="type == 'edit' || type == 'interest_invoice'">
             <form class="form-horizontal" role="form">
                 <div class="form-body row">
                     <div class="form-group col-md-12" ng-repeat="field in fields" ng-switch on="field.type">
@@ -34,7 +34,7 @@
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-5 col-md-12">
-                            <button ng-click="submit(input, table)" class="btn green">Update</button>
+                            <button ng-click="submit(input, table)" class="btn green">Submit</button>
                             <button ng-click="cancel()" class="btn grey">Cancel</button>
                         </div>
                     </div>
