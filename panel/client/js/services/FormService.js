@@ -58,7 +58,7 @@
                         $rootScope.pk = field.column_name
                     }
 
-                    else if (field.column_name == 'client_name'){
+                    if (field.column_name == 'client_name'){
                         field_type = 'fully_qualified_name'
                     }
 
