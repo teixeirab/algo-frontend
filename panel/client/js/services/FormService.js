@@ -31,6 +31,11 @@
 
         function edit(input, table, pk, id) {
             id = $rootScope.data[$rootScope.pk||pk] || id;
+
+            if (input.client_name.fully_qualified_name){
+                input.client_name = input.client_name.fully_qualified_name;
+            }
+
             SqlService
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
