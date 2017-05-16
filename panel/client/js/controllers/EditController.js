@@ -52,6 +52,16 @@ angular.module('FlexPanelApp')
             // initializes program
             function init() {
                 if (type == 'edit' || type == 'view'){
+                    if ($scope.table == 'series_product_information'){
+                        SqlService
+                            .viewData('unique_customers')
+                            .then(function (response){
+                                if(response.data) {
+                                    $scope.customers = response.data;
+                                }
+                            });
+                    }
+
                     if ($scope.table) {
                         SqlService
                             .findInfo($scope.table)

@@ -58,22 +58,23 @@
                         $rootScope.pk = field.column_name
                     }
 
-                    if (field.column_type == 'varchar(1)') {
-                        field_type = "button";
+                    else if (field.column_name == 'client_name'){
+                        field_type = 'fully_qualified_name'
                     }
-                    if (field.column_name == 'email') {
+
+                    else if (field.column_name == 'email') {
                         field_type = "email"
                     }
-                    if (field.column_name == 'cellphone') {
+                    else if (field.column_name == 'cellphone') {
                         field_type = "tel"
                     }
-                    if (field.column_name == 'password') {
+                    else if (field.column_name == 'password') {
                         field_type = "password"
                     }
-                    if (field.column_type.includes("varchar")) {
+                    else if (field.column_type.includes("varchar")) {
                         field_type = "varchar"
                     }
-                    if (field.column_type.includes("double") || field.column_type == 'float' || field.column_type.includes('decimal')) {
+                    else if (field.column_type.includes("double") || field.column_type == 'float' || field.column_type.includes('decimal')) {
                         field_type = "double"
                     }
                     else if (field.column_type.includes('enum')) {
