@@ -168,7 +168,6 @@ angular.module('FlexPanelApp')
                             field_type = "percentage";
                         }
 
-
                         else if (numberFields.indexOf(field)  >= 0) {
                             field_type = "number";
                         }
