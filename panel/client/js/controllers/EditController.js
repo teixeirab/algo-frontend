@@ -93,12 +93,14 @@ angular.module('FlexPanelApp')
 
                     $rootScope.fields = [
                         {column_name : 'Series Number', column_comment: 'Series Number', column_type: 'varchar'},
+                        {column_name : 'Previous Payment Date ', column_comment: 'Previous Payment Date', column_type: 'date'},
                         {column_name : 'Loan Payment Date', column_comment: 'Loan Payment Date', column_type: 'date'},
-                        {column_name : 'Nominal Outstanding', column_comment: 'Nominal Outstanding', column_type: 'double'},
-                        {column_name : 'Simple Interest Income', column_comment: 'Simple Interest Income', column_type: 'double'},
-                        {column_name : 'Compounded Interest Income', column_comment: 'Compounded Interest Income', column_type: 'double'},
+                        {column_name : 'Nominal Basis', column_comment: 'Nominal Basis', column_type: 'double'},
+                        {column_name : 'Interest Rate', column_comment: 'Interest Rate', column_type: 'double'},
                         {column_name : 'Interest Repayment', column_comment: 'Interest Repayment', column_type: 'double'},
-                        {column_name : 'Total Interest Income', column_comment: 'Total Interest Income', column_type: 'double'}
+                        {column_name : 'Interest Income', column_comment: 'Interest Income', column_type: 'double'},
+                        {column_name : 'Principal Repayment', column_comment: 'Principal Repayment', column_type: 'double'},
+                        {column_name : 'Total Interest Income', column_comment: 'Cash Round Up', column_type: 'double'}
                     ];
 
                     FormService.setFields();

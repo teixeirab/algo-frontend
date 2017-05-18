@@ -151,7 +151,7 @@ angular.module('FlexPanelApp')
 
             while (x < $rootScope.fieldsArray.length){
                 var field = $rootScope.fieldsArray[x];
-                if (y < 8){
+                if (y < 9){
                     if (bad_keys.indexOf(field) == -1){
                         var field_label = TableService.replaceAll(field, "_", " ");
                         var field_type = "";
