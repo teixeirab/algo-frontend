@@ -32,8 +32,10 @@
         function edit(input, table, pk, id) {
             id = $rootScope.data[$rootScope.pk||pk] || id;
 
-            if (input.client_name.fully_qualified_name){
-                input.client_name = input.client_name.fully_qualified_name;
+            if (input.client_name){
+                if (input.client_name.fully_qualified_name){
+                    input.client_name = input.client_name.fully_qualified_name;
+                }
             }
 
             SqlService
