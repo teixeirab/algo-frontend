@@ -17,18 +17,18 @@ angular
         $scope.rowsShowing = "10";
         $scope.valueFilter = "All";
         $scope.t = {};
-        $scope.ctrl = {};
         $scope.userType = $rootScope.currentUser.user_type;
 
         // initializes controller variables
         var primary_key = [];
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added" ,
             'trade_date', 'info_id', 'client_reference', 'custodian_reference', 'sec_id_type',
-            'sec_id', 'issue_name', 'settled_quantity', 'settlement_amount', 'iso_country_name',
+            'sec_id' , 'settled_quantity', 'settlement_amount', 'iso_country_name',
             'branch_name', 'account_name', 'confirmed_delivers', 'confirmed_receives', 'unconfirmed_delivers',
-            'unconfirmed_receives', 'apikey', 'last_access'
+            'unconfirmed_receives', 'apikey', 'last_access', "dt_joined"
         ];
         var type_list = ['citi_unsettled_transactions', 'citi_all_transactions', 'citi_available_position'];
+        var percentageFields = ['interest_rate', '% Funded', 'percent_outstanding'];
 
         // initializes root scope variables
         $rootScope.rowsShowing = Number($scope.rowsShowing);
@@ -103,7 +103,7 @@ angular
                         if(response.data) {
                             if ($scope.table == 'citi_all_transactions'){
                                 $rootScope.data = response.data.filter(function (el){
-                                    return el.account_id == '6017709722';
+                                    return el.account_id == '6017709722' && el.series_number > 0;
                                 });
                                 $rootScope.direction = false;
                                 TableService.sort('settlement_date')
@@ -159,11 +159,22 @@ angular
                         if (field.column_type == 'varchar(1)') {
                             field_type = "button";
                         }
+
+                        else if (percentageFields.indexOf(field)  >= 0) {
+                            field_type = "percentage";
+                        }
+
                         else if (field.column_type.indexOf("varchar") !== -1 || field.column_type == 'text') {
                             field_type = "varchar"
                         }
-                        else if (field.column_type.indexOf('enum') !== -1) {
-                            field_type = "varchar"
+                        else if (field.column_type.includes('enum')) {
+                            field_type = 'enum';
+                            var array = field.column_type.replace('enum(', '').replace(')', '').split(',');
+                            var i = 0;
+                            while (i < array.length) {
+                                field_options.push(array[i].replace("'", '').replace("'", ''));
+                                i = i + 1;
+                            }
                         }
                         else if (field.column_type.indexOf('int') !== -1 || field.column_type == 'float' || field.column_type == 'double') {
                             field_type = "number"
@@ -350,6 +361,9 @@ angular
                     },
                     table : function () {
                         return  $scope.table
+                    },
+                    type : function(){
+                        return type
                     }
                 }
             });

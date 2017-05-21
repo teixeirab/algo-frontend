@@ -88,37 +88,44 @@
 
         function dateC(date){
             if (typeof date === 'string'){
-                return new Date(date.replace(/-/g,"/").substring(0,9));
+                return new Date(date.replace(/-/g,"/").substring(0,10));
             }
 
         }
 
-        function search(searchText, searchDate, fields){
-            var result = [];
-            var idata= 0;
-            Object.keys(searchText).forEach((header) => {
-              if(!searchText[header] || searchText[header] === '') {
-                searchText[header] = undefined;
-              }
-            })
-            if (searchText != {} || searchDate != {}){
-                $rootScope.data.forEach(function(row) {
-                    var ifields = 0;
-                    for (var field in searchText){
-                        var icolumn = String(field).replace("search", "");
-                        if (searchText[field] != undefined && searchText[field] != "" && (String(row[fields[icolumn].name]).includes(searchText[field]))){
-                            result.push(row)
-                            return
+        function toDate(dateStr) {
+            const [year,month, day] = dateStr.split("-")
+            return new Date(year, month - 1, day)
+        }
+
+        function contains(row, searchText, fields){
+            var result = true;
+            for (var text in searchText){
+                for (var x in fields){
+                    var field = fields[x];
+                    if (field.name == text){
+                        if(field.type == 'date'){
+                            var date = dateC(row[text]);
+                            result = result && (date >= toDate(searchText[text].from) && date <= toDate(searchText[text].to))
                         }
-                        else if (fields[ifields] != undefined
-                          && dateC(row[fields[icolumn].name]) >= dateC(searchDate["date" + ifields + "1"])
-                          && dateC(row[fields[0].name]) <= dateC(searchDate["date" + ifields + "1"])){
-                            result.push(row)
-                            return
+                        else {
+                            result = result && (String(row[text]).includes(searchText[text]))
                         }
-                        ifields++;
                     }
-                })
+                }
+            }
+            return result;
+        }
+
+        function search(searchText, fields){
+            var result = [];
+            if (searchText != {}){
+                $rootScope.data.forEach(function(row) {
+                    if (contains(row, searchText, fields)){
+                        result.push(row);
+                    }
+                });
+
                 $rootScope.data = result;
                 $rootScope.$broadcast('pageReset');
                 $rootScope.$broadcast('filterData');

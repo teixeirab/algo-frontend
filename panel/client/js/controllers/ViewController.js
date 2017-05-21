@@ -1,5 +1,5 @@
 angular.module('FlexPanelApp')
-    .controller('ViewController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state) {
+    .controller('ViewController', function($rootScope, $scope, $http, $timeout, $stateParams, $location, SqlService, TableService, $state, $uibModal) {
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
             App.initAjax();
@@ -17,7 +17,6 @@ angular.module('FlexPanelApp')
         $scope.page = 1;
         $scope.rowsShowing = "10";
         $scope.t = {};
-        $scope.ctrl = {};
         $scope.options = {};
         $scope.item ={};
         $scope.date = {};
@@ -25,17 +24,19 @@ angular.module('FlexPanelApp')
 
         if ($scope.selectType == 'date'){
             $scope.date.value = new Date().toISOString().slice(0,10); // = '2016-12-30';
-        };
+        }
 
         // initializes controller variables
         var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
         var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
             'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable',
-            'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed'
+            'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed', 'Amount', 'Total Interest Income',
+            'Interest Repayment', 'Simple Interest Income', 'Compounded Interest Income'
 
         ];
 
         var percentageFields = ['interest_rate', '% Funded'];
+        var numberFields = ['Shares Purchased/Subscribed'];
 
         // initializes root scope variables
         $rootScope.rowsShowing = Number($scope.rowsShowing);
@@ -47,6 +48,7 @@ angular.module('FlexPanelApp')
         // initializes scope functions
         $scope.reset = reset;
         $scope.onChange = onChange;
+        $scope.details = details;
         $scope.nextPage = TableService.nextPage;
         $scope.previousPage = TableService.previousPage;
         $scope.filterChange = TableService.filterChange;
@@ -115,6 +117,7 @@ angular.module('FlexPanelApp')
         }
 
         function onChange(item){
+            $scope.page = 1;
             $scope.item = item;
             if (item){
                 if ($stateParams.selectType == 'series_number' || $stateParams.query == 'qb_transaction_list_view'){
@@ -148,7 +151,7 @@ angular.module('FlexPanelApp')
 
             while (x < $rootScope.fieldsArray.length){
                 var field = $rootScope.fieldsArray[x];
-                if (y < 7){
+                if (y < 9){
                     if (bad_keys.indexOf(field) == -1){
                         var field_label = TableService.replaceAll(field, "_", " ");
                         var field_type = "";
@@ -165,6 +168,10 @@ angular.module('FlexPanelApp')
                             field_type = "percentage";
                         }
 
+                        else if (numberFields.indexOf(field)  >= 0) {
+                            field_type = "number";
+                        }
+
                         else field_type = "varchar";
 
                         result.push({
@@ -179,4 +186,55 @@ angular.module('FlexPanelApp')
             $scope.fields = result;
             filterData();
         }
+
+        function details(row, type){
+            var primary_key = "";
+            var id = "";
+            var size = "";
+            if (type == "view"){
+
+                var x = 0;
+                while (x < $rootScope.fieldsArray.length){
+                    if ($rootScope.fieldsArray[x].column_key == "PRI"){
+                        primary_key = $rootScope.fieldsArray[x].column_name;
+                    }
+                    x++;
+                }
+                id = row[primary_key];
+                size = 'md'
+            }
+            else if (type == 'interest_invoice'){
+                id = row; // id acts as row
+                primary_key = $scope.fields; // pk acts as fields
+                size = 'md'
+            }
+            else if (type == 'table'){
+                primary_key = 'view_calc_details'; // acts as query name
+                id = row.id;
+                size = 'lg';
+            }
+
+
+            $rootScope.modalInstance = $uibModal.open({
+                templateUrl: 'views/edit.html',
+                controller: 'EditController',
+                size: size,
+                resolve: {
+                    id : function () {
+                        return  id
+                    },
+                    primary_key : function () {
+                        return  primary_key
+                    },
+                    table : function () {
+                        return  $scope.table
+                    },
+                    type : function(){
+                        return type
+                    }
+                }
+            });
+        }
+
+
 });
