@@ -85,15 +85,15 @@
                 <li><a href="#/manage/advances_info"><span>Advances Info</span></a></li>
                 <li><a href="#/manage/advances_repayments"><span>Principal Repayments</span></a></li>
                 <li><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
+                <li><a href="#/view/interest_calculation/series_number/advances_info"><span>View Interest Calc</span></a></li>
+                <li><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
 
                 <!--
                 <!<li><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
-                <li><a href="#/view/interest_calculation/series_number/advances_info"><span>View Calc Details</span></a></li>
-
                 -->
             </ul>
         </li>
-        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations'])">
+        <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations', 'Management'])">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-briefcase"></i>
                 <span class="title">Navs & Fees</span>
@@ -102,11 +102,9 @@
             <ul class="sub-menu">
                 <li><a href="#/manage/theorem_balance_sheet"><span>Balance Sheet</span></a></li>
                 <li><a href="#/manage/theorem_income_statement"><span>Income Statement</span></a></li>
-                <!--
-                <li><a href="#/graph/performance"><span>Performance</span></a></li>
-                <li><a href="#/view/wires"><span>Wires</span></a></li>
-                <li><a href="#/view/invoices"><span>Invoices</span></a></li>
-                -->
+                <li><a href="#/view/qb_transaction_list_view/name/qb_transaction_list"><span>Invoices</span></a></li>
+                <li><a href="#/manage/qb_extraordinary_fees"><span>Extraordinary Fees</span></a></li>
+                <li><a href="#/manage/qb_invoices_maintenance"><span>Maintenance Invoices</span></a></li>
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations', 'Trustee'])">

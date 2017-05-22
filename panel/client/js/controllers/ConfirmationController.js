@@ -11,6 +11,7 @@ angular.module('FlexPanelApp')
             $rootScope.settings.layout.pageBodySolid = false;
             $rootScope.settings.layout.pageSidebarClosed = false;
 
+            $scope.type = type
             $scope.submit = submit;
             $scope.cancel = cancel;
 

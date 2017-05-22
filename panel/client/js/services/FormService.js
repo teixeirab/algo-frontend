@@ -31,6 +31,13 @@
 
         function edit(input, table, pk, id) {
             id = $rootScope.data[$rootScope.pk||pk] || id;
+
+            if (input.client_name){
+                if (input.client_name.fully_qualified_name){
+                    input.client_name = input.client_name.fully_qualified_name;
+                }
+            }
+
             SqlService
                 .editOne(table, $rootScope.pk||pk, id, input)
                 .then(function (response){
@@ -58,22 +65,23 @@
                         $rootScope.pk = field.column_name
                     }
 
-                    if (field.column_type == 'varchar(1)') {
-                        field_type = "button";
+                    if (field.column_name == 'client_name'){
+                        field_type = 'fully_qualified_name'
                     }
-                    if (field.column_name == 'email') {
+
+                    else if (field.column_name == 'email') {
                         field_type = "email"
                     }
-                    if (field.column_name == 'cellphone') {
+                    else if (field.column_name == 'cellphone') {
                         field_type = "tel"
                     }
-                    if (field.column_name == 'password') {
+                    else if (field.column_name == 'password') {
                         field_type = "password"
                     }
-                    if (field.column_type.includes("varchar")) {
+                    else if (field.column_type.includes("varchar")) {
                         field_type = "varchar"
                     }
-                    if (field.column_type.includes("double") || field.column_type == 'float' || field.column_type.includes('decimal')) {
+                    else if (field.column_type.includes("double") || field.column_type == 'float' || field.column_type.includes('decimal')) {
                         field_type = "double"
                     }
                     else if (field.column_type.includes('enum')) {

@@ -270,7 +270,8 @@ FlexPanelApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
 
                             '../assets/pages/scripts/table-datatables-responsive.min.js',
 
-                            'js/controllers/ViewController.js'
+                            'js/controllers/ViewController.js',
+                            'js/controllers/EditController.js'
                         ]
                     });
                 }]

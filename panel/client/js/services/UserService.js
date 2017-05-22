@@ -21,6 +21,8 @@
             $rootScope.currentUser = user;
             if(!user) {
                 UserSession.remove('x-apikey')
+            } else {
+                $rootScope.$broadcast('set.user')
             }
         }
 
