@@ -9,7 +9,8 @@
         var api = {
             calcMaintenanceFees: calcMaintenanceFees,
             sendMaintenanceFeesInBatch: sendMaintenanceFeesInBatch,
-            sendInterestInvoice: sendInterestInvoice
+            sendInterestInvoice: sendInterestInvoice,
+            sendLegalInvoice: sendLegalInvoice
         };
 
         return api;
@@ -22,6 +23,9 @@
         }
         function sendInterestInvoice(seriesNumber) {
           return $http.post(apiHost + "/api/panel/qb/interest-invoice/" + seriesNumber);
+        }
+        function sendLegalInvoice(input) {
+            return $http.post(apiHost + "/api/panel/qb/legal-invoice", input);
         }
     }
 

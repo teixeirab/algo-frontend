@@ -4,7 +4,7 @@
         .module("FlexPanelApp")
         .factory("FormService", FormService);
 
-    function FormService($rootScope, SqlService, $state, Notification) {
+    function FormService($rootScope, SqlService, $state, Notification, InvoiceService) {
         //initializes controller variables
         var bad_keys = ['_id', 'password', 'id', 'user_id', "added_by", "dt_added", 'trade_date', 'trade_id',
              'wire_confirm', 'interest_confirm', 'info_id', 'counterparty_id', 'apikey', 'last_access', 'dt_joined', 'legal_confirm'
@@ -18,6 +18,21 @@
         return api;
 
         function add(input, table) {
+            if (input.client_name){
+                if (input.client_name.fully_qualified_name){
+                    input.client_name = input.client_name.fully_qualified_name;
+                }
+            }
+
+            if(table === 'qb_extraordinary_fees') {
+                InvoiceService.sendLegalInvoice(input).then(function(res) {
+                    $rootScope.$broadcast('resetTable');
+                    $rootScope.modalInstance.dismiss('cancel');
+                });
+            }
+
+
+
             SqlService
                 .addOne(table, input)
                 .then(function (response){

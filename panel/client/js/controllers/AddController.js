@@ -40,19 +40,24 @@ angular.module('FlexPanelApp')
                     }
                 });
 
-            if ($scope.table == 'trades'){
-                initTrades();
-            }
-            else if ($scope.table) {
+            if ($scope.table == 'series_product_information' || $scope.table  == 'qb_extraordinary_fees'){
                 SqlService
-                    .findFields($scope.table)
-                    .then(function (response) {
-                        if (response.data) {
-                            $rootScope.fields = response.data;
-                            FormService.setFields()
+                    .viewData('unique_customers')
+                    .then(function (response){
+                        if(response.data) {
+                            $scope.customers = response.data;
                         }
                     });
             }
+
+            SqlService
+                .findFields($scope.table)
+                .then(function (response) {
+                    if (response.data) {
+                        $rootScope.fields = response.data;
+                        FormService.setFields()
+                    }
+                });
         }
         init();
     });
