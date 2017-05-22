@@ -2,9 +2,10 @@
     <!-- BEGIN PAGE HEADER-->
     <div class="portlet light bordered">
         <div class="portlet-title">
-            <div class="caption">
+            <div class="caption" data-ng-switch="type">
                 <i class="icon-settings font-dark"></i>
-                <span class="caption-subject font-dark sbold uppercase">Are you sure you would like to continue?</span>
+                <span class="caption-subject font-dark sbold uppercase" data-ng-switch-when="CalcMaintenanceFees">Maintenance Fees Calculation</span>
+                <span class="caption-subject font-dark sbold uppercase" data-ng-switch-default>Are you sure you would like to continue?</span>
             </div>
         </div>
         <div class="portlet-body form">
@@ -21,8 +22,8 @@
                   <div class="form-group col-md-12">
                       <label class="col-md-5 control-label">To</label>
                       <div class="col-md-3">
-                        <div class="input-group" moment-picker="input['from']" format="YYYY-MM-DD">
-                          <input class="form-control" ng-model="input['from']" ng-model-options="{ updateOn: 'blur' }">
+                        <div class="input-group" moment-picker="input['to']" format="YYYY-MM-DD">
+                          <input class="form-control" ng-model="input['to']" ng-model-options="{ updateOn: 'blur' }">
                         </div>
                       </div>
                   </div>
