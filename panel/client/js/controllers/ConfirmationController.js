@@ -82,6 +82,23 @@ angular.module('FlexPanelApp')
                         }
                     })
                 }
+                if (type === 'SendMaintenanceFeesInvoices') {
+                    Notification.info({message: 'Sending Invoices'})
+                    InvoiceService.sendMaintenanceFeesInBatch().then(function(res) {
+                        Notification.success({message: 'Sent Maintenance Fees Invoices'})
+                        if ($stateParams.table === 'qb_invoices_maintenance') {
+                          SqlService
+                          .findAll(table)
+                          .then(function (response){
+                            if(response.data) {
+                              $rootScope.data = response.data;
+                              $rootScope.dataBackup = response.data;
+                              $rootScope.$broadcast('filterData');
+                            }
+                          });
+                        }
+                    })
+                }
                 $rootScope.modalInstance.dismiss('cancel');
             }
 

@@ -51,6 +51,7 @@ angular
         $scope.sort = TableService.sort;
         $scope.exportExcel = TableService.exportExcel;
         $scope.calcMaintenanceFees = calcMaintenanceFees
+        $scope.sendMaintenanceFeesInvoices = sendMaintenanceFeesInvoices
 
         // initializes date picker
         $('.input-daterange input').each(function() {
@@ -349,6 +350,34 @@ angular
               resolve: {
                 type : function () {
                   return  'CalcMaintenanceFees'
+                },
+                table : function () {
+                    return  $scope.table
+                },
+                id : function () {
+                    return  null
+                },
+                primary_key : function () {
+                    return  null
+                },
+                row : function(){
+                    return null
+                },
+                field : function(){
+                    return null
+                }
+              }
+            });
+        }
+
+        function sendMaintenanceFeesInvoices(){
+            $rootScope.modalInstance = $uibModal.open({
+              templateUrl: 'views/confirmation.html',
+              controller: 'ConfirmationController',
+              size: 'md',
+              resolve: {
+                type : function () {
+                  return  'SendMaintenanceFeesInvoices'
                 },
                 table : function () {
                     return  $scope.table
