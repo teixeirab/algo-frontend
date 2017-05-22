@@ -1,6 +1,6 @@
 angular.module('FlexPanelApp')
     .controller('EditController',
-        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, $state, table, id, primary_key, type, TableService) {
+        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, InvoiceService, $state, table, id, primary_key, type, TableService) {
             $scope.$on('$viewContentLoaded', function () {
                 // initialize core components
                 App.initAjax();
@@ -35,6 +35,13 @@ angular.module('FlexPanelApp')
             // initializes scope functions
             $scope.submit = FormService.edit;
             $scope.submit = function(input, table) {
+                if(type === 'interest_invoice') {
+                    InvoiceService.sendInterestInvoice(id['Series Number']).then(function(res) {
+                        $rootScope.$broadcast('resetTable');
+                        $rootScope.modalInstance.dismiss('cancel');
+                    })
+                    return
+                }
                 return FormService.edit(input, table, primary_key, id)
             };
             $scope.cancel = cancel;

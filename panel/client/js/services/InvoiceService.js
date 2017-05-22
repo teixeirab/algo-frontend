@@ -8,7 +8,8 @@
         var apiHost = settings.apiHost
         var api = {
             calcMaintenanceFees: calcMaintenanceFees,
-            sendMaintenanceFeesInBatch: sendMaintenanceFeesInBatch
+            sendMaintenanceFeesInBatch: sendMaintenanceFeesInBatch,
+            sendInterestInvoice: sendInterestInvoice
         };
 
         return api;
@@ -18,6 +19,9 @@
         }
         function sendMaintenanceFeesInBatch() {
           return $http.post(apiHost + "/api/jenkins/send-maintenance-fees");
+        }
+        function sendInterestInvoice(seriesNumber) {
+          return $http.post(apiHost + "/api/panel/qb/interest-invoice/" + seriesNumber);
         }
     }
 
