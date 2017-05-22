@@ -31,8 +31,6 @@
                 });
             }
 
-
-
             SqlService
                 .addOne(table, input)
                 .then(function (response){

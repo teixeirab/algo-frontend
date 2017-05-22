@@ -30,7 +30,7 @@ angular.module('FlexPanelApp')
 
             ];
 
-            var percentageFields = ['interest_rate', '% Funded'];
+            var percentageFields = ['interest_rate', '% Funded', 'Interest Rate'];
 
             // initializes scope functions
             $scope.submit = FormService.edit;
