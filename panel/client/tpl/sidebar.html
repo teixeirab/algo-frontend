@@ -98,7 +98,7 @@
                 <li><a href="#/manage/theorem_balance_sheet"><span>Balance Sheet</span></a></li>
                 <li><a href="#/manage/theorem_income_statement"><span>Income Statement</span></a></li>
                 <li><a href="#/view/qb_transaction_list_view/name/qb_transaction_list"><span>Invoices</span></a></li>
-                <li ng-if="userType == 'Accounting' && userType =='Operations' && userType =='Admin'"><a href="#/manage/qb_extraordinary_fees"><span>Extraordinary Fees</span></a></li>
+                <li ng-if="userType == 'Accounting' || userType =='Operations' || userType =='Admin'"><a href="#/manage/qb_extraordinary_fees"><span>Extraordinary Fees</span></a></li>
                 <li><a href="#/manage/qb_invoices_maintenance"><span>Maintenance Invoices</span></a></li>
             </ul>
         </li>

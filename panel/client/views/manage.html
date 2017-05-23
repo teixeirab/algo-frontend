@@ -40,10 +40,10 @@
                                 <li>
                                     <a href="" ng-click="exportExcel(table)"> <i class="fa fa-file-excel-o"></i> Export to Excel </a>
                                 </li>
-                                <li ng-if="userType == 'Accounting' && userType =='Operations' && userType =='Admin'">
+                                <li ng-if="userType == 'Accounting' || userType =='Operations' || userType =='Admin'">
                                     <a href="" ng-click="calcMaintenanceFees()"> <i class="fa fa-calculator"></i> Calculate Maintenance Fees </a>
                                 </li>
-                                <li ng-if="userType == 'Accounting' && userType =='Operations' && userType =='Admin'">
+                                <li ng-if="userType == 'Accounting' || userType =='Operations' || userType =='Admin'">
                                     <a href="" ng-click="sendMaintenanceFeesInvoices()"> <i class="fa fa-paper-plane-o"></i> Send Invoices</a>
                                 </li>
                             </ul>
