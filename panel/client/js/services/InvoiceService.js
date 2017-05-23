@@ -21,8 +21,8 @@
         function sendMaintenanceFeesInBatch() {
           return $http.post(apiHost + "/api/jenkins/send-maintenance-fees");
         }
-        function sendInterestInvoice(seriesNumber) {
-          return $http.post(apiHost + "/api/panel/qb/interest-invoice/" + seriesNumber);
+        function sendInterestInvoice(params) {
+          return $http.post(apiHost + "/api/panel/qb/interest-invoice/" + params['Series Number'], params);
         }
         function sendLegalInvoice(input) {
             return $http.post(apiHost + "/api/panel/qb/legal-invoice", input);

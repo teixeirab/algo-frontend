@@ -20,6 +20,7 @@ angular.module('FlexPanelApp')
         $scope.options = {};
         $scope.item ={};
         $scope.date = {};
+        $scope.userType = $rootScope.currentUser ? $rootScope.currentUser.user_type : null;
         // default values
 
         if ($scope.selectType == 'date'){

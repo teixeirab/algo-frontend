@@ -37,7 +37,7 @@ angular.module('FlexPanelApp')
             $scope.submit = FormService.edit;
             $scope.submit = function(input, table) {
                 if(type === 'interest_invoice') {
-                    InvoiceService.sendInterestInvoice(id['Series Number']).then(function(res) {
+                    InvoiceService.sendInterestInvoice(id).then(function(res) {
                         $rootScope.$broadcast('resetTable');
                         $rootScope.modalInstance.dismiss('cancel');
                     })
