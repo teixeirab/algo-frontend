@@ -20,6 +20,7 @@ angular.module('FlexPanelApp')
             $rootScope.pk = '';
             $scope.type = type;
             $scope.info = {};
+            $scope.userType = $rootScope.currentUser.user_type;
 
             // initializes controller variables
             var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];

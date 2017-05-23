@@ -17,6 +17,7 @@ angular
         $scope.rowsShowing = "10";
         $scope.valueFilter = "All";
         $scope.t = {};
+        $scope.userType = $rootScope.currentUser.user_type;
 
         // initializes controller variables
         var primary_key = [];

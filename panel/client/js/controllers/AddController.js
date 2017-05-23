@@ -16,6 +16,7 @@ angular.module('FlexPanelApp')
         $scope.input = {};
         $rootScope.fields = [];
         $rootScope.pk = '';
+        $scope.userType = $rootScope.currentUser.user_type;
 
         // initializes scope functions
         $scope.submit = FormService.add;
