@@ -59,7 +59,7 @@ angular.module('FlexPanelApp')
             // initializes program
             function init() {
                 if (type == 'edit' || type == 'view'){
-                    if ($scope.table == 'series_product_information' ){
+                    if ($scope.table == 'series_product_information' || $scope.table  == 'qb_extraordinary_fees' || $scope.table == 'borrowers'){
                         SqlService
                             .viewData('unique_customers')
                             .then(function (response){
@@ -109,6 +109,14 @@ angular.module('FlexPanelApp')
                         {column_name : 'Principal Repayment', column_comment: 'Principal Repayment', column_type: 'double'},
                         {column_name : 'Cash Round Up', column_comment: 'Cash Round Up', column_type: 'double'}
                     ];
+
+                    SqlService
+                        .viewData('selected_borrowers', id['Series Number'])
+                        .then(function (response){
+                            if(response.data) {
+                                $scope.borrowers = response.data;
+                            }
+                        });
 
                     FormService.setFields();
 

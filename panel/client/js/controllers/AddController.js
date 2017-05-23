@@ -40,7 +40,7 @@ angular.module('FlexPanelApp')
                     }
                 });
 
-            if ($scope.table == 'series_product_information' || $scope.table  == 'qb_extraordinary_fees'){
+            if ($scope.table == 'series_product_information' || $scope.table  == 'qb_extraordinary_fees' || $scope.table == 'borrowers'){
                 SqlService
                     .viewData('unique_customers')
                     .then(function (response){
