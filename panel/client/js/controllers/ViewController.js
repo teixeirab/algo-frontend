@@ -20,7 +20,6 @@ angular.module('FlexPanelApp')
         $scope.options = {};
         $scope.item ={};
         $scope.date = {};
-        $scope.userType = $rootScope.currentUser.user_type;
         // default values
 
         if ($scope.selectType == 'date'){
@@ -61,6 +60,10 @@ angular.module('FlexPanelApp')
         $('.input-daterange input').each(function() {
             $(this).datepicker('clearDates');
         });
+
+        $scope.$on('set.user', function(){
+          $scope.userType = $rootScope.currentUser.user_type;
+        })
 
         // initializes broadcast listeners
         $scope.$on('filterData', function(){
