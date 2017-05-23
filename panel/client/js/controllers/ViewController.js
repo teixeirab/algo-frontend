@@ -106,6 +106,10 @@ angular.module('FlexPanelApp')
         }
         init();
 
+        $scope.$on('resetTable', function(){
+            init()
+        });
+
         // general manage functions
         function filterData(){
             $scope.size = $rootScope.data.length;
