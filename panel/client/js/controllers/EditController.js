@@ -59,10 +59,18 @@ angular.module('FlexPanelApp')
 
             // initializes program
             function init() {
+                var param = '';
+                if ($scope.table == 'series_product_information' || $scope.table == 'borrowers') {
+                    param = 'IA Capital Structures (Ireland) PLC.';
+                }
+                else if ($scope.table  == 'qb_extraordinary_fees'){
+                    param = 'FlexFunds LTD.';
+                }
+
                 if (type == 'edit' || type == 'view'){
-                    if ($scope.table == 'series_product_information' || $scope.table  == 'qb_extraordinary_fees' || $scope.table == 'borrowers'){
+                    if (param != ''){
                         SqlService
-                            .viewData('unique_customers')
+                            .viewData('unique_customers', param)
                             .then(function (response){
                                 if(response.data) {
                                     $scope.customers = response.data;
