@@ -32,6 +32,16 @@
                             <span ng-if="field.required == 'NO'" style="color: #A93226">*</span>
                         </label>
                         <div class="col-md-4">
+                            <input ng-switch-when="fully_qualified_name"
+                                   type="text"
+                                   ng-model="input.client_name"
+                                   uib-typeahead="customer as customer.fully_qualified_name for customer in customers | filter:{fully_qualified_name:$viewValue}"
+                                   class="form-control input-inline"
+                                   placeholder="Customer Name"
+                                   typeahead-show-hint="true"
+                                   typeahead-min-length="0"
+                                   style="width: 300px; height: 34px"
+                            >
                             <input ng-switch-when='varchar' placeholder="{{field.label}}" type="text" class="form-control input-inline" ng-model="input[field.name]">
                             <input ng-switch-when='email' placeholder="{{field.label}}" type="email" class="form-control input-inline" ng-model="input[field.name]">
                             <input ng-switch-when='tel' placeholder="{{field.label}}" type="tel" class="form-control input-inline" ng-model="input[field.name]">

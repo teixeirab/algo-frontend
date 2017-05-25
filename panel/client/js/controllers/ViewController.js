@@ -20,6 +20,7 @@ angular.module('FlexPanelApp')
         $scope.options = {};
         $scope.item ={};
         $scope.date = {};
+        $scope.userType = $rootScope.currentUser ? $rootScope.currentUser.user_type : null;
         // default values
 
         if ($scope.selectType == 'date'){
@@ -31,11 +32,11 @@ angular.module('FlexPanelApp')
         var currencyFields = ['Nominal_Balance', 'Total_Payable', 'Adjustment', 'Interest_Repayment',
             'Interest_Receivable', 'Interest_Accrued', 'Principal_Repayment', 'Adjusted_Total_Payable',
             'Nominal Issued', 'Nominal Outstanding', 'Inventory', 'Cash Received', 'Net Subscribed', 'Amount', 'Total Interest Income',
-            'Interest Repayment', 'Simple Interest Income', 'Compounded Interest Income'
+            'Interest Repayment', 'Simple Interest Income', 'Compounded Interest Income', 'Nominal Basis', 'Interest Income', 'Principal Repayment', 'Cash Round Up'
 
         ];
 
-        var percentageFields = ['interest_rate', '% Funded'];
+        var percentageFields = ['interest_rate', '% Funded', 'Interest Rate'];
         var numberFields = ['Shares Purchased/Subscribed'];
 
         // initializes root scope variables
@@ -60,6 +61,10 @@ angular.module('FlexPanelApp')
         $('.input-daterange input').each(function() {
             $(this).datepicker('clearDates');
         });
+
+        $scope.$on('set.user', function(){
+          $scope.userType = $rootScope.currentUser.user_type;
+        })
 
         // initializes broadcast listeners
         $scope.$on('filterData', function(){
@@ -100,6 +105,10 @@ angular.module('FlexPanelApp')
             }
         }
         init();
+
+        $scope.$on('resetTable', function(){
+            init()
+        });
 
         // general manage functions
         function filterData(){
@@ -151,7 +160,7 @@ angular.module('FlexPanelApp')
 
             while (x < $rootScope.fieldsArray.length){
                 var field = $rootScope.fieldsArray[x];
-                if (y < 9){
+                if (y < 20){
                     if (bad_keys.indexOf(field) == -1){
                         var field_label = TableService.replaceAll(field, "_", " ");
                         var field_type = "";

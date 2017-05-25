@@ -1,6 +1,6 @@
 angular.module('FlexPanelApp')
     .controller('EditController',
-        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, $state, table, id, primary_key, type, TableService) {
+        function ($rootScope, $scope, $http, $timeout, $stateParams, SqlService, FormService, InvoiceService, $state, table, id, primary_key, type, TableService) {
             $scope.$on('$viewContentLoaded', function () {
                 // initialize core components
                 App.initAjax();
@@ -20,6 +20,7 @@ angular.module('FlexPanelApp')
             $rootScope.pk = '';
             $scope.type = type;
             $scope.info = {};
+            $scope.userType = $rootScope.currentUser.user_type;
 
             // initializes controller variables
             var bad_keys = ['$$hashKey', '_id', 'password', 'id', 'user_id', "added_by", "dt_added" , 'trade_date'];
@@ -30,11 +31,18 @@ angular.module('FlexPanelApp')
 
             ];
 
-            var percentageFields = ['interest_rate', '% Funded'];
+            var percentageFields = ['interest_rate', '% Funded', 'Interest Rate'];
 
             // initializes scope functions
             $scope.submit = FormService.edit;
             $scope.submit = function(input, table) {
+                if(type === 'interest_invoice') {
+                    InvoiceService.sendInterestInvoice(id).then(function(res) {
+                        $rootScope.$broadcast('resetTable');
+                        $rootScope.modalInstance.dismiss('cancel');
+                    })
+                    return
+                }
                 return FormService.edit(input, table, primary_key, id)
             };
             $scope.cancel = cancel;
@@ -52,7 +60,7 @@ angular.module('FlexPanelApp')
             // initializes program
             function init() {
                 if (type == 'edit' || type == 'view'){
-                    if ($scope.table == 'series_product_information'){
+                    if ($scope.table == 'series_product_information' || $scope.table  == 'qb_extraordinary_fees' || $scope.table == 'borrowers'){
                         SqlService
                             .viewData('unique_customers')
                             .then(function (response){
@@ -102,6 +110,14 @@ angular.module('FlexPanelApp')
                         {column_name : 'Principal Repayment', column_comment: 'Principal Repayment', column_type: 'double'},
                         {column_name : 'Cash Round Up', column_comment: 'Cash Round Up', column_type: 'double'}
                     ];
+
+                    SqlService
+                        .viewData('selected_borrowers', id['Series Number'])
+                        .then(function (response){
+                            if(response.data) {
+                                $scope.borrowers = response.data;
+                            }
+                        });
 
                     FormService.setFields();
 

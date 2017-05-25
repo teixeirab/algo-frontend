@@ -84,13 +84,8 @@
             <ul class="sub-menu">
                 <li><a href="#/manage/advances_info"><span>Advances Info</span></a></li>
                 <li><a href="#/manage/advances_repayments"><span>Principal Repayments</span></a></li>
-                <li><a href="#/view/interest_schedule/series_number/advances_info"><span>View Interest Schedule</span></a></li>
-                <li><a href="#/view/interest_calculation/series_number/advances_info"><span>View Interest Calc</span></a></li>
+                <li><a href="#/view/interest_calculation/series_number/advances_info"><span>View Interest Calculations</span></a></li>
                 <li><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
-
-                <!--
-                <!<li><a href="#/view/current_interest/na/na"><span>Current Payments</span></a></li>
-                -->
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations', 'Management'])">
@@ -102,8 +97,9 @@
             <ul class="sub-menu">
                 <li><a href="#/manage/theorem_balance_sheet"><span>Balance Sheet</span></a></li>
                 <li><a href="#/manage/theorem_income_statement"><span>Income Statement</span></a></li>
-                <li><a href="#/view/qb_transaction_list_view/name/qb_transaction_list"><span>Invoices</span></a></li>
-                <li><a href="#/manage/qb_extraordinary_fees"><span>Extraordinary Fees</span></a></li>/li>
+                <li><a href="#/view/qb_transaction_list_view/name/qb_transaction_list"><span>Invoices {{userType}}</span></a></li>
+                <li data-ng-if="showTab(['Admin','Operations','Accounting'])"><a href="#/manage/qb_extraordinary_fees"><span>Extraordinary Fees</span></a></li>
+                <li><a href="#/manage/qb_invoices_maintenance"><span>Maintenance Invoices</span></a></li>
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin','Accounting','Operations', 'Trustee'])">
@@ -116,6 +112,7 @@
                 <li><a href="#/reporting/setup"><span>Quarterly Reporting</span></a></li>
                 <li><a href="#/view/holdings_view/date/series_product_information"><span>Holdings</span></a></li>
                 <li><a href="#/view/trades_view/series_number/series_product_information"><span>Trades</span></a></li>
+                <li><a href="#/manage/qb_transaction_list"><span>Transactions</span></a></li>
             </ul>
         </li>
         <li class="nav-item" data-ng-if="showTab(['Admin'])">

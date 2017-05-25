@@ -17,7 +17,7 @@ angular
         $scope.rowsShowing = "10";
         $scope.valueFilter = "All";
         $scope.t = {};
-        $scope.userType = $rootScope.currentUser.user_type;
+        $scope.userType = $rootScope.currentUser ? $rootScope.currentUser.user_type : null;
 
         // initializes controller variables
         var primary_key = [];
@@ -51,11 +51,17 @@ angular
         $scope.search = TableService.search;
         $scope.sort = TableService.sort;
         $scope.exportExcel = TableService.exportExcel;
+        $scope.calcMaintenanceFees = calcMaintenanceFees
+        $scope.sendMaintenanceFeesInvoices = sendMaintenanceFeesInvoices
 
         // initializes date picker
         $('.input-daterange input').each(function() {
             $(this).datepicker('clearDates');
         });
+
+        $scope.$on('set.user', function(){
+            $scope.userType = $rootScope.currentUser.user_type;
+        })
 
         // initializes broadcast listeners
         $scope.$on('filterData', function(){
@@ -335,6 +341,62 @@ angular
 
             }
 
+        }
+
+        function calcMaintenanceFees(){
+            $rootScope.modalInstance = $uibModal.open({
+              templateUrl: 'views/confirmation.html',
+              controller: 'ConfirmationController',
+              size: 'md',
+              resolve: {
+                type : function () {
+                  return  'CalcMaintenanceFees'
+                },
+                table : function () {
+                    return  $scope.table
+                },
+                id : function () {
+                    return  null
+                },
+                primary_key : function () {
+                    return  null
+                },
+                row : function(){
+                    return null
+                },
+                field : function(){
+                    return null
+                }
+              }
+            });
+        }
+
+        function sendMaintenanceFeesInvoices(){
+            $rootScope.modalInstance = $uibModal.open({
+              templateUrl: 'views/confirmation.html',
+              controller: 'ConfirmationController',
+              size: 'md',
+              resolve: {
+                type : function () {
+                  return  'SendMaintenanceFeesInvoices'
+                },
+                table : function () {
+                    return  $scope.table
+                },
+                id : function () {
+                    return  null
+                },
+                primary_key : function () {
+                    return  null
+                },
+                row : function(){
+                    return null
+                },
+                field : function(){
+                    return null
+                }
+              }
+            });
         }
 
         function details(row, type){
