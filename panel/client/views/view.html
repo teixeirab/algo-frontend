@@ -154,13 +154,15 @@
                                 <td ng-if="query_name == 'interest_calculation'">
                                     <button class="btn btn-sm white" ng-click="details(row, 'table')">Details</button>
                                 </td>
-                                <td ng-if="query_name == 'current_interest' && (userType == 'Accounting' || userType =='Operations' || userType =='Admin')">
-                                    <a class="btn btn-sm white" ng-if="row['Invoice Sent'] == 'Yes'">
-                                        <i class="fa fa-check-circle"></i>
-                                    </a>
-                                    <a class="btn btn-sm white" ng-click="details(row, 'interest_invoice')" ng-if="row['Invoice Sent'] == 'No'">
-                                        Send
-                                    </a>
+                                <td ng-if="query_name == 'current_interest'">
+                                    <div ng-if="userType == 'Accounting' || userType =='Operations' || userType =='Admin'">
+                                        <a class="btn btn-sm white" ng-if="row['Invoice Sent'] == 'Yes'">
+                                            <i class="fa fa-check-circle"></i>
+                                        </a>
+                                        <a class="btn btn-sm white" ng-click="details(row, 'interest_invoice')" ng-if="row['Invoice Sent'] == 'No'">
+                                            Send
+                                        </a>
+                                    </div>
                                 </td>
                             </tbody>
                         </table>

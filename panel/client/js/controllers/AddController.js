@@ -16,7 +16,7 @@ angular.module('FlexPanelApp')
         $scope.input = {};
         $rootScope.fields = [];
         $rootScope.pk = '';
-        $scope.userType = $rootScope.currentUser.user_type;
+
 
         // initializes scope functions
         $scope.submit = FormService.add;
@@ -41,9 +41,18 @@ angular.module('FlexPanelApp')
                     }
                 });
 
-            if ($scope.table == 'series_product_information' || $scope.table  == 'qb_extraordinary_fees' || $scope.table == 'borrowers'){
+            var param = '';
+
+            if ($scope.table == 'series_product_information' || $scope.table == 'borrowers') {
+                param = 'IA Capital Structures (Ireland) PLC.';
+            }
+            else if ($scope.table  == 'qb_extraordinary_fees'){
+                param = 'FlexFunds LTD.';
+            }
+
+            if (param != ''){
                 SqlService
-                    .viewData('unique_customers')
+                    .viewData('unique_customers', param)
                     .then(function (response){
                         if(response.data) {
                             $scope.customers = response.data;
